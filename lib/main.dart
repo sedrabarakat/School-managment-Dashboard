@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_dashboard/BlocObserver.dart';
 import 'package:school_dashboard/constants.dart';
-import 'package:school_dashboard/cubit/auth_cubit.dart';
+import 'package:school_dashboard/cubit/auth/auth_cubit.dart';
+import 'package:school_dashboard/cubit/basic/basic_cubit.dart';
+import 'package:school_dashboard/cubit/home/home_cubit.dart';
 import 'package:school_dashboard/network/local/cash_helper.dart';
 import 'package:school_dashboard/network/remote/dio_helper.dart';
 import 'package:school_dashboard/routes/web_router.dart';
 import 'package:school_dashboard/theme/web_theme.dart';
+import 'package:school_dashboard/ui/screens/layout/basic_screen.dart';
 
 
 Future<void> main() async {
@@ -38,15 +41,17 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-
         BlocProvider(create: (BuildContext context) => AuthCubit()),
+        BlocProvider(create: (BuildContext context) => Basic_Cubit()),
+        BlocProvider(create: (BuildContext context) => Home_Cubit()),
 
       ],
       child: MaterialApp(
+        home: Basic_Screen(),
         title: 'School Web',
         theme: WebTheme.lightTheme,
         debugShowCheckedModeBanner: false,
-        initialRoute: token!=null?'/home':'/login',
+      //  initialRoute: token!=null?'/home':'/login',
         onGenerateRoute: _appRouter.onGenerateRoute,
       ),
     );

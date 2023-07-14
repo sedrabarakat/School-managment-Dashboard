@@ -117,19 +117,24 @@ List<DataRow> getParentsRows(
               DataCell(Text(pa.name!)),
               DataCell(Text(pa.gender!)),
               DataCell(Text(pa.phone_number!)),
-              DataCell(Row(
-                children: [
-                  IconButton(
-                    onPressed: () {
-                        awsDialogDeleteForOne(context, width, cubit, 4, pa.parent_id!);
-                    },
-                    icon: Icon(
-                      Icons.delete,
-                      size: width * 0.015,
-                    ),
-                  ),
-                ],
+              DataCell(IconButton(
+                onPressed: () {
+                    awsDialogDeleteForOne(context, width, cubit, 4, pa.parent_id!);
+                },
+                icon: Icon(
+                  Icons.delete,
+                  size: width * 0.015,
+                ),
               )),
+              DataCell(
+                IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.add,
+                    size: width * 0.015,
+                  ),
+                ),
+              ),
             ],
           ),
     )
@@ -147,7 +152,7 @@ Widget dataTableParents(context,width,height,ParentsListCubit cubit, ParentsMode
           cubit.onSelectAll(isSelectedAll!);
         },
         dividerThickness: 2,
-        columnSpacing: width*0.12,
+        columnSpacing: width*0.08,
         headingRowHeight: height * 0.06,
         showCheckboxColumn: true,
         headingRowColor:

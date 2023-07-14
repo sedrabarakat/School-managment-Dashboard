@@ -219,7 +219,7 @@ Widget dataTableStudents(
         cubit.onSelectAll(isSelectedAll!);
       },
       dividerThickness: 2,
-      columnSpacing: width * 0.07,
+      columnSpacing: width * 0.06,
       headingRowHeight: height * 0.06,
       showCheckboxColumn: true,
       headingRowColor: MaterialStateProperty.all(Colors.white54),
@@ -254,6 +254,7 @@ Widget studentPagination(
         initialPage: cubit.currentIndex,
         numberPages: cubit.paginationNumberSave!,
         onPageChange: (int index) async {
+          print(index);
           cubit.getStudentsTableData(
               name: nameController.text,
               grade: classController.text,

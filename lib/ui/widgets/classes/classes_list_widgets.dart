@@ -72,7 +72,7 @@ Widget dataTableClasses(context,width,height,ClassesListCubit cubit, ClassesMode
       sortAscending: cubit.isAscending,
       sortColumnIndex: cubit.sortColumnIndex,
       dividerThickness: 2,
-      columnSpacing: width*0.05,
+      columnSpacing: width*0.055,
       headingRowHeight: height * 0.06,
       showCheckboxColumn: true,
       headingRowColor:

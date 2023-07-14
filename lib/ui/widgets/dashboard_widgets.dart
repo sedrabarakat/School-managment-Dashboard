@@ -108,7 +108,7 @@ Widget Welcome_Stack({
             decoration: CircularBorder_decoration,
             child: Animated_Text(width: width, text: 'Welcome...')),
       ),
-      /*Padding(
+      Padding(
         padding: EdgeInsets.only(
           left: width / 3,
         ),
@@ -120,7 +120,7 @@ Widget Welcome_Stack({
             fit: BoxFit.fill,
           ),
         ),
-      ),*/
+      ),
     ],
   );
 }

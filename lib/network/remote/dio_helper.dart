@@ -14,7 +14,6 @@ class DioHelper {
       ),
     );
   }
-  
 
   static Future<Response> getData({
     required String url,

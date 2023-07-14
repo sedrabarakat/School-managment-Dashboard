@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:number_paginator/number_paginator.dart';
+import 'package:school_dashboard/cubit/basic/basic_cubit.dart';
 import 'package:school_dashboard/cubit/students/students_list_cubit.dart';
 import 'package:school_dashboard/ui/components/components.dart';
+import 'package:school_dashboard/ui/screens/home/dashboard_home.dart';
+import 'package:school_dashboard/ui/screens/layout/basic_screen.dart';
 
 //Tables
 
@@ -30,7 +33,7 @@ Widget routeRow(String s, width, context) {
     children: [
       TextButton(
           onPressed: () {
-            Navigator.of(context).pushReplacementNamed('/home');
+            Basic_Cubit.get(context).change_Route('/dashboard_home');
           },
           child: Text(
             'Home',

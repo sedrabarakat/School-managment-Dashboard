@@ -18,6 +18,7 @@ class ParentsListCubit extends Cubit<ParentsListState> {
     "Gender",
     "Phone",
     "Deleting",
+    "Add Student"
   ];
 
 
@@ -109,7 +110,7 @@ class ParentsListCubit extends Cubit<ParentsListState> {
         data: {
           'name': name,
           'phone_number': phoneNumber,
-          'page': paginationNumber,
+          'page': paginationNumber+1,
         },
         token: token
     ).then((value) async {

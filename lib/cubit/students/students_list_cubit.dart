@@ -116,7 +116,7 @@ class StudentsListCubit extends Cubit<StudentsListState> {
         'name': name,
         'class': grade,
         'section': section,
-        'page': paginationNumber,
+        'page': paginationNumber+1,
       },
       token: token
     ).then((value) async {

@@ -22,8 +22,9 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final height = 753.599975586;
     // final height = MediaQuery.of(context).size.height;
-    final height = heightSize / 1.2500000000000000331740987392709;
+    //final height = heightSize / 1.2500000000000000331740987392709;
     final width = MediaQuery.of(context).size.width;
     var cubit = AuthCubit.get(context);
     return BlocListener<AuthCubit, AuthState>(

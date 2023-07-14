@@ -110,7 +110,7 @@ class TeachersListCubit extends Cubit<TeachersListState> {
         url: 'getTeachers',
         data: {
           'name': name,
-          'page': paginationNumber,
+          'page': paginationNumber+1,
         },
         token: token
     ).then((value) async {

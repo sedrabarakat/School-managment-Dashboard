@@ -1,4 +1,3 @@
-import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:school_dashboard/constants.dart';
@@ -20,7 +19,6 @@ class AdminsListCubit extends Cubit<AdminsListState> {
     "Deleting",
   ];
 
-
   int? sortColumnIndex;
   bool isAscending = false;
 
@@ -29,15 +27,13 @@ class AdminsListCubit extends Cubit<AdminsListState> {
   void onSort(int columnIndex, bool ascending) {
     if (columnIndex == 0) {
       adminsModel!.data!.adminsList!.sort((user1, user2) => compareString(
-          ascending,
-          user1.admin_id!.toString(),
-          user2.admin_id!.toString()));
+          ascending, user1.admin_id!.toString(), user2.admin_id!.toString()));
     } else if (columnIndex == 1) {
       adminsModel!.data!.adminsList!.sort(
-              (user1, user2) => compareString(ascending, user1.name!, user2.name!));
+          (user1, user2) => compareString(ascending, user1.name!, user2.name!));
     } else if (columnIndex == 2) {
-      adminsModel!.data!.adminsList!.sort((user1, user2) =>
-          compareString(ascending, user1.role!, user2.role!));
+      adminsModel!.data!.adminsList!.sort(
+          (user1, user2) => compareString(ascending, user1.role!, user2.role!));
     } else if (columnIndex == 3) {
       adminsModel!.data!.adminsList!.sort((user1, user2) =>
           compareString(ascending, user1.email!, user2.email!));
@@ -51,35 +47,37 @@ class AdminsListCubit extends Cubit<AdminsListState> {
   int compareString(bool ascending, String value1, String value2) =>
       ascending ? value1.compareTo(value2) : value2.compareTo(value1);
 
-
   List selectedAdmins = [];
 
   List<AdminsIds> ids = [];
 
-  void isSelected(isSelected,AdminData ad) {
-
+  void isSelected(isSelected, AdminData ad) {
     final isAdding = isSelected != null && isSelected;
 
     isAdding ? selectedAdmins.add(ad) : selectedAdmins.remove(ad);
 
-    isAdding ? ids.add(AdminsIds(ad.admin_id)) : ids.removeWhere((AdminsIds item) => item.id == ad.admin_id);
+    isAdding
+        ? ids.add(AdminsIds(ad.admin_id))
+        : ids.removeWhere((AdminsIds item) => item.id == ad.admin_id);
 
     emit(AdminsOnSelectChanged());
-
   }
 
   void onSelectAll(bool isSelectedAll) {
-    selectedAdmins =
-    isSelectedAll! ? List.from(adminsModel!.data!.adminsList!) : []; //array of objects:countries
+    selectedAdmins = isSelectedAll!
+        ? List.from(adminsModel!.data!.adminsList!)
+        : []; //array of objects:countries
 
     //avoid duplicate ids
     ids.clear();
 
-    isSelectedAll! ? adminsModel!.data!.adminsList!.forEach((student) {
-      if (student.admin_id != null) {
-        ids.add(AdminsIds(student.admin_id!));
-      }
-    }): ids.clear();
+    isSelectedAll!
+        ? adminsModel!.data!.adminsList!.forEach((student) {
+            if (student.admin_id != null) {
+              ids.add(AdminsIds(student.admin_id!));
+            }
+          })
+        : ids.clear();
 
     emit(AdminsOnSelectAll());
   }
@@ -95,19 +93,17 @@ class AdminsListCubit extends Cubit<AdminsListState> {
   void getAdminsTableData({
     required int paginationNumber,
   }) async {
-
     adminsModel = null;
     currentIndex = paginationNumber;
 
     emit(AdminsLoadingDataState());
     DioHelper.postData(
-        url: 'getAdmins',
-        data: {
-          'page': paginationNumber,
-        },
-        token: token
-    ).then((value) async {
-
+            url: 'getAdmins',
+            data: {
+              'page': paginationNumber+1,
+            },
+            token: token)
+        .then((value) async {
       print('value.data: ${value.data}');
       adminsModel = AdminsModel.fromJson(value.data);
       paginationNumberSave = adminsModel!.data!.lastPageNumber!;
@@ -115,7 +111,6 @@ class AdminsListCubit extends Cubit<AdminsListState> {
       print(paginationNumberSave);
 
       emit(AdminsSuccessDataState());
-
     }).catchError((error) {
       print('error.response.data: ${error.response.data}');
       adminsModel = AdminsModel.fromJson(error.response.data);
@@ -127,23 +122,20 @@ class AdminsListCubit extends Cubit<AdminsListState> {
 // Delete Admins
 
   void deleteStudentsData() async {
-
     emit(AdminsDeletingLoadingDataState());
     DioHelper.postData(
-        url: 'deleteAdmins',
-        data: {
-          'ids': ids,
-        },
-        token: token
-    ).then((value) async {
-
+            url: 'deleteAdmins',
+            data: {
+              'ids': ids,
+            },
+            token: token)
+        .then((value) async {
       print('value.data: ${value.data}');
 
       ids.clear();
       selectedAdmins.clear();
 
       emit(AdminsDeletingSuccessDataState());
-
     }).catchError((error) {
       print('error.response.data: ${error.response.data}');
       adminsModel = AdminsModel.fromJson(error.response.data);
@@ -153,24 +145,19 @@ class AdminsListCubit extends Cubit<AdminsListState> {
   }
 
   void deleteOneStudentData({required int id}) async {
-
     emit(AdminsDeletingLoadingDataState());
     DioHelper.postData(
-        url: 'deleteAdmins',
-        data: {
-          "ids" : [
-            {
-              "id" : id
-            }
-          ]
-        },
-        token: token
-    ).then((value) async {
-
+            url: 'deleteAdmins',
+            data: {
+              "ids": [
+                {"id": id}
+              ]
+            },
+            token: token)
+        .then((value) async {
       print('value.data: ${value.data}');
 
       emit(AdminsDeletingSuccessDataState());
-
     }).catchError((error) {
       print('error.response.data: ${error.response.data}');
       adminsModel = AdminsModel.fromJson(error.response.data);
@@ -178,8 +165,6 @@ class AdminsListCubit extends Cubit<AdminsListState> {
       print(error.toString());
     });
   }
-
-
 
 // Send a notification
 }

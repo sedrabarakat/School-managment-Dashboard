@@ -17,9 +17,11 @@ class AuthCubit extends Cubit<AuthState> {
   IconData suffix = Icons.visibility_off;
 
   void changePasswordVisibility()
-  {
+  { 
     isPassword = !isPassword;
+
     suffix = isPassword ? Icons.visibility_off : Icons.visibility;
+    
     emit(ChangePasswordVisibility());
   }
 

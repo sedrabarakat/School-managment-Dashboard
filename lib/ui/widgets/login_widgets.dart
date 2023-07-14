@@ -3,7 +3,7 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:school_dashboard/cubit/auth_cubit.dart';
+import 'package:school_dashboard/cubit/auth/auth_cubit.dart';
 import 'package:school_dashboard/theme/colors.dart';
 import 'package:school_dashboard/theme/styles.dart';
 import 'package:school_dashboard/ui/components/components.dart';
@@ -78,7 +78,7 @@ Widget WhiteContainer(context,width,height,cubit,emailController,passwordControl
 
   return Container(
           height: height * 0.52,
-          width: width * 0.5,
+          width: width * 0.4,
           padding: EdgeInsets.symmetric(
               horizontal: width * 0.035, vertical: height * 0.008),
           decoration: BoxDecoration(
@@ -134,7 +134,7 @@ Widget WhiteContainer(context,width,height,cubit,emailController,passwordControl
 Widget EmailTextFormField(context,emailController,emailFocusNode,passwordFocusNode){
   return FadeAnimation(
     1.1,
-    def_chat_TextFromField(
+    def_TextFromField(
       cursorColor: Colors.blueAccent,
       focusNode: emailFocusNode,
       onFieldSubmitted: (val) {
@@ -167,7 +167,7 @@ Widget PasswordTextFormField(cubit,passwordController,passwordFocusNode){
 
   return FadeAnimation(
     1.2,
-    def_chat_TextFromField(
+    def_TextFromField(
       cursorColor: Colors.blueAccent,
       focusNode: passwordFocusNode,
       keyboardType: TextInputType.emailAddress,
@@ -203,7 +203,7 @@ Widget PasswordTextFormField(cubit,passwordController,passwordFocusNode){
 
 }
 
-Widget Button(height,width,formkey,emailController,passwordController,cubit){
+Widget Button(height,width,formkey,emailController,passwordController,AuthCubit cubit){
 
   return ConditionalBuilder(
       condition: !cubit.isAnimated,
@@ -218,9 +218,7 @@ Widget Button(height,width,formkey,emailController,passwordController,cubit){
             const Duration(milliseconds: 600),
             curve: Curves.easeIn,
             onEnd: () {
-              cubit.login(
-                  email: emailController.text,
-                  password: passwordController.text);
+
             },
             height: height * 0.06,
             width: width * cubit.ratioButtonWidth,
@@ -238,10 +236,17 @@ Widget Button(height,width,formkey,emailController,passwordController,cubit){
                 splashColor: Colors.blue,
                 borderRadius:
                 BorderRadius.circular(30),
-                onTap: () {
+                onTap: ()  async {
                   if (formkey.currentState!
                       .validate()) {
+
                     cubit.animateTheButton();
+
+                    await Future.delayed(Duration(milliseconds: 600));
+
+                    cubit.login(
+                        email: emailController.text,
+                        password: passwordController.text);
                     //toast(text: 'Login Successfulyy');
                   }
                 },
@@ -274,6 +279,6 @@ Widget Button(height,width,formkey,emailController,passwordController,cubit){
           ),
         ),
       ),
-      fallback: (context) => SpinKitApp(width)
+      fallback: (context) => SpinKitWeb(width)
   );
 }

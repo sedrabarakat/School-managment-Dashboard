@@ -1,48 +1,57 @@
+
+
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:number_paginator/number_paginator.dart';
 import 'package:school_dashboard/constants.dart';
-import 'package:school_dashboard/cubit/teachers/teachers_list_cubit.dart';
+import 'package:school_dashboard/cubit/parents/parents_list_cubit.dart';
+import 'package:school_dashboard/models/Tables/parents_table.dart';
 import 'package:school_dashboard/theme/colors.dart';
 import 'package:school_dashboard/ui/components/components.dart';
 import 'package:school_dashboard/ui/components/table_components.dart';
 import 'package:school_dashboard/ui/screens/layout/basic_screen.dart';
-import 'package:school_dashboard/ui/widgets/teachers/teachers_list_widgets.dart';
+import 'package:school_dashboard/ui/widgets/parents/parents_list_widgets.dart';
 
-class Teachers_List extends StatelessWidget{
+class Parents_List extends StatelessWidget {
+   Parents_List({Key? key}) : super(key: key);
 
   var nameController = TextEditingController();
+
+  var phoneController = TextEditingController();
   
   var nameFocusNode = FocusNode();
+
+  var phoneFocusNode = FocusNode();
   
   final NumberPaginatorController paginationController = NumberPaginatorController();
   
   @override
   Widget build(BuildContext context) {
     final height = 753.599975586;
+
     //final height = heightSize/1.2500000000000000331740987392709;
     //final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
-    var cubit = TeachersListCubit.get(context);
-    return BlocConsumer<TeachersListCubit, TeachersListState>(
+    var cubit = ParentsListCubit.get(context);
+    return BlocConsumer<ParentsListCubit, ParentsListState>(
       listener: (context, state) {
-        if (state is TeachersErrorDataState) {
-          showToast(text: state.teachersModel.message!, state: ToastState.error);
+        if (state is ParentsErrorDataState) {
+          showToast(text: state.parentsModel.message!, state: ToastState.error);
         }
 
-        if (state is TeachersDeletingSuccessDataState) {
+        if (state is ParentsDeletingSuccessDataState) {
           showToast(text: 'Deleted Successfully', state: ToastState.success);
-          cubit.getTeachersTableData(name: '', paginationNumber: 0);
+          cubit.getParentsTableData(name: '', phoneNumber: '', paginationNumber: 0);
         }
 
-        if (state is TeachersErrorDataState) {
-          showToast(text: state.teachersModel.message!, state: ToastState.error);
+        if (state is ParentsDeletingErrorDataState) {
+          showToast(text: state.parentsModel.message!, state: ToastState.error);
         }
       },
       builder: (context, state) {
         return ConditionalBuilder(
-          condition: cubit.teachersModel != null,
+          condition: cubit.parentsModel != null,
           builder:(context)=> SingleChildScrollView(
             controller: scroll,
             scrollDirection: Axis.vertical,
@@ -57,11 +66,11 @@ class Teachers_List extends StatelessWidget{
                     SizedBox(
                       height: height * 0.03,
                     ),
-                    title('Teachers', width),
+                    title('Parents', width),
                     SizedBox(
                       height: height * 0.03,
                     ),
-                    routeRow('Teachers List', width, context),
+                    routeRow('Parents List', width, context),
                     SizedBox(
                       height: height * 0.055,
                     ),
@@ -80,11 +89,11 @@ class Teachers_List extends StatelessWidget{
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              subTitle('All Teachers Data', width),
+                              subTitle('All Parents Data', width),
                               SizedBox(
                                 width: width * 0.47,
                               ),
-                              clearDataButton(context,width,height,cubit,2),
+                              clearDataButton(context,width,height,cubit,4),
                             ],
                           ),
                           SizedBox(
@@ -93,22 +102,26 @@ class Teachers_List extends StatelessWidget{
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              searchByNameTeacher(context, width, height, nameController, nameFocusNode),
+                              searchByNameParent(context, width, height, nameController, nameFocusNode, phoneFocusNode),
                               SizedBox(
-                                width: width * 0.08,
+                                width: width * 0.02,
                               ),
-                              searchButtonTeacher(width, height, cubit, nameController),
+                              searchByPhoneParent(context, width, height, phoneController, phoneFocusNode),
+                              SizedBox(
+                                width: width * 0.02,
+                              ),
+                              searchButtonParent(width, height, cubit, nameController, phoneController),
                             ],
                           ),
                           SizedBox(
                             height: height * 0.05,
                           ),
-                          dataTableTeachers(context, width, height, cubit, cubit.teachersModel!),
+                          dataTableParents(context, width, height, cubit, cubit.parentsModel!),
                           SizedBox(
                             height: height * 0.06,
                           ),
                           //pagination(width,1),
-                          teacherPagination(width,height,paginationController,cubit,nameController),
+                          parentPagination(width,height,paginationController,cubit,nameController,phoneController),
                         ],
                       ),
                     ),

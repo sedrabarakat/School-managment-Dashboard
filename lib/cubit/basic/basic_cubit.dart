@@ -6,8 +6,10 @@ import 'package:meta/meta.dart';
 import 'package:school_dashboard/ui/screens/articals/all_articals.dart';
 import 'package:school_dashboard/ui/screens/courses/courses.dart';
 import 'package:school_dashboard/ui/screens/inbox/inbox.dart';
+import 'package:school_dashboard/ui/screens/layout/basic_screen.dart';
 import 'package:school_dashboard/ui/screens/library/add_book.dart';
 import 'package:school_dashboard/ui/screens/library/books_list.dart';
+import 'package:school_dashboard/ui/screens/parents/parents_list.dart';
 import 'package:school_dashboard/ui/screens/students/add_class.dart';
 import 'package:school_dashboard/ui/screens/students/add_student.dart';
 import 'package:school_dashboard/ui/screens/students/grades.dart';
@@ -34,8 +36,9 @@ class Basic_Cubit extends Cubit<Basic_State> {
   final Map<String, Widget> screens = {
     '/dashboard_home':Dashboard_home(),
     '/add_parent': add_parent(),
+    '/parents_list':Parents_List(),
 
-    '/add_class':Add_Class(),
+    '/add_class':ClassesList(),
     '/add_student':Add_Student(),
     '/grades':Grades(),
     '/send_notification':Send_Notification(),
@@ -70,8 +73,6 @@ class Basic_Cubit extends Cubit<Basic_State> {
     select_route=route;
     emit(Change_Route(select_route));
   }
-
-
 
 
 }

@@ -11,6 +11,8 @@ List<AdminMenuItem> Side_Bar_Menu= const [
       children: [
         AdminMenuItem(
             title:"Add Parent",route: '/add_parent',icon: CupertinoIcons.plus_circle_fill),
+        AdminMenuItem(
+            title:"Parents List",route: '/parents_list',icon: CupertinoIcons.square_list),
       ]),
   AdminMenuItem(title:"Students" ,icon: Icons.boy,
       children:[
@@ -81,3 +83,4 @@ List<AdminMenuItem> Side_Bar_Menu= const [
 
 var token;
 var user_id;
+var heightSize;

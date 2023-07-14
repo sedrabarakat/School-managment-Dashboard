@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:school_dashboard/models/login_model.dart';
+import 'package:school_dashboard/models/auth/login_model.dart';
 import 'package:school_dashboard/network/remote/dio_helper.dart';
 import 'package:school_dashboard/network/remote/end_points.dart';
 
@@ -17,11 +17,9 @@ class AuthCubit extends Cubit<AuthState> {
   IconData suffix = Icons.visibility_off;
 
   void changePasswordVisibility()
-  { 
+  {
     isPassword = !isPassword;
-
     suffix = isPassword ? Icons.visibility_off : Icons.visibility;
-    
     emit(ChangePasswordVisibility());
   }
 
@@ -63,13 +61,13 @@ class AuthCubit extends Cubit<AuthState> {
         'password': password,
       },
     ).then((value) {
-      //loginModel = LoginModel.fromJson(value.data);
+      loginModel = LoginModel.fromJson(value.data);
 
-      //print(loginModel!.status);
-      //print(loginModel!.message);
+      print(loginModel!.status);
+      print(loginModel!.message);
       emit(LoginSuccessState(loginModel!));
     }).catchError((error) {
-      //loginModel = LoginModel.fromJson(error.response.data);
+      loginModel = LoginModel.fromJson(error.response.data);
       emit(LoginErrorState(loginModel!));
       print(error.toString());
     });

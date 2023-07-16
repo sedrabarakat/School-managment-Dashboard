@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 
+
 class DioHelper {
   static late Dio dio;
 
@@ -7,8 +8,13 @@ class DioHelper {
   {
     dio = Dio(
       BaseOptions(
-        baseUrl:'http://192.168.1.104:8000/api/',
+        baseUrl:'http://localhost:8000/api/',
         receiveDataWhenStatusError: true,
+        responseType: ResponseType.plain,
+        headers:{
+          'Accept':'application/json',
+          'Content-Type':'application/json'
+        },
         connectTimeout:const Duration(  seconds: 60),
         receiveTimeout:  const Duration(  seconds: 60),
       ),
@@ -22,13 +28,11 @@ class DioHelper {
     String? token,
   }) async
   {
-
     dio!.options.headers =
     {
       'Accept': 'application/json',
       'Authorization' : 'Bearer ${token}'??'',
     };
-
     return await dio!.get(
       url,
       queryParameters: query,
@@ -42,13 +46,11 @@ class DioHelper {
     String? token,
   }) async
   {
-
       dio!.options.headers =
       {
         'Accept': 'application/json',
         'Authorization' : 'Bearer ${token}'??'',
       };
-
 
       return dio!.post(
         url,
@@ -64,20 +66,15 @@ class DioHelper {
     String? token,
   }) async
   {
-
     dio!.options.headers =
     {
       'Accept': 'application/json',
       'Authorization' : 'Bearer ${token}'??'',
     };
-
-
     return dio!.post(
-
       url,
       queryParameters: query,
       data: data,
-
     );
   }
 

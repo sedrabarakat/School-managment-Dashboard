@@ -15,6 +15,7 @@ import 'package:school_dashboard/network/remote/dio_helper.dart';
 import 'package:school_dashboard/routes/web_router.dart';
 
 import 'package:school_dashboard/theme/web_theme.dart';
+import 'package:school_dashboard/ui/screens/layout/basic_screen.dart';
 
 
 import 'cubit/teachers/teachers_list_cubit.dart';
@@ -63,11 +64,11 @@ class MyApp extends StatelessWidget {
 
       ],
       child: MaterialApp(
-        //home: Basic_Screen(),
+        home: Basic_Screen(),
         title: 'School Web',
         theme: WebTheme.lightTheme,
         debugShowCheckedModeBanner: false,
-        initialRoute: token!=null?'/home':'/login',
+       // initialRoute: token!=null?'/home':'/login',
         onGenerateRoute: _appRouter.onGenerateRoute,
       ),
     );

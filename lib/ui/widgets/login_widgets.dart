@@ -78,9 +78,9 @@ Widget WhiteContainer(context,width,height,cubit,emailController,passwordControl
 
   return Container(
           height: height * 0.52,
-          width: width * 0.4,
+          width: width * 0.5,
           padding: EdgeInsets.symmetric(
-              horizontal: width * 0.055, vertical: height * 0.008),
+              horizontal: width * 0.035, vertical: height * 0.008),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(50),
             color: Colors.white,
@@ -134,7 +134,7 @@ Widget WhiteContainer(context,width,height,cubit,emailController,passwordControl
 Widget EmailTextFormField(context,emailController,emailFocusNode,passwordFocusNode){
   return FadeAnimation(
     1.1,
-    def_TextFromField(
+    def_TextFromField2(
       cursorColor: Colors.blueAccent,
       focusNode: emailFocusNode,
       onFieldSubmitted: (val) {

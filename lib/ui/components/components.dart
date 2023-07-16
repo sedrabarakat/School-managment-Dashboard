@@ -1,12 +1,14 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:school_dashboard/cubit/students/students_list_cubit.dart';
-import 'package:school_dashboard/theme/colors.dart';
 import 'package:simple_animations/multi_tween/multi_tween.dart';
 import 'package:simple_animations/stateless_animation/play_animation.dart';
+
+import '../../cubit/students/students_list_cubit.dart';
+import '../../theme/colors.dart';
 
 Widget Text_Icon_Button({
   required VoidCallback Function,
@@ -193,13 +195,22 @@ class FadeAnimation extends StatelessWidget {
         opacity: animation.get(AniProps.opacity),
         child: Transform.translate(
             offset: Offset(0, animation.get(AniProps.translateY)),
-            child: child),
+            child: child
+        ),
       ),
     );
   }
 }
 
+
 //SPINKIT
+
+Widget SpinKitApp(width){
+  return SpinKitFadingCube(
+    color: Colors.blueAccent,
+    size: width*0.022,
+  );
+}
 
 Widget SpinKitWeb(width) {
   return SpinKitFadingCube(

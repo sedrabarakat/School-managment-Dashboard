@@ -110,7 +110,7 @@ TextFormField def_TextFromField({
         borderRadius: BorderRadius.circular(25.0),
         borderSide: const BorderSide(
           color: Colors.black,
-          width: 2.0,
+          width: 1.5,
         ),
       ),
       border: OutlineInputBorder(
@@ -124,7 +124,7 @@ TextFormField def_TextFromField({
         borderRadius: BorderRadius.circular(25.0),
         borderSide: const BorderSide(
           color: Colors.red,
-          width: 1.5,
+          width: 1.0,
         ),
       ),
     ),

@@ -10,7 +10,6 @@ class DioHelper {
       BaseOptions(
         baseUrl:'http://localhost:8000/api/',
         receiveDataWhenStatusError: true,
-        responseType: ResponseType.plain,
         headers:{
           'Accept':'application/json',
           'Content-Type':'application/json'

@@ -31,6 +31,7 @@ class Basic_Screen extends StatelessWidget {
         return Scaffold(
           appBar: null,
           floatingActionButton: FloatingActionButton(
+            backgroundColor: Colors.lightBlue,
             onPressed: () {
               scrollUp();
             },

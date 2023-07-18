@@ -1,0 +1,198 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../models/available_teacher_model.dart';
+import '../../models/class_profile_model.dart';
+import '../../network/remote/dio_helper.dart';
+import 'class_profile_states.dart';
+
+class Class_Profile_cubit extends Cubit<Class_Profile_States>{
+
+  Class_Profile_cubit():super(Class_init_Profile_States());
+
+  static Class_Profile_cubit get(context)=>BlocProvider.of(context);
+
+
+
+  Future Add_Sections({
+    required String class_id,
+    required int class_number,
+  })async{
+    print(class_number);
+    emit(Loading_Add_Section_States());
+    await DioHelper.postData(url: 'createSections',
+        data: {
+          'saf_id':class_id,
+          'number':class_number
+        }
+    ).then((value){
+      print(value.data);
+      emit(Success_Add_Section_States());
+    }).catchError((error){
+      //print(error.response.data);
+      emit(Error_Add_Section_States(error.toString()));
+    });
+  }
+
+  Future Delete_section({
+  required List<dynamic> ids
+})async{
+    emit(Loading_delete_section_State());
+    await DioHelper.postData(url: 'deleteSections',
+        data: {
+        "ids":ids
+    }).then((value){
+      emit(Success_delete_section_State());
+
+    }).catchError((error){
+      print(error.response.data);
+      emit(Error_delete_section_State(error.toString()));
+    });
+  }
+
+  Future Add_subject({
+    required String name,
+    required int saf_id
+  })async{
+    emit(Loading_Add_Subject_States());
+    await DioHelper.postData(url: 'createSubject',
+        data: {
+          'name':name,
+          'saf_id':saf_id
+        }
+    ).then((value){
+      emit(Success_Add_Subject_States());
+      print(value.data);
+    }).catchError((error){
+      emit(Error_Add_Subject_States(error.toString()));
+      //print(error.response.data);
+    });
+  }
+
+  Future Delete_Subject({
+    required List<dynamic> ids
+  })async{
+    emit(Loading_delete_subject_State());
+    await DioHelper.postData(url: 'deleteSubjects',
+        data: {
+          "ids":ids
+        }).then((value){
+      emit(Success_delete_subject_State());
+
+    }).catchError((error){
+      print(error.response.data);
+      emit(Error_delete_subject_State(error.toString()));
+    });
+  }
+
+  class_profile_model ?class_profile;
+  List<dynamic>subjects=[];
+  List<dynamic>sectionsInClass=[];
+Future get_class_profile({
+  required int class_id
+})async{
+    emit(Loading_get_class_States());
+    await DioHelper.postData(url: 'getClass',
+      data: {'class_id':class_id
+    }
+    ).then((value){
+      class_profile=class_profile_model.fromJson(value.data);
+      subjects=value.data['data']['subjects'];
+      sectionsInClass=value.data['data']['sectionsInClass'];
+      emit(Success_get_class_States());
+    }).catchError((error){
+      print(error.response.data);
+      emit(Error_get_class_States(error.toString()));
+    });
+}
+
+
+Map<String,dynamic>?Hessas_Map;
+Future get_Hessas({
+  required int saf_id,
+})async{
+  emit(Loading_get_hessas_State());
+  await DioHelper.getData(url: 'getHessas/${saf_id}').then((value){
+    Hessas_Map=value.data;
+   // print(Hessas_Map?['data']);
+    emit(Success_get_hessas_State());
+  }).catchError((error){
+   // print(error.response.data);
+    emit(Error_get_hessas_State(error.toString()));
+  });
+}
+  Available_teacher_model ?available_model;
+
+List<dynamic>available_list=[];
+Future Get_Available_Teachers({
+  required int saf_id,
+  required int section_id
+})async{
+  emit(Loading_Available_teacher_State());
+  await DioHelper.postData(
+    url: 'GetAvailableTeachers',
+    data: {
+      'saf_id':saf_id,
+      'section_id':section_id,
+    }
+  ).then((value){
+   emit(Success_Available_teacher_State());
+   available_list=value.data;
+   print(available_list);
+  }).catchError((error){
+    print(error.response.data);
+  emit(Error_Available_teacher_State(error.toString()));
+  });
+}
+
+Future Update_program({
+  required Map<dynamic,dynamic>map
+})async{
+  emit(Loading_Update_program_State());
+  await DioHelper.postData(url: 'updateProgram'
+      ,data: map
+  ).then((value){
+     print(value.data);
+     emit(Success_Update_program_State());
+  }).catchError((error){
+     print(error.response.data);
+     emit(Error_Update_program_State(error.toString()));
+  });
+}
+
+
+
+
+
+/*
+  List<List<dynamic>>daily_available_list=[];
+Future get_index_available_list({
+  required int saf_id,
+})async{
+  for(int j=0;j<5;j++){
+    for(int i=1;i<=7;i++){
+      await Get_Available_Teachers(saf_id: saf_id, day: days[j], time: i).then((value){
+        daily_available_list.add(available_list);
+      });
+    }
+    print('/////////////////////////////////////////day');
+  }
+  emit(Success_all_indexing_teacher_State());
+print(daily_available_list);
+}*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
+
+
+

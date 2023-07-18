@@ -8,7 +8,7 @@ Color dark_purple=Color.fromARGB(255, 35, 20, 87);
 Color basic_background=Color.fromARGB(255, 239, 244, 249);
 
 const primaryColor = Color(0xFFE2E2E2);
-const primaryDark = Colors.black;
+
 
 const primaryColor1 = Color(0xFF7DE5ED);
 const primaryColor2 = Color(0xFF81C6E8);
@@ -27,7 +27,6 @@ const primaryGradient = RadialGradient(
     colors: [
       Colors.lightBlue,
       Colors.blueAccent
-
     ]);
 
 /*

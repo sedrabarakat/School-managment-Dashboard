@@ -2,12 +2,17 @@ import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:number_paginator/number_paginator.dart';
 import 'package:school_dashboard/constants.dart';
+import 'package:school_dashboard/cubit/basic/basic_cubit.dart';
+import 'package:school_dashboard/cubit/class_profile/class_profile_cubit.dart';
 import 'package:school_dashboard/cubit/classes/classes_list_cubit.dart';
 import 'package:school_dashboard/models/Tables/classes_table.dart';
 import 'package:collection/collection.dart';
 import 'package:school_dashboard/ui/components/components.dart';
+import 'package:school_dashboard/ui/screens/classes/class_profile.dart';
 
+import '../class_widgets.dart';
 
+ int ?class_id;
 
 
 List<DataColumn2> getClassesColumns(ClassesListCubit cubit) => cubit.ClassesColumns.map(
@@ -48,7 +53,12 @@ List<DataRow> getClassesRows(
                     ),
                   ),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      class_id=cl.class_id!.toInt();
+                      Basic_Cubit.get(context).change_Route('/class_profile');
+
+
+                    },
                     icon: Icon(
                       Icons.edit,
                       size: width * 0.015,
@@ -103,7 +113,9 @@ Widget AddClassButton(context,width,height){
       color: Colors.blue,
     ),
     child: ElevatedButton(
-      onPressed: (){},
+      onPressed: (){
+        Add_class(context:context,height: MediaQuery.sizeOf(context).height,width: width);
+      },
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.blue,
         textStyle: TextStyle(),

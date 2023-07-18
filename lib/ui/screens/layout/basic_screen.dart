@@ -14,7 +14,6 @@ class Basic_Screen extends StatelessWidget {
 
   void scrollUp() {
     final double start = 0;
-
     scroll.animateTo(start,
         duration: Duration(seconds: 1), curve: Curves.easeIn);
   }
@@ -28,9 +27,12 @@ class Basic_Screen extends StatelessWidget {
       builder: (context, Basic_State) {
         Basic_Cubit basic_cubit = Basic_Cubit.get(context);
         Map<String, Widget> screen = basic_cubit.screens;
+        var selected_route=basic_cubit.select_route;
         return Scaffold(
           appBar: null,
-          floatingActionButton: FloatingActionButton(
+          floatingActionButton:FloatingActionButton(
+
+            backgroundColor: Colors.lightBlue,
             onPressed: () {
               scrollUp();
             },

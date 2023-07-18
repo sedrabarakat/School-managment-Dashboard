@@ -3,11 +3,13 @@ import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:number_paginator/number_paginator.dart';
 import 'package:school_dashboard/constants.dart';
+import 'package:school_dashboard/cubit/basic/basic_cubit.dart';
 import 'package:school_dashboard/cubit/teachers/teachers_list_cubit.dart';
 import 'package:school_dashboard/models/Tables/teachers_table.dart';
 import 'package:school_dashboard/theme/colors.dart';
 import 'package:school_dashboard/ui/components/components.dart';
 
+int ?Teacher_id;
 Widget searchByNameTeacher(
     context, width, height, nameController, nameFocusNode) {
   return Container(
@@ -99,7 +101,10 @@ List<DataRow> getTeachersRows(List<TeacherData> allTeachers, width, heigth,
                     ),
                   ),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Teacher_id=te.teacher_id;
+                      Basic_Cubit.get(context).change_Route('/teacher_profile');
+                    },
                     icon: Icon(
                       Icons.edit,
                       size: width * 0.015,

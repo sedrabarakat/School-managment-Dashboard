@@ -1,12 +1,18 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:school_dashboard/cubit/students/students_list_cubit.dart';
-import 'package:school_dashboard/theme/colors.dart';
+import 'package:image_network/image_network.dart';
+import 'package:school_dashboard/constants.dart';
 import 'package:simple_animations/multi_tween/multi_tween.dart';
 import 'package:simple_animations/stateless_animation/play_animation.dart';
+import '../../cubit/basic/basic_cubit.dart';
+import '../../cubit/students/students_list_cubit.dart';
+import '../../theme/colors.dart';
+import '../../theme/styles.dart';
+
 
 Widget Text_Icon_Button({
   required VoidCallback Function,
@@ -34,16 +40,14 @@ Widget Text_Icon_Button({
       ));
 }
 
-Widget Animated_Text(
-    {required double width,
-    required String text,
-    int speed = 500,
-    bool isRepeating = false,
-    List<Color> colors_list = const [
-      Colors.blue,
-      Colors.lightBlueAccent,
-      Colors.white
-    ]}) {
+Widget Animated_Text({
+  required double width,
+  required String text,
+  int speed=500,
+  bool isRepeating=false,
+  List<Color>colors_list= const [Colors.blue,Colors.lightBlueAccent,Colors.white],
+}){
+
   return AnimatedTextKit(
     isRepeatingAnimation: isRepeating,
     animatedTexts: [
@@ -51,7 +55,7 @@ Widget Animated_Text(
           speed: Duration(milliseconds: speed),
           colors: colors_list,
           textStyle:
-              TextStyle(fontWeight: FontWeight.bold, fontSize: width / 50)),
+          TextStyle(fontWeight: FontWeight.bold, fontSize: width / 50)),
     ],
   );
 }
@@ -108,7 +112,7 @@ TextFormField def_TextFromField({
         borderRadius: BorderRadius.circular(25.0),
         borderSide: const BorderSide(
           color: Colors.black,
-          width: 2.0,
+          width: 1.5,
         ),
       ),
       border: OutlineInputBorder(
@@ -122,7 +126,7 @@ TextFormField def_TextFromField({
         borderRadius: BorderRadius.circular(25.0),
         borderSide: const BorderSide(
           color: Colors.red,
-          width: 1.5,
+          width: 1.0,
         ),
       ),
     ),
@@ -193,13 +197,21 @@ class FadeAnimation extends StatelessWidget {
         opacity: animation.get(AniProps.opacity),
         child: Transform.translate(
             offset: Offset(0, animation.get(AniProps.translateY)),
-            child: child),
+            child: child
+        ),
       ),
     );
   }
 }
 
 //SPINKIT
+
+Widget SpinKitApp(width){
+  return SpinKitFadingCube(
+    color: Colors.blueAccent,
+    size: width*0.022,
+  );
+}
 
 Widget SpinKitWeb(width) {
   return SpinKitFadingCube(
@@ -405,29 +417,145 @@ void showToast({
   required ToastState state,
 }) =>
     Fluttertoast.showToast(
-      msg: text,
-      toastLength: Toast.LENGTH_LONG,
-      gravity: ToastGravity.BOTTOM_LEFT,
-      timeInSecForIosWeb: 5,
-      backgroundColor: chooseToastColor(state),
-      textColor: Colors.black87,
-      fontSize: 17.0,
+        webShowClose: true,
+        msg: "$text",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM_RIGHT,
+        timeInSecForIosWeb: 3,
+        webPosition: "center",
+        webBgColor: "${chooseToastColor(state)}",
+        textColor: Colors.white,
+        fontSize: 16.0
     );
 
 enum ToastState { success, error, warning }
 
-Color chooseToastColor(ToastState state) {
-  Color color;
+String chooseToastColor(ToastState state) {
+  String color;
   switch (state) {
     case ToastState.success:
-      color = Colors.black26;
+      color="linear-gradient(to right,#1f8cf2, #03a9f4, #1cb2f5)";
       break;
     case ToastState.error:
-      color = Colors.red;
+      color ="linear-gradient(to right, #dc1c13, #dc1c13)";
       break;
     case ToastState.warning:
-      color = Colors.amber;
+      color = "linear-gradient(to right, #f7b436,#f7b436)";
       break;
   }
   return color;
+}
+
+
+image_container({
+  required double container_width,
+  required double container_height,
+  required String imageUrl,
+}){
+  return  Container(
+    clipBehavior: Clip.hardEdge,
+    height: container_height,width: container_width,
+    decoration:Circle_BoxDecoration,//'http://10.0.2.2:8000/storage/${myprofile['image']}
+    child: ImageNetwork(image: "http://localhost:8000/storage/1689694509.jpg",
+      debugPrint: true,
+      height:container_height,
+      width: container_width,
+    ),
+  );
+}
+
+Default_image({
+  required double container_width,
+  required double container_height,
+  required String pic_path,
+}){
+  return  Container(
+    clipBehavior: Clip.hardEdge,
+    height: container_height,width: container_width,
+    decoration:Circle_BoxDecoration,
+    child: Image.asset(pic_path),
+  );
+}
+
+
+
+Widget circle_icon_button({
+  required VoidCallback button_Function,
+  required IconData icon,
+  required String hint_message,
+  Color icon_color=Colors.lightBlue,
+}){
+  return Tooltip(
+    waitDuration: Duration(milliseconds:500),
+    message: hint_message,
+    child: CircleAvatar(
+        backgroundColor: basic_background,
+        child: IconButton(onPressed: button_Function,icon: Icon(icon,color:icon_color,
+        ),)
+    ),
+  );
+}
+
+ElevatedButton elevatedbutton({
+  required VoidCallback Function,
+  required double widthSize,
+  required double heightSize,
+  required String text,
+  Color textcolor=Colors.white,
+  Color backgroundColor=Colors.lightBlue,
+  Color  foregroundColor=Colors.white54,
+  Color shadowColor=Colors.grey,
+  double elevation=10,
+  double borderRadius=10,
+  // required double widthSize,
+  //   required double heightSize,
+}){
+  return ElevatedButton(
+    onPressed:Function,
+    child: Text(text,
+      style: TextStyle(color: textcolor),),
+    style: ElevatedButton.styleFrom(
+        elevation:elevation,
+        fixedSize:Size(widthSize, heightSize),
+        backgroundColor: backgroundColor,
+        foregroundColor: foregroundColor,
+        shadowColor:shadowColor,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(borderRadius)
+        ),
+        animationDuration: Duration(seconds: 100),
+        splashFactory: InkSplash.splashFactory
+    ),
+  );
+}
+
+Widget backToRout({
+  required String from,
+  required double width,
+  required String from_rout,
+  required BuildContext context,
+  required String To
+}) {
+  return Container(
+    height: height/40,
+    child: Row(
+      children: [
+        TextButton(
+            onPressed: () {
+              Basic_Cubit.get(context).change_Route('$from_rout');
+            },
+            child: Text(
+              '$from',
+              style: TextStyle(color: Colors.blue, fontSize: width * 0.012),
+            )),
+        SizedBox(
+          width: width * 0.01,
+        ),
+        Text(
+          '->     + $To',
+          style: TextStyle(color: Colors.grey, fontSize: width * 0.012),
+        ),
+      ],
+    ),
+  );
 }

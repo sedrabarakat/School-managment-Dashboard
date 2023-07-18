@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_dashboard/BlocObserver.dart';
@@ -8,24 +8,21 @@ import 'package:school_dashboard/cubit/auth/auth_cubit.dart';
 import 'package:school_dashboard/cubit/basic/basic_cubit.dart';
 import 'package:school_dashboard/cubit/classes/classes_list_cubit.dart';
 import 'package:school_dashboard/cubit/home/home_cubit.dart';
-import 'package:school_dashboard/cubit/parents/parents_list_cubit.dart';
-import 'package:school_dashboard/cubit/students/students_list_cubit.dart';
 import 'package:school_dashboard/network/local/cash_helper.dart';
 import 'package:school_dashboard/network/remote/dio_helper.dart';
 import 'package:school_dashboard/routes/web_router.dart';
 
 import 'package:school_dashboard/theme/web_theme.dart';
+import 'package:school_dashboard/ui/screens/layout/basic_screen.dart';
 
-
+import 'cubit/parents/parents_list_cubit.dart';
+import 'cubit/students/students_list_cubit.dart';
 import 'cubit/teachers/teachers_list_cubit.dart';
+
 
 Future<void> main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
-
-  Size size = PlatformDispatcher.instance.views.first.physicalSize;
-
-  heightSize = size.height;
 
   Bloc.observer = MyBlocObserver();
 
@@ -63,14 +60,19 @@ class MyApp extends StatelessWidget {
 
       ],
       child: MaterialApp(
-        //home: Basic_Screen(),
+        scrollBehavior: MyCustomScrollBehavior(),
+        home: Basic_Screen(),
         title: 'School Web',
         theme: WebTheme.lightTheme,
         debugShowCheckedModeBanner: false,
-        initialRoute: token!=null?'/home':'/login',
+      //  initialRoute: token!=null?'/home':'/login',
         onGenerateRoute: _appRouter.onGenerateRoute,
       ),
     );
   }
 }
+
+
+
+
 

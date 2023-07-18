@@ -6,24 +6,26 @@ import 'package:meta/meta.dart';
 import 'package:school_dashboard/ui/screens/articals/all_articals.dart';
 import 'package:school_dashboard/ui/screens/courses/courses.dart';
 import 'package:school_dashboard/ui/screens/inbox/inbox.dart';
-import 'package:school_dashboard/ui/screens/layout/basic_screen.dart';
 import 'package:school_dashboard/ui/screens/library/add_book.dart';
 import 'package:school_dashboard/ui/screens/library/books_list.dart';
-import 'package:school_dashboard/ui/screens/parents/parents_list.dart';
-import 'package:school_dashboard/ui/screens/students/add_class.dart';
+
 import 'package:school_dashboard/ui/screens/students/add_student.dart';
-import 'package:school_dashboard/ui/screens/students/grades.dart';
-import 'package:school_dashboard/ui/screens/students/send_notification.dart';
+
 import 'package:school_dashboard/ui/screens/students/students_list.dart';
 import 'package:school_dashboard/ui/screens/teachers/add_teacher.dart';
 import 'package:school_dashboard/ui/screens/teachers/teachers_list.dart';
-import 'package:school_dashboard/ui/screens/teachers/teachers_schedules.dart';
+
 import '../../ui/screens/admins/add_admin.dart';
 import '../../ui/screens/admins/admin_list.dart';
 import '../../ui/screens/articals/add_articals.dart';
+import '../../ui/screens/classes/class_list.dart';
+import '../../ui/screens/classes/class_profile.dart';
 import '../../ui/screens/home/dashboard_home.dart';
 import '../../ui/screens/parents/add_parent.dart';
-import '../../ui/screens/subjects/add_subject.dart';
+import '../../ui/screens/parents/parents_list.dart';
+import '../../ui/screens/students/student_profile.dart';
+import '../../ui/screens/teachers/teacher_profile.dart';
+
 part 'basic_cubit_state.dart';
 
 class Basic_Cubit extends Cubit<Basic_State> {
@@ -38,19 +40,19 @@ class Basic_Cubit extends Cubit<Basic_State> {
     '/add_parent': add_parent(),
     '/parents_list':Parents_List(),
 
-    '/add_class':ClassesList(),
     '/add_student':Add_Student(),
-    '/grades':Grades(),
-    '/send_notification':Send_Notification(),
     '/students_list':Students_List(),
+    '/student_profile':Student_profile(),
 
     '/add_teacher':Add_Teacher(),
     '/teachers_list':Teachers_List(),
-    '/teachers_schedules':Teachers_Schedules(),
+    '/teacher_profile':Teacher_profile(),
 
     '/add_admin': Add_Admin(),
     '/admin_list':Admin_List(),
-    '/add_subject':Add_Subject(),
+
+    '/class_list':Class_List(),//Class_List(),
+    '/class_profile':Class_Profile(),
 
     '/add_book':Add_Book(),
     '/books_list':Books_List(),
@@ -58,8 +60,8 @@ class Basic_Cubit extends Cubit<Basic_State> {
     '/all_articals':All_Articals(),
     '/add_articals': add_articals(),
 
-    '/inbox':Inbox(),
-    '/courses':Courses()
+    '/inbox':Inbox(),//Inbox()
+    '/courses':Courses(),//Courses()
   };
 
   void on_select(AdminMenuItem item){
@@ -73,6 +75,8 @@ class Basic_Cubit extends Cubit<Basic_State> {
     select_route=route;
     emit(Change_Route(select_route));
   }
+
+
 
 
 }

@@ -30,3 +30,15 @@ class ClassesDeletingErrorDataState extends ClassesListState {
 
   ClassesDeletingErrorDataState(this.classesModel);
 }
+/////////////////
+
+class change_selected_class extends ClassesListState{}
+
+class Loading_Add_Grade_States extends ClassesListState{}
+
+class Success_Add_Grade_States extends ClassesListState{}
+
+class Error_Add_Grade_States extends ClassesListState{
+  String error;
+  Error_Add_Grade_States(this.error);
+}

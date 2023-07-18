@@ -62,7 +62,7 @@ Widget clearDataButton(context, width, height, cubit , typeCall) {
     ),
     child: ElevatedButton(
       style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.lightBlue,
+        backgroundColor: Colors.blue,
         textStyle: TextStyle(),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),

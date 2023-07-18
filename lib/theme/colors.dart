@@ -27,7 +27,6 @@ const primaryGradient = RadialGradient(
     colors: [
       Colors.lightBlue,
       Colors.blueAccent
-
     ]);
 
 /*

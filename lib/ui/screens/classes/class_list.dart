@@ -1,36 +1,33 @@
-
-
-import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:number_paginator/number_paginator.dart';
-import 'package:school_dashboard/constants.dart';
+import '../../../constants.dart';
+import '../../../cubit/class_profile/class_profile_states.dart';
+import '../../../theme/colors.dart';
+import '../../components/components.dart';
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_dashboard/cubit/classes/classes_list_cubit.dart';
-import 'package:school_dashboard/models/Tables/classes_table.dart';
-import 'package:school_dashboard/theme/colors.dart';
-import 'package:school_dashboard/ui/components/components.dart';
 import 'package:school_dashboard/ui/components/table_components.dart';
 import 'package:school_dashboard/ui/screens/layout/basic_screen.dart';
 import 'package:school_dashboard/ui/widgets/classes/classes_list_widgets.dart';
-import 'package:school_dashboard/ui/widgets/students/students_list_widgets.dart';
-
-class ClassesList extends StatelessWidget {
-   ClassesList({Key? key}) : super(key: key);
-
-
+import '../../widgets/class_widgets.dart';
+// Add_class(context:context,height: height,width: width);
+class Class_List extends StatelessWidget{
   final NumberPaginatorController paginationController = NumberPaginatorController();
-
-
   @override
   Widget build(BuildContext context) {
     final height = 753.599975586;
 
 //    final height = heightSize/1.2500000000000000331740987392709;
-    //final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     var cubit = ClassesListCubit.get(context);
     return BlocConsumer<ClassesListCubit, ClassesListState>(
       listener: (context, state) {
+        if(state is Success_Add_Grade_States){showToast(text: 'Added Successfully', state: ToastState.success);}
+
+        if(state is Error_Add_Grade_States){showToast(text: 'Error in Adding...you have already added that class before', state: ToastState.error);}
+
         if (state is ClassesErrorDataState) {
           showToast(text: state.classesModel.message!, state: ToastState.error);
         }
@@ -52,6 +49,7 @@ class ClassesList extends StatelessWidget {
             controller: scroll,
             scrollDirection: Axis.vertical,
             child: Container(
+              height: size.height,width: width,
               color: basic_background,
               child: Padding(
                 padding: EdgeInsets.symmetric(
@@ -119,3 +117,7 @@ class ClassesList extends StatelessWidget {
     );
   }
 }
+
+
+
+

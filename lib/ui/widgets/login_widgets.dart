@@ -87,7 +87,7 @@ Widget WhiteContainer(context,width,height,cubit,emailController,passwordControl
             boxShadow: [
               BoxShadow(
                 offset: const Offset(0, 4),
-                color: shadow.withOpacity(0.7),
+                color: Color(0xFF013C69).withOpacity(0.7),
                 blurRadius: 5,
               )
             ],

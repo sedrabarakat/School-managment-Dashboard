@@ -177,9 +177,33 @@ class ClassesListCubit extends Cubit<ClassesListState> {
     });
   }
 
+  ////////////
+
+  String ?selected_class;
 
 
-// Send a notification
+  void select_class(value){
+    selected_class=value;
+    emit(change_selected_class());
+  }
+
+  Future Add_Class({
+    required String number
+  }) async {
+    emit(Loading_Add_Grade_States());
+    print(selected_class);
+    await DioHelper.postData(url: 'createClass',
+        data: {
+          'grade': number
+        }
+    ).then((value) {
+      print(value.data);
+      emit(Success_Add_Grade_States());
+    }).catchError((error) {
+      //print(error.response.data);
+      emit(Error_Add_Grade_States(error.toString()));
+    });
+  }
 
 }
 
@@ -194,3 +218,7 @@ class ClassesIds {
     return data;
   }
 }
+
+
+//////////////////////
+

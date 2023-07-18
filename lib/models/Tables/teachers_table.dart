@@ -35,7 +35,7 @@ class TeacherData {
   String? phone_number;
 
   TeacherData.fromJson(Map<String, dynamic> json) {
-    teacher_id = json['teacher_id'];
+    teacher_id = json['id'];
     name = json['name'];
     gender = json['gender'];
     salary = json['salary'];

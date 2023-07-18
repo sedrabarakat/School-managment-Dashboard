@@ -4,6 +4,8 @@ class Courses extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    return Text('Courses');
+    var height=MediaQuery.of(context).size.height;
+    var width=MediaQuery.of(context).size.width;
+    return Text('corses');
   }
 }

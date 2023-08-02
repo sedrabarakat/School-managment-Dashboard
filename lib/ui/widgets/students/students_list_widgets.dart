@@ -137,6 +137,7 @@ List<DataRow> getStudentsRows(
             StudentData st,
           ) =>
               DataRow2(
+
             selected: cubit.selectedStudents.contains(st),
             onSelectChanged: (isSelected) {
               cubit.isSelected(isSelected, st);

@@ -1,4 +1,7 @@
+import 'package:dio/dio.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:school_dashboard/constants.dart';
 import '../../models/available_teacher_model.dart';
 import '../../models/class_profile_model.dart';
 import '../../network/remote/dio_helper.dart';
@@ -83,6 +86,11 @@ class Class_Profile_cubit extends Cubit<Class_Profile_States>{
     });
   }
 
+  final List<String>sectionNumbers = [];
+
+  final List<String>subjectNames = [];
+
+
   class_profile_model ?class_profile;
   List<dynamic>subjects=[];
   List<dynamic>sectionsInClass=[];
@@ -97,6 +105,19 @@ Future get_class_profile({
       class_profile=class_profile_model.fromJson(value.data);
       subjects=value.data['data']['subjects'];
       sectionsInClass=value.data['data']['sectionsInClass'];
+
+      if (class_profile!.data != null && class_profile!.data!.sectionsInClass != null) {
+        for (var section in class_profile!.data!.sectionsInClass!) {
+          sectionNumbers.add(section.number.toString());
+        }
+      }
+
+      if (class_profile!.data != null && class_profile!.data!.subjects != null) {
+        for (var subject in class_profile!.data!.subjects!) {
+          subjectNames.add(subject.name ?? "");
+        }
+      }
+
       emit(Success_get_class_States());
     }).catchError((error){
       print(error.response.data);
@@ -180,7 +201,35 @@ print(daily_available_list);
 }*/
 
 
+  MarksModel? marksModel;
 
+  void uploadFile({required String exam_type , required PlatformFile cvsFile}) async {
+
+    emit(UploadExcelFileLoadingState());
+    print('dfgfdgdfg');
+    DioHelper.postDataImage(
+      url: 'marks/import',
+      data: FormData.fromMap({
+        'exam_type': exam_type,
+        'file': await MultipartFile.fromBytes(
+          cvsFile!.bytes!,
+          filename: cvsFile!.name,
+        ),
+      },),
+      token: token,
+    ).then((value) async {
+
+      marksModel = MarksModel.fromJson(value.data);
+
+      emit(UploadExcelFileSuccessState(marksModel!));
+    }).catchError((error) {
+      print('error.response.data: ${error.response.data}');
+      marksModel = MarksModel.fromJson(error.response.data);
+      emit(UploadExcelFileErrorState(marksModel!));
+      print(error.toString());
+    });
+
+  }
 
 
 

@@ -83,7 +83,7 @@ class Students_List extends StatelessWidget {
               controller: scroll,
               scrollDirection: Axis.vertical,
               child: Container(
-                height: size.height,width: width,
+                //height: size.height,width: width,
                 color: basic_background,
                 child: Padding(
                   padding: EdgeInsets.symmetric(

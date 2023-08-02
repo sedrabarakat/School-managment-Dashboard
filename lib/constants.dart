@@ -87,6 +87,16 @@ final Map<String,String>Mapclasses={
   'Bachelor Grade':"12",
 };
 
+final List<String> examType = [
+  'quiz',
+  'exam1',
+  'exam2',
+  'med',
+  'final',
+];
+
+
+
 
 
 class MyCustomScrollBehavior extends MaterialScrollBehavior {

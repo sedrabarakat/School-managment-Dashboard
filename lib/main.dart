@@ -4,8 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_dashboard/BlocObserver.dart';
 import 'package:school_dashboard/constants.dart';
 import 'package:school_dashboard/cubit/admins/admins_list_cubit.dart';
+import 'package:school_dashboard/cubit/articles/articles_cubit.dart';
 import 'package:school_dashboard/cubit/auth/auth_cubit.dart';
 import 'package:school_dashboard/cubit/basic/basic_cubit.dart';
+import 'package:school_dashboard/cubit/class_profile/class_profile_cubit.dart';
+import 'package:school_dashboard/cubit/class_profile/marks_cubit.dart';
 import 'package:school_dashboard/cubit/classes/classes_list_cubit.dart';
 import 'package:school_dashboard/cubit/home/home_cubit.dart';
 import 'package:school_dashboard/network/local/cash_helper.dart';
@@ -57,6 +60,11 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (BuildContext context) => ParentsListCubit()..getParentsTableData(name: '', phoneNumber: '', paginationNumber: 0)),
         BlocProvider(create: (BuildContext context) => TeachersListCubit()..getTeachersTableData(name: '', paginationNumber: 0)),
         BlocProvider(create: (BuildContext context) => AdminsListCubit()..getAdminsTableData(paginationNumber: 0)),
+        BlocProvider(create: (BuildContext context) => MarksCubit()),
+        BlocProvider(create: (BuildContext context) => Class_Profile_cubit()),
+
+        BlocProvider(create: (BuildContext context) => ArticlesCubit()),
+
 
       ],
       child: MaterialApp(

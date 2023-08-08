@@ -1,19 +1,14 @@
-import 'package:bloc/bloc.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:meta/meta.dart';
-import 'dart:convert';
 import 'dart:html';
 import 'dart:io';
-//import 'dart:html';
-//import 'dart:html' as html;
-import 'dart:typed_data';
 
-import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
+import 'package:bloc/bloc.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
+import 'package:meta/meta.dart';
+
+
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:school_dashboard/constants.dart';
-import 'package:school_dashboard/models/class_profile_model.dart';
 import 'package:school_dashboard/network/remote/dio_helper.dart';
 
 part 'marks_state.dart';
@@ -66,7 +61,7 @@ class MarksCubit extends Cubit<MarksState> {
 
 
   }
-
+/*
   PlatformFile? cvsFile;
 
   Future pickCvsFile() async {
@@ -108,8 +103,35 @@ class MarksCubit extends Cubit<MarksState> {
 
   }
 
+*/
 
+  Uint8List? cvsFile;
+  String? cvsFileName;
 
+  Future pickCvsFile() async {
+
+    try {
+      FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowMultiple: false,
+        allowedExtensions: ['xlsx'],
+      );
+
+      if (result != null) {
+        cvsFile = result.files.first.bytes;
+        cvsFileName = result.files.first.name;
+
+        print(result.files.first.extension);
+
+        //Size in Bytes
+        print(result.files.first.size);
+      }
+    } on PlatformException {
+      print('Failed to pick image');
+    }
+    emit(PickCvsFile());
+
+  }
 
 
 }

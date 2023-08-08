@@ -1,15 +1,17 @@
 import 'package:collection/collection.dart';
 import 'package:data_table_2/data_table_2.dart';
+import 'package:flash/flash.dart';
+import 'package:flash/flash_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:number_paginator/number_paginator.dart';
 import 'package:school_dashboard/constants.dart';
 import 'package:school_dashboard/cubit/basic/basic_cubit.dart';
 import 'package:school_dashboard/cubit/students/students_list_cubit.dart';
 import 'package:school_dashboard/models/Tables/students_table.dart';
-import 'package:school_dashboard/theme/colors.dart';
 import 'package:school_dashboard/ui/components/components.dart';
 
-int ?Student_id;
+int? Student_id;
+
 Widget searchByNameStudent(
     context, width, height, nameController, nameFocusNode, classFocusNode) {
   return Container(
@@ -86,12 +88,12 @@ Widget searchButtonStudent(
     width: width * 0.11,
     height: height * 0.06,
     decoration: BoxDecoration(
-      color: shadow,
+      color: Colors.blue.shade800,
       borderRadius: BorderRadius.circular(12),
     ),
     child: ElevatedButton(
       style: ElevatedButton.styleFrom(
-        backgroundColor: shadow,
+        backgroundColor: Colors.blue.shade800,
         textStyle: const TextStyle(),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
@@ -137,7 +139,6 @@ List<DataRow> getStudentsRows(
             StudentData st,
           ) =>
               DataRow2(
-
             selected: cubit.selectedStudents.contains(st),
             onSelectChanged: (isSelected) {
               cubit.isSelected(isSelected, st);
@@ -198,7 +199,7 @@ List<DataRow> getStudentsRows(
                   ),
                   IconButton(
                     onPressed: () {
-                      Student_id=st.student_id;
+                      Student_id = st.student_id;
                       Basic_Cubit.get(context).change_Route('/student_profile');
                     },
                     icon: Icon(
@@ -275,8 +276,16 @@ Widget studentPagination(
   ]);
 }
 
-Widget sendNotesButton(context, width, height, StudentsListCubit cubit,
-    titleController, titleFocusNode, messageController, messageFocusNode,formKey) {
+Widget sendNotesButton(
+    context,
+    width,
+    height,
+    StudentsListCubit cubit,
+    titleController,
+    titleFocusNode,
+    messageController,
+    messageFocusNode,
+    formKey) {
   return Container(
     width: width < 600 ? width * 0.16 : width * 0.14,
     height: height * 0.05,
@@ -293,9 +302,8 @@ Widget sendNotesButton(context, width, height, StudentsListCubit cubit,
         ),
       ),
       onPressed: () {
-        openDialog(context, width, height, cubit, titleController,
-            titleFocusNode, messageController, messageFocusNode,formKey
-        );
+        openDialogNotification(context, width, height, cubit, titleController,
+            titleFocusNode, messageController, messageFocusNode, formKey);
       },
       child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         Text(
@@ -353,121 +361,129 @@ Widget absentButton(context, width, height, cubit) {
   );
 }
 
-Future<String?> openDialog(
-        context,
-        width,
-        height,
-        StudentsListCubit cubit,
-        TextEditingController titleController,
-        titleFocusNode,
-        TextEditingController messageController,
-        messageFocusNode,
-        formKey,
-    ) =>
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text(
-          'Sending a Notification:',
-        ),
-        titleTextStyle: TextStyle(
-          color: Colors.black,
-          fontWeight: FontWeight.bold,
-          fontSize: width * 0.02,
-        ),
-        content: Padding(
-          padding: EdgeInsets.symmetric(
-              horizontal: width * 0.02, vertical: height * 0.02),
-          child: Container(
-            height: height * 0.28,
-            width: width * 0.3,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Form(
-              key: formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Title',
-                    style: TextStyle(
-                        fontSize: width * 0.012, fontWeight: FontWeight.w600),
-                  ),
-                  SizedBox(
-                    height: height * 0.012,
-                  ),
-                  def_TextFromField(
-                      onFieldSubmitted: (value){
-                        FocusScope.of(context)
-                            .requestFocus(messageFocusNode);
+void openDialogNotification(
+  BuildContext context,
+  width,
+  height,
+  StudentsListCubit cubit,
+  TextEditingController titleController,
+  titleFocusNode,
+  TextEditingController messageController,
+  messageFocusNode,
+  formKey,
+) {
+  context.showModalFlash(
+    builder: (context, controller) => RotationTransition(
+      turns: controller.controller.drive(CurveTween(curve: Curves.linear)),
+      child: Flash(
+        controller: controller,
+        dismissDirections: FlashDismissDirection.values,
+        slideAnimationCreator:
+            (context, position, parent, curve, reverseCurve) {
+          return controller.controller
+              .drive(Tween(begin: Offset(0.1, 0.1), end: Offset.zero));
+        },
+        child: AlertDialog(
+          title: Animated_Text(width: width/1.2, text: 'Sending a Notification',speed: 100),
+          content: Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: width * 0.01, vertical: height * 0.02),
+            child: Container(
+              height: height * 0.28,
+              width: width * 0.3,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Form(
+                key: formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Title',
+                      style: TextStyle(
+                          fontSize: width * 0.012, fontWeight: FontWeight.w600),
+                    ),
+                    SizedBox(
+                      height: height * 0.012,
+                    ),
+                    def_TextFromField(
+                      borderFocusedColor: Colors.blue,
+                      br: 15,
+                      onFieldSubmitted: (value) {
+                        FocusScope.of(context).requestFocus(messageFocusNode);
                       },
                       fillColor: Colors.white,
                       keyboardType: TextInputType.text,
                       controller: titleController,
                       focusNode: titleFocusNode,
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Please enter title';
-                      }
-                      return null;
-                    },
-                  ),
-                  SizedBox(
-                    height: height * 0.03,
-                  ),
-                  Text(
-                    'Message',
-                    style: TextStyle(
-                        fontSize: width * 0.012, fontWeight: FontWeight.w600),
-                  ),
-                  SizedBox(
-                    height: height * 0.012,
-                  ),
-                  def_TextFromField(
-                    maxLines: 2,
-                    fillColor: Colors.white,
-                    keyboardType: TextInputType.text,
-                    controller: messageController,
-                    focusNode: messageFocusNode,
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Please enter message';
-                      }
-                      return null;
-                    },
-                  ),
-                ],
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Please enter title';
+                        }
+                        return null;
+                      },
+                    ),
+                    SizedBox(
+                      height: height * 0.03,
+                    ),
+                    Text(
+                      'Message',
+                      style: TextStyle(
+                          fontSize: width * 0.012, fontWeight: FontWeight.w600),
+                    ),
+                    SizedBox(
+                      height: height * 0.012,
+                    ),
+                    def_TextFromField(
+                      borderFocusedColor: Colors.blue,
+                      br: 15,
+                      maxLines: 2,
+                      fillColor: Colors.white,
+                      keyboardType: TextInputType.text,
+                      controller: messageController,
+                      focusNode: messageFocusNode,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Please enter message';
+                        }
+                        return null;
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text(
+                'Cancel',
+                style: TextStyle(
+                    fontWeight: FontWeight.w400, fontSize: width * 0.01),
+              ),
+            ),
+            SizedBox(
+              width: width * 0.05,
+            ),
+            TextButton(
+              onPressed: () {
+                awsDialogNote(context, width, cubit, 2, titleController,
+                    messageController);
+              },
+              child: Text(
+                'Send',
+                style: TextStyle(
+                    fontWeight: FontWeight.w400, fontSize: width * 0.01),
+              ),
+            ),
+          ],
         ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: Text(
-              'Cancel',
-              style: TextStyle(
-                  fontWeight: FontWeight.w400, fontSize: width * 0.01),
-            ),
-          ),
-          SizedBox(
-            width: width * 0.05,
-          ),
-          TextButton(
-            onPressed: () {
-              awsDialogNote(
-                  context, width, cubit, 2, titleController, messageController);
-            },
-            child: Text(
-              'Send',
-              style: TextStyle(
-                  fontWeight: FontWeight.w400, fontSize: width * 0.01),
-            ),
-          ),
-        ],
       ),
-    );
+    ),
+  );
+}

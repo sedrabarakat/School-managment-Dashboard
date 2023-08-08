@@ -25,6 +25,7 @@ Widget subTitle(String s, width) {
     style: TextStyle(
       fontSize: width * 0.018,
       fontWeight: FontWeight.bold,
+      color: Colors.blue.shade800
     ),
   );
 }

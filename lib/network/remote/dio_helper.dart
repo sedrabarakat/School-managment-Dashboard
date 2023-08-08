@@ -66,6 +66,7 @@ class DioHelper {
     required dynamic data,
     Map<String, dynamic>? query,
     String? token,
+    ProgressCallback? onSendProgress,
   }) async
   {
     dio!.options.headers =
@@ -75,6 +76,7 @@ class DioHelper {
     };
     return dio!.post(
       url,
+      onSendProgress: onSendProgress,
       queryParameters: query,
       data: data,
     );

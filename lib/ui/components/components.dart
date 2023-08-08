@@ -1,11 +1,15 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_network/image_network.dart';
 import 'package:school_dashboard/constants.dart';
+import 'package:school_dashboard/cubit/articles/articles_cubit.dart';
 import 'package:simple_animations/multi_tween/multi_tween.dart';
 import 'package:simple_animations/stateless_animation/play_animation.dart';
 import '../../cubit/basic/basic_cubit.dart';
@@ -70,19 +74,30 @@ TextFormField def_TextFromField({
   FormFieldValidator? validator,
   Widget? prefixIcon,
   Widget? suffixIcon,
+  int? maxLength,
+  String? counterText = '',
+  MaxLengthEnforcement? maxLengthEnforcement,
   bool obscureText = false,
-  int maxLines = 6,
-  minLines = 1,
+  int maxLines = 1,
+  int minLines = 1,
   String label = 'Tap here to write ',
   TextStyle labelStyle = const TextStyle(),
   Color cursorColor = Colors.blue,
-  Color borderSideColor = primaryColor2,
-  Color focusedBorderColor = primaryColor2,
+
+  Color borderFocusedColor = primaryColor2,
+  Color borderNormalColor = Colors.black,
+
+
+
   Color fillColor = const Color.fromARGB(255, 236, 236, 237),
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled,
+  double br = 25.0,
 }) {
   return TextFormField(
     onTap: onTap,
+    maxLength: maxLength,
+    maxLengthEnforcement:
+    maxLengthEnforcement,
     keyboardType: keyboardType,
     controller: controller,
     validator: validator,
@@ -96,6 +111,7 @@ TextFormField def_TextFromField({
     cursorColor: cursorColor,
     autovalidateMode: autovalidateMode,
     decoration: InputDecoration(
+      counterText: counterText,
       prefixIcon: prefixIcon,
       suffixIcon: suffixIcon,
       labelText: label,
@@ -103,27 +119,28 @@ TextFormField def_TextFromField({
       fillColor: fillColor,
       filled: true,
       focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(35.0),
+        borderRadius: BorderRadius.circular(br),
         borderSide: BorderSide(
-          color: borderSideColor,
+          color: borderFocusedColor,
+          width: 2
         ),
       ),
       enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(25.0),
-        borderSide: const BorderSide(
-          color: Colors.black,
-          width: 1.5,
+        borderRadius: BorderRadius.circular(br),
+        borderSide:  BorderSide(
+          color: borderNormalColor,
+          width: 2,
         ),
       ),
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(25.0),
-        borderSide: const BorderSide(
-          color: Colors.black,
-          width: 1.5,
+        borderRadius: BorderRadius.circular(br),
+        borderSide:  BorderSide(
+          color: borderNormalColor,
+          width: 1,
         ),
       ),
       errorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(25.0),
+        borderRadius: BorderRadius.circular(br),
         borderSide: const BorderSide(
           color: Colors.red,
           width: 1.0,
@@ -379,6 +396,8 @@ Future<Object?> awsDialogDeleteForAll(context, width, cubit, typeCall) {
       }).show();
 }
 
+
+
 //without buttons
 Future<Object?> AwsDialog(context, type, width) {
   return AwesomeDialog(
@@ -557,5 +576,36 @@ Widget backToRout({
         ),
       ],
     ),
+  );
+}
+
+
+Widget def_Emoji_picker(message,Color indicatorColor,iconColorSelected, ArticlesCubit cubit){
+  return EmojiPicker(
+    onEmojiSelected: (category,emoji){
+      message.text=message.text+emoji.emoji;
+      print(emoji);
+    },
+    config: Config(columns: 7,
+      gridPadding: EdgeInsets.all(18),
+      initCategory: Category.RECENT,
+      bgColor: Colors.white,
+      indicatorColor: indicatorColor,//Color(0xFFD3567C)
+      iconColor: Colors.grey,
+      iconColorSelected:iconColorSelected,//Color(0xFFD3567C)
+      skinToneDialogBgColor: Colors.white,
+      skinToneIndicatorColor: Colors.grey,
+      recentsLimit: 0,
+      replaceEmojiOnLimitExceed: false,
+      noRecents:  Text(
+        'No Recents',
+        style: TextStyle(fontSize: 40.sp, color: Colors.black),
+        textAlign: TextAlign.center,
+      ),
+      loadingIndicator: const SizedBox.shrink(),
+      tabIndicatorAnimDuration: kTabScrollDuration,
+      categoryIcons: const CategoryIcons(),
+      buttonMode: ButtonMode.MATERIAL,
+      checkPlatformCompatibility: true,),
   );
 }

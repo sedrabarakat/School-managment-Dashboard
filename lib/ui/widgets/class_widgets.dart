@@ -374,7 +374,7 @@ Widget Grade_item(context,height,width,sectionNum,studentnum,cubit,saf_id,sectio
               SizedBox(width: width/80,),
               Adds_container(width:width,icon: Icons.event_note_outlined,text: 'Add Grades',
                   ontap: (){
-                    Add_class_Grades(context: context,cubit: cubit,height: height,width: width,saf_id: class_id!.toInt(),);
+                    Add_class_Grades(context: context,cubit: cubit,height: height,width: width,saf_id: saf_id!.toInt(),section_id: section_id!.toInt());
                   })
             ],),
           )
@@ -747,6 +747,7 @@ void Add_class_Grades({
   required BuildContext context,
   required Class_Profile_cubit cubit,
   required int saf_id,
+  required int section_id,
   required double height,
   required double width,
 }){
@@ -760,7 +761,6 @@ void Add_class_Grades({
       child:BlocBuilder<MarksCubit, MarksState>(
   builder: (context, state) {
     return AlertDialog(
-        //contentPadding: EdgeInsets.only(left: 24.0, top: 16.0, right: 24.0, bottom: 16.0),
         title: Padding(
           padding:  EdgeInsets.only(bottom: height/30,top: height/40,right: width/30),
           child: Animated_Text(text: "Add Class Grades",width: width/1.2,speed: 400,),
@@ -805,7 +805,7 @@ void Add_class_Grades({
                                 height: height / 30,
                               ),
                               const Text(
-                                'Choose Section',
+                                'Choose Exam Type',
                                 style: TextStyle(
                                     fontSize: 17,
                                     fontWeight: FontWeight.w400,
@@ -814,11 +814,10 @@ void Add_class_Grades({
                               SizedBox(
                                 height: height * 0.03,
                               ),
-                              drop_add_section(
+                              drop_add_exam_type(
                                   context: context,
                                   height: height,
-                                  width: width,
-                                  cubit: cubit,),
+                                  width: width),
                               SizedBox(
                                 height: height / 8,
                               ),
@@ -873,24 +872,7 @@ void Add_class_Grades({
                                 ],
                               ),
                               SizedBox(
-                                height: height / 30,
-                              ),
-                              const Text(
-                                'Choose Exam Type',
-                                style: TextStyle(
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.black38),
-                              ),
-                              SizedBox(
-                                height: height * 0.03,
-                              ),
-                              drop_add_exam_type(
-                                  context: context,
-                                  height: height,
-                                  width: width),
-                              SizedBox(
-                                height: height * 0.03,
+                                height: height * 0.045,
                               ),
                               const Text(
                                 'Upload Excel File',
@@ -1005,13 +987,12 @@ void Add_class_Grades({
             onPressed: () {
               var cubitMark = MarksCubit.get(context);
               var selectedSubject = cubitMark.selected_subject;
-              var selectedSection = cubitMark.selected_section;
 
-              if (selectedSubject != null && selectedSection != null) {
+              if (selectedSubject != null && section_id != null) {
                 cubitMark.downloadCvs(
                   grade: saf_id,
                   subjectName: selectedSubject,
-                  sectionNumber: selectedSection,
+                  sectionNumber: section_id.toString(),
                 );
               }
 
@@ -1031,9 +1012,10 @@ void Add_class_Grades({
               var cubitMark = MarksCubit.get(context);
               var selected_exam_type = cubitMark.selected_exam_type;
               var cvsFile = cubitMark.cvsFile;
+              var filename = cubitMark.cvsFileName;
 
               if (selected_exam_type != null && cvsFile != null) {
-                cubit.uploadFile(exam_type: selected_exam_type, cvsFile: cvsFile);
+                cubit.uploadFile(exam_type: selected_exam_type, cvsFile: cvsFile,filename: filename!);
               }
             },
             child: Text(

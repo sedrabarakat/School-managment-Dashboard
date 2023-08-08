@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_admin_scaffold/admin_scaffold.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:school_dashboard/theme/colors.dart';
 
 import '../../../constants.dart';
 import '../../../cubit/basic/basic_cubit.dart';
@@ -39,7 +40,7 @@ class Basic_Screen extends StatelessWidget {
             child: Icon(Icons.arrow_upward_rounded,size: width*0.015,),
           ),
           body: AdminScaffold(
-              backgroundColor: Colors.white,
+              backgroundColor: basic_background,
               appBar: AppBar(
                 backgroundColor: Colors.lightBlue,
                 actions: [
@@ -59,6 +60,7 @@ class Basic_Screen extends StatelessWidget {
               sideBar: SideBar(
                 header: Container(
                   height: height / 4,
+                  width: width / 7.5,
                   color: Colors.white,
                     child: Image.asset(
                       'assets/images/logo.png',

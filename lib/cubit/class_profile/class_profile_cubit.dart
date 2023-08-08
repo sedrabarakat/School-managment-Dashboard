@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_dashboard/constants.dart';
 import '../../models/available_teacher_model.dart';
@@ -203,7 +204,7 @@ print(daily_available_list);
 
   MarksModel? marksModel;
 
-  void uploadFile({required String exam_type , required PlatformFile cvsFile}) async {
+  void uploadFile({required String exam_type ,required Uint8List cvsFile, required String filename}) async {
 
     emit(UploadExcelFileLoadingState());
     print('dfgfdgdfg');
@@ -212,8 +213,8 @@ print(daily_available_list);
       data: FormData.fromMap({
         'exam_type': exam_type,
         'file': await MultipartFile.fromBytes(
-          cvsFile!.bytes!,
-          filename: cvsFile!.name,
+            cvsFile,
+            filename: filename
         ),
       },),
       token: token,

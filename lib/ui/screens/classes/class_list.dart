@@ -21,9 +21,11 @@ class Class_List extends StatelessWidget{
 
 //    final height = heightSize/1.2500000000000000331740987392709;
     final width = MediaQuery.of(context).size.width;
-    var cubit = ClassesListCubit.get(context);
-    return BlocConsumer<ClassesListCubit, ClassesListState>(
+    return BlocProvider(
+  create: (context) => ClassesListCubit()..getClassesTableData(),
+  child: BlocConsumer<ClassesListCubit, ClassesListState>(
       listener: (context, state) {
+        var cubit = ClassesListCubit.get(context);
         if(state is Success_Add_Grade_States){showToast(text: 'Added Successfully', state: ToastState.success);}
 
         if(state is Error_Add_Grade_States){showToast(text: 'Error in Adding...you have already added that class before', state: ToastState.error);}
@@ -43,69 +45,70 @@ class Class_List extends StatelessWidget{
 
       },
       builder: (context, state) {
+        var cubit = ClassesListCubit.get(context);
         return ConditionalBuilder(
           condition: cubit.classesModel != null,
           builder:(context)=> SingleChildScrollView(
             controller: scroll,
             scrollDirection: Axis.vertical,
-            child: Container(
-              height: size.height,width: width,
-              color: basic_background,
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: width * 0.02, vertical: height * 0.02),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: height * 0.03,
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: width * 0.02, vertical: height * 0.02),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: height * 0.03,
+                  ),
+                  Animated_Text(width: width, text: 'Classes'),
+                  SizedBox(
+                    height: height * 0.03,
+                  ),
+                  routeRow('Classes List', width, context),
+                  SizedBox(
+                    height: height * 0.055,
+                  ),
+                  // white
+                  Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.symmetric(
+                        vertical: height * 0.04, horizontal: width * 0.02),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: Colors.white,
                     ),
-                    title('Classes', width),
-                    SizedBox(
-                      height: height * 0.03,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            subTitle('All Classes Data', width),
+                            SizedBox(
+                              width: width * 0.312,
+                            ),
+                            AddClassButton(context,width,height),
+                            SizedBox(
+                              width: width * 0.04,
+                            ),
+                            clearDataButton(context,width,height,cubit,3),
+                          ],
+                        ),
+                        SizedBox(
+                          height: height * 0.06,
+                        ),
+                        dataTableClasses(context, width, height, cubit, cubit.classesModel!),
+                        SizedBox(
+                          height: height * 0.02,
+                        ),
+                        cubit.classesModel!.classesList!.isNotEmpty ? Container() : Center(child: Text('There are no Classes yet',style: TextStyle(fontSize: width*0.02,fontWeight: FontWeight.w600,color: Colors.blue),)),
+                        cubit.classesModel!.classesList!.isNotEmpty ? Container() :SizedBox(
+                          height: height * 0.06,
+                        ),
+                      ],
                     ),
-                    routeRow('Classes List', width, context),
-                    SizedBox(
-                      height: height * 0.055,
-                    ),
-                    // white
-                    Container(
-                      width: double.infinity,
-                      padding: EdgeInsets.symmetric(
-                          vertical: height * 0.04, horizontal: width * 0.02),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        color: Colors.white,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              subTitle('All Classes Data', width),
-                              SizedBox(
-                                width: width * 0.312,
-                              ),
-                              AddClassButton(context,width,height),
-                              SizedBox(
-                                width: width * 0.04,
-                              ),
-                              clearDataButton(context,width,height,cubit,3),
-                            ],
-                          ),
-                          SizedBox(
-                            height: height * 0.06,
-                          ),
-                          dataTableClasses(context, width, height, cubit, cubit.classesModel!),
-                          SizedBox(
-                            height: height * 0.02,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -114,7 +117,8 @@ class Class_List extends StatelessWidget{
           ),
         );
       },
-    );
+    ),
+);
   }
 }
 

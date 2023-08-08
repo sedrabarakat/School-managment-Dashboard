@@ -34,12 +34,12 @@ Widget searchButtonTeacher(width, height, TeachersListCubit cubit, TextEditingCo
     width: width * 0.11,
     height: height * 0.06,
     decoration: BoxDecoration(
-      color: shadow,
+      color: Colors.blue.shade800,
       borderRadius: BorderRadius.circular(12),
     ),
     child: ElevatedButton(
       style: ElevatedButton.styleFrom(
-        backgroundColor: shadow,
+        backgroundColor: Colors.blue.shade800,
         textStyle: TextStyle(),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
@@ -48,7 +48,7 @@ Widget searchButtonTeacher(width, height, TeachersListCubit cubit, TextEditingCo
       onPressed: () {
         cubit.getTeachersTableData(
           name: nameController.text,
-          paginationNumber: cubit.paginationNumberSave!,
+          paginationNumber: 0,
         );      },
       child: Center(
         child: Text(

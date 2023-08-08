@@ -6,10 +6,14 @@ import 'package:flash/flash.dart';
 import 'package:flash/flash_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:lottie/lottie.dart';
 import 'package:multi_select_flutter/dialog/mult_select_dialog.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
+import 'package:school_dashboard/cubit/class_profile/class_profile_states.dart';
+import 'package:school_dashboard/cubit/class_profile/marks_cubit.dart';
+import 'package:school_dashboard/theme/colors.dart';
 import 'package:school_dashboard/ui/widgets/classes/classes_list_widgets.dart';
 import '../../constants.dart';
 import '../../cubit/class_profile/class_profile_cubit.dart';
@@ -370,7 +374,7 @@ Widget Grade_item(context,height,width,sectionNum,studentnum,cubit,saf_id,sectio
               SizedBox(width: width/80,),
               Adds_container(width:width,icon: Icons.event_note_outlined,text: 'Add Grades',
                   ontap: (){
-                    Add_class_Grades(context: context,cubit: Class_Profile_cubit(),height: height,width: width,saf_id: class_id!.toInt(),);
+                    Add_class_Grades(context: context,cubit: cubit,height: height,width: width,saf_id: saf_id!.toInt(),section_id: section_id!.toInt());
                   })
             ],),
           )
@@ -743,6 +747,7 @@ void Add_class_Grades({
   required BuildContext context,
   required Class_Profile_cubit cubit,
   required int saf_id,
+  required int section_id,
   required double height,
   required double width,
 }){
@@ -753,25 +758,428 @@ void Add_class_Grades({
       slideAnimationCreator: (context, position, parent, curve, reverseCurve) {
         return controller.controller.drive(Tween(begin: Offset(0.1, 0.1), end: Offset.zero));
       },
-      child:AlertDialog(
-        contentPadding: EdgeInsets.only(left: 24.0, top: 16.0, right: 24.0, bottom: 16.0),
+      child:BlocBuilder<MarksCubit, MarksState>(
+  builder: (context, state) {
+    return AlertDialog(
         title: Padding(
           padding:  EdgeInsets.only(bottom: height/30,top: height/40,right: width/30),
           child: Animated_Text(text: "Add Class Grades",width: width/1.2,speed: 400,),
         ),
-        content: Container( height: height/1.8,width: width/1.2,),
+        content: BlocBuilder<MarksCubit, MarksState>(
+              builder: (context, state) {
+                return Padding(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: width * 0.015, vertical: height * 0.01),
+                  child: SingleChildScrollView(
+                    child: Container(
+                      height: height * 0.62,
+                      width: width * 0.58,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Row(
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Text(
+                                    'Export',
+                                    style: TextStyle(
+                                        fontSize: width * 0.02,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.black),
+                                  ),
+                                  SizedBox(
+                                    width: width * 0.02,
+                                  ),
+                                  Icon(
+                                    Icons.download,
+                                    size: 25,
+                                    color: Colors.black,
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: height / 30,
+                              ),
+                              const Text(
+                                'Choose Exam Type',
+                                style: TextStyle(
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.black38),
+                              ),
+                              SizedBox(
+                                height: height * 0.03,
+                              ),
+                              drop_add_exam_type(
+                                  context: context,
+                                  height: height,
+                                  width: width),
+                              SizedBox(
+                                height: height / 8,
+                              ),
+                              const Text(
+                                'Choose Subject',
+                                style: TextStyle(
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.black38),
+                              ),
+                              SizedBox(
+                                height: height * 0.03,
+                              ),
+                              drop_add_subject(
+                                  context: context,
+                                  height: height,
+                                  width: width,
+                                  cubit: cubit),
+                            ],
+                          ),
+                          SizedBox(
+                            width: width * 0.12,
+                          ),
+                          Container(
+                            height: height * 0.68,
+                            width: width * 0.0005,
+                            color: Colors.grey,
+                          ),
+                          SizedBox(
+                            width: width * 0.04,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Text(
+                                    'Import',
+                                    style: TextStyle(
+                                        fontSize: width * 0.02,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.black),
+                                  ),
+                                  SizedBox(
+                                    width: width * 0.02,
+                                  ),
+                                  Icon(
+                                    Icons.upload,
+                                    size: 25,
+                                    color: Colors.black,
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: height * 0.045,
+                              ),
+                              const Text(
+                                'Upload Excel File',
+                                style: TextStyle(
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.black38),
+                              ),
+                              SizedBox(
+                                height: height * 0.03,
+                              ),
+                              MarksCubit.get(context).cvsFile == null
+                                  ? Container(
+                                height: height * 0.25,
+                                width: width * 0.18,
+                                decoration: BoxDecoration(
+                                  color: primaryColor,
+                                  borderRadius:
+                                  BorderRadius.circular(10),
+                                  border:
+                                  Border.all(color: Colors.blue),
+                                ),
+                                child: Material(
+                                  color: Colors.transparent,
+                                  child: InkWell(
+                                    splashColor: Colors.blueAccent,
+                                    borderRadius:
+                                    BorderRadius.circular(10),
+                                    onTap: () {
+                                      MarksCubit.get(context)
+                                          .pickCvsFile();
+                                    },
+                                    child: Column(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          Icons.file_upload_outlined,
+                                          size: 40,
+                                        ),
+                                        SizedBox(
+                                          height: height * 0.02,
+                                        ),
+                                        Text(
+                                          'No Such a file',
+                                          style: TextStyle(
+                                            color: Colors.black38,
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              )
+                                  : Container(
+                                height: height * 0.25,
+                                width: width * 0.18,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius:
+                                  BorderRadius.circular(10),
+                                  border:
+                                  Border.all(color: Colors.green),
+                                ),
+                                child: Material(
+                                  color: Colors.transparent,
+                                  child: InkWell(
+                                    onTap: () {
+                                      MarksCubit.get(context)
+                                          .pickCvsFile();
+                                    },
+                                    splashColor: Colors.blueAccent,
+                                    borderRadius:
+                                    BorderRadius.circular(10),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.center,
+                                      children: [
+                                        Image.asset(
+                                          'assets/images/Microsoft_Excel_2013-2019_logo.svg.png',
+                                          width: width * 0.1,
+                                          height: height * 0.15,
+                                        ),
+                                        Text(
+                                          'marks.xlsx',
+                                          style: TextStyle(
+                                              color: Colors.black87,
+                                              fontSize: width * 0.01),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
         actions: [
           TextButton(
-            onPressed:(){},
-            child: Text('Add'),
+            onPressed: () {
+              var cubitMark = MarksCubit.get(context);
+              var selectedSubject = cubitMark.selected_subject;
+
+              if (selectedSubject != null && section_id != null) {
+                cubitMark.downloadCvs(
+                  grade: saf_id,
+                  subjectName: selectedSubject,
+                  sectionNumber: section_id.toString(),
+                );
+              }
+
+            },
+            child: Text(
+              'Export',
+              style: TextStyle(
+                  fontWeight: FontWeight.w400, fontSize: width * 0.01),
+            ),
+          ),
+          SizedBox(
+            width: width * 0.02,
           ),
           TextButton(
-            onPressed: (){
+            onPressed: () {
+
+              var cubitMark = MarksCubit.get(context);
+              var selected_exam_type = cubitMark.selected_exam_type;
+              var cvsFile = cubitMark.cvsFile;
+              var filename = cubitMark.cvsFileName;
+
+              if (selected_exam_type != null && cvsFile != null) {
+                cubit.uploadFile(exam_type: selected_exam_type, cvsFile: cvsFile,filename: filename!);
+              }
+            },
+            child: Text(
+              'Import',
+              style: TextStyle(
+                  fontWeight: FontWeight.w400, fontSize: width * 0.01),
+            ),
+          ),
+          SizedBox(
+            width: width * 0.02,
+          ),
+          TextButton(
+            onPressed: () {
               controller.dismiss();
             },
-            child: Text('Cancel'),
+            child: Text(
+              'Cancel',
+              style: TextStyle(
+                  fontWeight: FontWeight.w400, fontSize: width * 0.01),
+            ),
           ),
         ],
-      ),
+      );
+  },
+),
     ),
   );}
+
+Widget drop_add_section({
+  required context,
+  required double height,
+  required double width,
+  required Class_Profile_cubit cubit,
+}){
+  return Container(
+    width: width/6,
+    child: DropdownButtonFormField2(
+      decoration:drop_decoration(),
+      isExpanded: false,
+      hint:Text(
+        'Choose Section',
+        style: TextStyle(fontSize: width/110,color: Colors.black54),
+      ),
+      items: cubit.sectionNumbers
+          .map((item) => DropdownMenuItem<String>(
+        value: item,
+        child: Text(
+          item,
+          style: TextStyle(
+              fontSize: width/110,color: Colors.black
+          ),),
+      )).toList(),
+      validator: (value) {
+        if (value == null) {
+          return 'Please select Section';
+        }
+        return null;
+      },
+      onChanged: (value) {
+        MarksCubit.get(context).select_section(value);
+        print(MarksCubit.get(context).selected_section);
+      },
+      onSaved: (value) {
+        MarksCubit.get(context).select_section(value);
+      },
+      buttonStyleData: drop_button_style(width: width),
+      iconStyleData:  drop_icon_style(size: 30),
+      dropdownStyleData: DropdownStyleData(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+        ),),
+    ),
+  );
+}
+
+Widget drop_add_subject({
+  required context,
+  required double height,
+  required double width,
+  required Class_Profile_cubit cubit
+}){
+  return Container(
+    width: width/6,
+    child: DropdownButtonFormField2(
+      decoration:drop_decoration(),
+      isExpanded: false,
+      hint:Text(
+        'Choose Subject',
+        style: TextStyle(fontSize: width/110,color: Colors.black54),
+      ),
+      items: cubit.subjectNames
+          .map((item) => DropdownMenuItem<String>(
+        value: item,
+        child: Text(
+          item,
+          style: TextStyle(
+              fontSize: width/110,color: Colors.black
+          ),),
+      )).toList(),
+      validator: (value) {
+        if (value == null) {
+          return 'Please select Subject';
+        }
+        return null;
+      },
+      onChanged: (value) {
+        MarksCubit.get(context).select_subject(value);
+        print(MarksCubit.get(context).selected_subject);
+      },
+      onSaved: (value) {
+        MarksCubit.get(context).select_subject(value);
+        },
+      buttonStyleData: drop_button_style(width: width),
+      iconStyleData:  drop_icon_style(size: 30),
+      dropdownStyleData: DropdownStyleData(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+        ),),
+    ),
+  );
+}
+
+Widget drop_add_exam_type({
+  required context,
+  required double height,
+  required double width,
+}){
+  return Container(
+    width: width/6,
+    child: DropdownButtonFormField2(
+      decoration:drop_decoration(),
+      isExpanded: false,
+      hint:Text(
+        'Choose Exam Type',
+        style: TextStyle(fontSize: width/110,color: Colors.black54),
+      ),
+      items: examType
+          .map((item) => DropdownMenuItem<String>(
+        value: item,
+        child: Text(
+          item,
+          style: TextStyle(
+              fontSize: width/110,color: Colors.black
+          ),),
+      )).toList(),
+      validator: (value) {
+        if (value == null) {
+          return 'Please select Exam Type';
+        }
+        return null;
+      },
+      onChanged: (value) {
+        MarksCubit.get(context).select_exam_type(value);
+        print(MarksCubit.get(context).selected_exam_type);
+      },
+      onSaved: (value) {
+        MarksCubit.get(context).select_exam_type(value);
+      },
+      buttonStyleData: drop_button_style(width: width),
+      iconStyleData:  drop_icon_style(size: 30),
+      dropdownStyleData: DropdownStyleData(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+        ),),
+    ),
+  );
+}

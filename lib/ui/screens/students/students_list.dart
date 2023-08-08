@@ -49,9 +49,11 @@ class Students_List extends StatelessWidget {
     //final height = heightSize / 1.2500000000000000331740987392709;
     //final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
-    var cubit = StudentsListCubit.get(context);
-    return BlocConsumer<StudentsListCubit, StudentsListState>(
+    return BlocProvider(
+  create: (context) => StudentsListCubit()..getStudentsTableData(name: '', grade: '', section: '', paginationNumber: 0),
+  child: BlocConsumer<StudentsListCubit, StudentsListState>(
         listener: (context, state) {
+          var cubit = StudentsListCubit.get(context);
           if (state is StudentsErrorDataState) {
             showToast(text: state.studentsModel.message!, state: ToastState.error);
           }
@@ -77,129 +79,127 @@ class Students_List extends StatelessWidget {
 
         },
         builder: (context, state) {
+          var cubit = StudentsListCubit.get(context);
           return ConditionalBuilder(
             condition: cubit.studentsModel != null,
             builder: (context) => SingleChildScrollView(
               controller: scroll,
               scrollDirection: Axis.vertical,
-              child: Container(
-                height: size.height,width: width,
-                color: basic_background,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: width * 0.02, vertical: height * 0.02),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        height: height * 0.03,
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: width * 0.02, vertical: height * 0.02),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: height * 0.03,
+                    ),
+                    Animated_Text(width: width, text: 'Students'),
+                    SizedBox(
+                      height: height * 0.03,
+                    ),
+                    routeRow('Students List', width, context),
+                    SizedBox(
+                      height: height * 0.055,
+                    ),
+                    // white
+                    Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.symmetric(
+                          vertical: height * 0.04, horizontal: width * 0.02),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        color: Colors.white,
                       ),
-                      title('Students', width),
-                      SizedBox(
-                        height: height * 0.03,
-                      ),
-                      routeRow('Students List', width, context),
-                      SizedBox(
-                        height: height * 0.055,
-                      ),
-                      // white
-                      Container(
-                        width: double.infinity,
-                        padding: EdgeInsets.symmetric(
-                            vertical: height * 0.04, horizontal: width * 0.02),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          color: Colors.white,
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                subTitle('All Students Data', width),
-                                SizedBox(
-                                  width: width * 0.15,
-                                ),
-                                sendNotesButton(context,width,height,cubit,titleController,titleFocusNode,messageController,messageFocusNode,formKey),
-                                SizedBox(
-                                  width: width * 0.02,
-                                ),
-                                absentButton(context, width, height,cubit),
-                                SizedBox(
-                                  width: width * 0.02,
-                                ),
-                                clearDataButton(context, width, height,cubit, 1),
-                              ],
-                            ),
-                            SizedBox(
-                              height: height * 0.06,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                searchByNameStudent(
-                                    context,
-                                    width,
-                                    height,
-                                    nameController,
-                                    nameFocusNode,
-                                    classFocusNode),
-                                SizedBox(
-                                  width: width * 0.02,
-                                ),
-                                searchByClassStudent(
-                                    context,
-                                    width,
-                                    height,
-                                    classController,
-                                    classFocusNode,
-                                    sectionFocusNode),
-                                SizedBox(
-                                  width: width * 0.02,
-                                ),
-                                searchBySectionStudent(context, width, height,
-                                    sectionController, sectionFocusNode),
-                                SizedBox(
-                                  width: width * 0.08,
-                                ),
-                                searchButtonStudent(
-                                    width,
-                                    height,
-                                    cubit,
-                                    nameController,
-                                    classController,
-                                    sectionController),
-                              ],
-                            ),
-                            SizedBox(
-                              height: height * 0.05,
-                            ),
-                            dataTableStudents(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              subTitle('All Students Data', width),
+                              SizedBox(
+                                width: width * 0.15,
+                              ),
+                              sendNotesButton(context,width,height,cubit,titleController,titleFocusNode,messageController,messageFocusNode,formKey),
+                              SizedBox(
+                                width: width * 0.02,
+                              ),
+                              absentButton(context, width, height,cubit),
+                              SizedBox(
+                                width: width * 0.02,
+                              ),
+                              clearDataButton(context, width, height,cubit, 1),
+                            ],
+                          ),
+                          SizedBox(
+                            height: height * 0.06,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              searchByNameStudent(
+                                  context,
+                                  width,
+                                  height,
+                                  nameController,
+                                  nameFocusNode,
+                                  classFocusNode),
+                              SizedBox(
+                                width: width * 0.02,
+                              ),
+                              searchByClassStudent(
+                                  context,
+                                  width,
+                                  height,
+                                  classController,
+                                  classFocusNode,
+                                  sectionFocusNode),
+                              SizedBox(
+                                width: width * 0.02,
+                              ),
+                              searchBySectionStudent(context, width, height,
+                                  sectionController, sectionFocusNode),
+                              SizedBox(
+                                width: width * 0.08,
+                              ),
+                              searchButtonStudent(
+                                  width,
+                                  height,
+                                  cubit,
+                                  nameController,
+                                  classController,
+                                  sectionController),
+                            ],
+                          ),
+                          SizedBox(
+                            height: height * 0.05,
+                          ),
+                          dataTableStudents(
+                            context,
+                            width,
+                            height,
+                            cubit,
+                            cubit.studentsModel!,
+                          ),
+                          SizedBox(height: height*0.05,),
+                          cubit.studentsModel!.data!.studentsList!.isNotEmpty ? Container() : Center(child: Text('There are no students yet',style: TextStyle(fontSize: width*0.02,fontWeight: FontWeight.w600,color: Colors.blue),)),
+                          cubit.studentsModel!.data!.studentsList!.isNotEmpty ? Container() :SizedBox(
+                            height: height * 0.06,
+                          ),
+                          studentPagination(
                               context,
                               width,
                               height,
+                              paginationController,
                               cubit,
-                              cubit.studentsModel!,
-                            ),
-                            SizedBox(
-                              height: height * 0.06,
-                            ),
-                            //pagination(width,1),
-                            studentPagination(
-                                context,
-                                width,
-                                height,
-                                paginationController,
-                                cubit,
-                                nameController,
-                                classController,
-                                sectionController),
-                          ],
-                        ),
+                              nameController,
+                              classController,
+                              sectionController),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -208,6 +208,7 @@ class Students_List extends StatelessWidget {
             ),
           );
         }
-        );
+        ),
+);
   }
 }

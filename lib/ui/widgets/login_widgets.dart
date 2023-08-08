@@ -134,7 +134,7 @@ Widget WhiteContainer(context,width,height,cubit,emailController,passwordControl
 Widget EmailTextFormField(context,emailController,emailFocusNode,passwordFocusNode){
   return FadeAnimation(
     1.1,
-    def_TextFromField2(
+    def_TextFromField(
       cursorColor: Colors.blueAccent,
       focusNode: emailFocusNode,
       onFieldSubmitted: (val) {

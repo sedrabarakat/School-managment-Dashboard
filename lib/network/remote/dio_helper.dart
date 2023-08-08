@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 
+String baseUrl = 'http://192.168.1.105:8000/api/';
 
 class DioHelper {
   static late Dio dio;
@@ -8,7 +9,7 @@ class DioHelper {
   {
     dio = Dio(
       BaseOptions(
-        baseUrl:'http://localhost:8000/api/',
+        baseUrl: baseUrl,
         receiveDataWhenStatusError: true,
         headers:{
           'Accept':'application/json',
@@ -65,6 +66,7 @@ class DioHelper {
     required dynamic data,
     Map<String, dynamic>? query,
     String? token,
+    ProgressCallback? onSendProgress,
   }) async
   {
     dio!.options.headers =
@@ -74,9 +76,36 @@ class DioHelper {
     };
     return dio!.post(
       url,
+      onSendProgress: onSendProgress,
       queryParameters: query,
       data: data,
     );
+  }
+
+  static Future downloadFile({
+    required String url,
+    required String savePath,
+    required Map<String, dynamic> query,
+    required String token,
+  }) async {
+    try {
+      await dio.download(
+        url,
+        savePath,
+        queryParameters: query,
+        options: Options(
+          headers: <String, dynamic>{'Authorization': 'Bearer $token'??''},
+          responseType: ResponseType.bytes,
+        ),
+        onReceiveProgress: (received, total) {
+          if (total != -1) {
+            print((received / total * 100).toStringAsFixed(0) + "%");
+          }
+        },
+      );
+    } catch (e) {
+      print(e);
+    }
   }
 
 }

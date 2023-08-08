@@ -96,3 +96,13 @@ class SectionsInClass {
     return data;
   }
 }
+
+class MarksModel {
+  String? message;
+
+  MarksModel.fromJson(Map<String, dynamic> json) {
+    //status = json['status'];
+    message = json['message'];
+    //data = json['data'] != null ? StudentsListModel.fromJson(json['data']) : null;
+  }
+}

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:lottie/lottie.dart';
+import 'package:school_dashboard/cubit/class_profile/marks_cubit.dart';
 import 'package:school_dashboard/models/class_profile_model.dart';
 import '../../../constants.dart';
 import '../../../cubit/basic/basic_cubit.dart';
@@ -40,6 +41,10 @@ class Class_Profile extends StatelessWidget{
           if(state is Success_delete_section_State){showToast(text: 'Deleted Successfully', state: ToastState.success);}
 
           if(state is Error_delete_section_State){showToast(text: 'Error in deleting...Try Again later', state: ToastState.error);}
+
+          if(state is UploadExcelFileSuccessState){Navigator.pop(context); MarksCubit.get(context).cvsFile=null; showToast(text: state.marksModel.message!, state: ToastState.success);}
+
+          if(state is UploadExcelFileErrorState){showToast(text: state.marksModel.message!, state: ToastState.error);}
 
         },
         builder: (context,states){

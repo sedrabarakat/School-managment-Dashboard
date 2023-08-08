@@ -21,9 +21,11 @@ class Admin_List extends StatelessWidget{
  //   final height = heightSize/1.2500000000000000331740987392709;
     //final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
-    var cubit = AdminsListCubit.get(context);
-    return BlocConsumer<AdminsListCubit, AdminsListState>(
+    return BlocProvider(
+  create: (context) => AdminsListCubit()..getAdminsTableData(paginationNumber: 0),
+  child: BlocConsumer<AdminsListCubit, AdminsListState>(
       listener: (context, state) {
+        var cubit = AdminsListCubit.get(context);
         if (state is AdminsErrorDataState) {
           showToast(text: state.adminsModel.message!, state: ToastState.error);
         }
@@ -38,66 +40,68 @@ class Admin_List extends StatelessWidget{
         }
       },
       builder: (context, state) {
+        var cubit = AdminsListCubit.get(context);
         return ConditionalBuilder(
           condition: cubit.adminsModel != null,
           builder:(context)=> SingleChildScrollView(
             controller: scroll,
             scrollDirection: Axis.vertical,
-            child: Container(
-              color: basic_background,
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: width * 0.02, vertical: height * 0.02),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: height * 0.03,
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: width * 0.02, vertical: height * 0.02),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: height * 0.03,
+                  ),
+                  Animated_Text(width: width, text: 'Admins'),
+                  SizedBox(
+                    height: height * 0.03,
+                  ),
+                  routeRow('Admins List', width, context),
+                  SizedBox(
+                    height: height * 0.055,
+                  ),
+                  // white
+                  Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.symmetric(
+                        vertical: height * 0.04, horizontal: width * 0.02),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: Colors.white,
                     ),
-                    title('Admins', width),
-                    SizedBox(
-                      height: height * 0.03,
-                    ),
-                    routeRow('Admins List', width, context),
-                    SizedBox(
-                      height: height * 0.055,
-                    ),
-                    // white
-                    Container(
-                      width: double.infinity,
-                      padding: EdgeInsets.symmetric(
-                          vertical: height * 0.04, horizontal: width * 0.02),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        color: Colors.white,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              subTitle('All Admins Data', width),
-                              SizedBox(
-                                width: width * 0.355,
-                              ),
-                              clearDataButton(context,width,height,cubit,5),
-                            ],
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            subTitle('All Admins Data', width),
+                            SizedBox(
+                              width: width * 0.355,
+                            ),
+                            clearDataButton(context,width,height,cubit,5),
+                          ],
 
-                          ),
-                          SizedBox(
-                            height: height * 0.05,
-                          ),
-                          dataTableAdmins(context, width, height, cubit, cubit.adminsModel!),
-                          SizedBox(
-                            height: height * 0.02,
-                          ),
-                          adminPagination(context,width,height,paginationController,cubit),
-                        ],
-                      ),
+                        ),
+                        SizedBox(
+                          height: height * 0.05,
+                        ),
+                        dataTableAdmins(context, width, height, cubit, cubit.adminsModel!),
+                        SizedBox(
+                          height: height * 0.02,
+                        ),
+                        cubit.adminsModel!.data!.adminsList!.isNotEmpty ? Container() : Center(child: Text('There are no admin yet',style: TextStyle(fontSize: width*0.02,fontWeight: FontWeight.w600,color: Colors.blue),)),
+                        cubit.adminsModel!.data!.adminsList!.isNotEmpty ? Container() :SizedBox(
+                          height: height * 0.06,
+                        ),
+                        adminPagination(context,width,height,paginationController,cubit),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -106,6 +110,7 @@ class Admin_List extends StatelessWidget{
           ),
         );
       },
-    );
+    ),
+);
   }
 }

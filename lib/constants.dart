@@ -15,6 +15,8 @@ List<AdminMenuItem> Side_Bar_Menu= const [
       children: [
         AdminMenuItem(
             title:"Add Parent",route: '/add_parent',icon: CupertinoIcons.plus_circle_fill),
+        AdminMenuItem(
+            title:"Parent List",route: '/parents_list',icon: CupertinoIcons.square_list),
       ]),
   AdminMenuItem(title:"Students" ,icon: Icons.boy,
       children:[
@@ -87,6 +89,16 @@ final Map<String,String>Mapclasses={
   'Bachelor Grade':"12",
 };
 
+final List<String> examType = [
+  'quiz',
+  'exam1',
+  'exam2',
+  'med',
+  'final',
+];
+
+
+
 
 
 class MyCustomScrollBehavior extends MaterialScrollBehavior {
@@ -123,4 +135,4 @@ class MyCustomScrollBehavior extends MaterialScrollBehavior {
 
 var token;
 var user_id;
-var heightSize;
+var heightSize = 800.0;

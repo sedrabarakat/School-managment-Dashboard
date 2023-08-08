@@ -1,3 +1,5 @@
+import 'package:school_dashboard/models/class_profile_model.dart';
+
 abstract class Class_Profile_States{}
 
 class Class_init_Profile_States extends Class_Profile_States{}
@@ -85,5 +87,19 @@ class Error_delete_subject_State extends Class_Profile_States{
 }
 
 
+
+class UploadExcelFileLoadingState extends Class_Profile_States {}
+
+class UploadExcelFileSuccessState extends Class_Profile_States {
+  final MarksModel marksModel;
+
+  UploadExcelFileSuccessState(this.marksModel);
+}
+
+class UploadExcelFileErrorState extends Class_Profile_States {
+  final MarksModel marksModel;
+
+  UploadExcelFileErrorState(this.marksModel);
+}
 
 

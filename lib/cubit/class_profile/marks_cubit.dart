@@ -40,12 +40,12 @@ class MarksCubit extends Cubit<MarksState> {
   }
 
 
-  void downloadCvs({required int grade, required String subjectName, required String sectionNumber}) async {
+  void downloadCvs({required int grade, required String subjectName, required String sectionNumber, required String examType}) async {
 
     try {
       emit(DownloadExcelFileLoadingState());
 
-      String url = '${baseUrl}marks/export?saf_Id=${grade}&subject_name=${subjectName}&section_number=${sectionNumber}';
+      String url = '${baseUrl}marks/export?saf_Id=${grade}&subject_name=${subjectName}&section_number=${sectionNumber}&exam_type=${examType}';
       AnchorElement anchorElement = AnchorElement(href: url);
       anchorElement.download = 'marks';
       anchorElement.click();

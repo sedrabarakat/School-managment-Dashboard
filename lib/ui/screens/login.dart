@@ -35,6 +35,16 @@ class LoginScreen extends StatelessWidget {
           print(state.loginModel.status!);
           print(state.loginModel.data!.token);
 
+
+          CacheHelper.saveData(
+            key: 'admin_type',
+            value: admin_type,
+          ).then(
+                (value) {
+                admin_type = admin_type;
+            },
+          );
+
           CacheHelper.saveData(
             key: 'user_id',
             value: state.loginModel.data!.user!.user_id,
@@ -63,6 +73,8 @@ class LoginScreen extends StatelessWidget {
             text: state.loginModel.message!,
             state: ToastState.error,
           );
+          cubit.isAnimated = false;
+          cubit.ratioButtonWidth = 0.14;
         }
       },
       child: Scaffold(

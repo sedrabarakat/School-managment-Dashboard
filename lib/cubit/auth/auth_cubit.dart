@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:school_dashboard/constants.dart';
 import 'package:school_dashboard/models/auth/login_model.dart';
 import 'package:school_dashboard/network/remote/dio_helper.dart';
 import 'package:school_dashboard/network/remote/end_points.dart';
@@ -65,6 +66,21 @@ class AuthCubit extends Cubit<AuthState> {
 
       print(loginModel!.status);
       print(loginModel!.message);
+
+
+      String role = loginModel!.data!.user!.role!;
+
+      if (role == 'Owner') {
+        admin_type = 0;
+      }
+      else if (role == 'Admin') {
+        admin_type = 1;
+      }
+      else {
+        admin_type = 2;
+      }
+
+
       emit(LoginSuccessState(loginModel!));
     }).catchError((error) {
       loginModel = LoginModel.fromJson(error.response.data);

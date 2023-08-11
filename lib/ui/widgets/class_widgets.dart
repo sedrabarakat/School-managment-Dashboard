@@ -987,12 +987,14 @@ void Add_class_Grades({
             onPressed: () {
               var cubitMark = MarksCubit.get(context);
               var selectedSubject = cubitMark.selected_subject;
+              var selected_exam_type = cubitMark.selected_exam_type;
 
-              if (selectedSubject != null && section_id != null) {
+              if (selected_exam_type != null && selectedSubject != null && section_id != null) {
                 cubitMark.downloadCvs(
                   grade: saf_id,
                   subjectName: selectedSubject,
                   sectionNumber: section_id.toString(),
+                  examType: selected_exam_type,
                 );
               }
 
@@ -1010,12 +1012,11 @@ void Add_class_Grades({
             onPressed: () {
 
               var cubitMark = MarksCubit.get(context);
-              var selected_exam_type = cubitMark.selected_exam_type;
               var cvsFile = cubitMark.cvsFile;
               var filename = cubitMark.cvsFileName;
 
-              if (selected_exam_type != null && cvsFile != null) {
-                cubit.uploadFile(exam_type: selected_exam_type, cvsFile: cvsFile,filename: filename!);
+              if (cvsFile != null) {
+                cubit.uploadFile(cvsFile: cvsFile,filename: filename!);
               }
             },
             child: Text(

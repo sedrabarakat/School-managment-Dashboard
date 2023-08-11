@@ -23,10 +23,13 @@ Future<void> main() async {
 
   await CacheHelper.init();
 
+  admin_type = CacheHelper.getData(key: 'admin_type');
+
   token = CacheHelper.getData(key: 'token');
 
   user_id = CacheHelper.getData(key: 'user_id');
 
+  print('admin_type=$admin_type');
   print('token=$token');
   print('user_id=$user_id');
 

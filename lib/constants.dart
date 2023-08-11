@@ -135,4 +135,6 @@ class MyCustomScrollBehavior extends MaterialScrollBehavior {
 
 var token;
 var user_id;
+var admin_type;
+
 var heightSize = 800.0;

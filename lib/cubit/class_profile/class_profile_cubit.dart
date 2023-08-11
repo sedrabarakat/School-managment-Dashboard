@@ -204,14 +204,13 @@ print(daily_available_list);
 
   MarksModel? marksModel;
 
-  void uploadFile({required String exam_type ,required Uint8List cvsFile, required String filename}) async {
+  void uploadFile({required Uint8List cvsFile, required String filename}) async {
 
     emit(UploadExcelFileLoadingState());
     print('dfgfdgdfg');
     DioHelper.postDataImage(
       url: 'marks/import',
       data: FormData.fromMap({
-        'exam_type': exam_type,
         'file': await MultipartFile.fromBytes(
             cvsFile,
             filename: filename

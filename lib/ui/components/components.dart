@@ -609,3 +609,4 @@ Widget def_Emoji_picker(message,Color indicatorColor,iconColorSelected, Articles
       checkPlatformCompatibility: true,),
   );
 }
+

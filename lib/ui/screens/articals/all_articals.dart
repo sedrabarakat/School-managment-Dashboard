@@ -7,7 +7,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school_dashboard/cubit/articles/articles_cubit.dart';
 import 'package:school_dashboard/ui/components/components.dart';
 import 'package:school_dashboard/ui/screens/layout/basic_screen.dart';
-import 'package:school_dashboard/ui/widgets/articles_widgets.dart';
+import 'package:school_dashboard/ui/widgets/articles_widgets/articles_widgets.dart';
+
+import '../../../cubit/basic/basic_cubit.dart';
 
 Size size = PlatformDispatcher.instance.views.first.physicalSize;
 
@@ -53,7 +55,7 @@ class All_Articals extends StatelessWidget {
           return ConditionalBuilder(
             condition: cubit.articlesModel != null,
             builder: (context) => SingleChildScrollView(
-              controller: scroll,
+              controller: Basic_Cubit.get(context).scrollController,
               child: Padding(
                 padding: EdgeInsets.only(
                     left: width * 0.05,
@@ -130,9 +132,29 @@ class All_Articals extends StatelessWidget {
                                 String media = cubit.articlesModel!.data!
                                     .articlesList![index].media!;
 
-                                bool isImg = cubit.articlesModel!.data!
-                                        .articlesList![index].is_media! !=
-                                    0;
+                                String extension = '';
+
+                                if (media != '') {
+                                  extension = media.split('.').last;
+                                  print(extension);
+                                }
+                                int mediaType = 0;
+
+                                if (extension == 'mkv' ||
+                                    extension == 'mp4' ||
+                                    extension == 'avi' ||
+                                    extension == 'mov') {
+                                  // Display video upload form
+                                  mediaType = 1;
+                                } else if (extension == 'jpg' ||
+                                    extension == 'jpeg' ||
+                                    extension == 'png' ||
+                                    extension == 'gif') {
+                                  // Display image upload form
+                                  mediaType = 2;
+                                }
+
+                                print(media);
 
                                 return buildArticleCard(
                                     context,
@@ -147,7 +169,7 @@ class All_Articals extends StatelessWidget {
                                     title,
                                     body,
                                     media,
-                                    isImg);
+                                    mediaType);
                               },
                             ),
                     ),

@@ -29,7 +29,15 @@ import '../../ui/screens/teachers/teacher_profile.dart';
 part 'basic_cubit_state.dart';
 
 class Basic_Cubit extends Cubit<Basic_State> {
-  Basic_Cubit() : super(HomeInitial());
+  ScrollController scrollController;
+  Basic_Cubit(this.scrollController) : super(HomeInitial()){
+
+    scrollController.addListener(() {
+      backToTop = scrollController.offset > 100 ? true : false;
+      emit(ShowButtonScroll());
+    });
+
+  }
 
   static Basic_Cubit get(context)=>BlocProvider.of(context);
 
@@ -76,7 +84,12 @@ class Basic_Cubit extends Cubit<Basic_State> {
     emit(Change_Route(select_route));
   }
 
+  bool backToTop = false;
 
-
+  void scrollUp() {
+    const double start = 0;
+    scrollController.animateTo(start,
+        duration: const Duration(seconds: 1), curve: Curves.easeIn);
+  }
 
 }

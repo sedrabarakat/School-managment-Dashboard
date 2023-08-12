@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:number_paginator/number_paginator.dart';
 import 'package:school_dashboard/constants.dart';
+import 'package:school_dashboard/cubit/basic/basic_cubit.dart';
 import 'package:school_dashboard/cubit/teachers/teachers_list_cubit.dart';
 import 'package:school_dashboard/theme/colors.dart';
 import 'package:school_dashboard/ui/components/components.dart';
@@ -47,7 +48,7 @@ class Teachers_List extends StatelessWidget{
         return ConditionalBuilder(
           condition: cubit.teachersModel != null,
           builder:(context)=> SingleChildScrollView(
-            controller: scroll,
+            controller: Basic_Cubit.get(context).scrollController,
             scrollDirection: Axis.vertical,
             child: Padding(
               padding: EdgeInsets.symmetric(

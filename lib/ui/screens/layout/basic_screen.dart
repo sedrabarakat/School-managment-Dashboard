@@ -8,16 +8,9 @@ import '../../../cubit/basic/basic_cubit.dart';
 import '../../../theme/styles.dart';
 import '../../components/components.dart';
 
-var scroll = ScrollController();
 
 class Basic_Screen extends StatelessWidget {
   Basic_Screen({super.key});
-
-  void scrollUp() {
-    final double start = 0;
-    scroll.animateTo(start,
-        duration: Duration(seconds: 1), curve: Curves.easeIn);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,14 +24,14 @@ class Basic_Screen extends StatelessWidget {
         var selected_route=basic_cubit.select_route;
         return Scaffold(
           appBar: null,
-          floatingActionButton:FloatingActionButton(
+          floatingActionButton: basic_cubit.backToTop ? FloatingActionButton(
 
             backgroundColor: Colors.lightBlue,
             onPressed: () {
-              scrollUp();
+              basic_cubit.scrollUp();
             },
             child: Icon(Icons.arrow_upward_rounded,size: width*0.015,),
-          ),
+          ) : Container(),
           body: AdminScaffold(
               backgroundColor: basic_background,
               appBar: AppBar(

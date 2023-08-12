@@ -7,10 +7,11 @@ import 'package:lottie/lottie.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:school_dashboard/constants.dart';
 import 'package:school_dashboard/cubit/articles/articles_cubit.dart';
+import 'package:school_dashboard/cubit/basic/basic_cubit.dart';
 import 'package:school_dashboard/theme/colors.dart';
 import 'package:school_dashboard/ui/components/components.dart';
 import 'package:school_dashboard/ui/screens/layout/basic_screen.dart';
-import 'package:school_dashboard/ui/widgets/articles_widgets.dart';
+import 'package:school_dashboard/ui/widgets/articles_widgets/articles_widgets.dart';
 
 class add_articals extends StatelessWidget {
   add_articals({Key? key}) : super(key: key);
@@ -49,7 +50,7 @@ class add_articals extends StatelessWidget {
       builder: (context, state) {
         var cubit = ArticlesCubit.get(context);
         return SingleChildScrollView(
-          controller: scroll,
+          controller: Basic_Cubit.get(context).scrollController,
           child: Padding(
             padding: EdgeInsets.symmetric(
                 horizontal: width * 0.02, vertical: height * 0.02),

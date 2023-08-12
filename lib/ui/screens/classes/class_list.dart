@@ -1,6 +1,7 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:number_paginator/number_paginator.dart';
+import 'package:school_dashboard/cubit/basic/basic_cubit.dart';
 import '../../../constants.dart';
 import '../../../cubit/class_profile/class_profile_states.dart';
 import '../../../theme/colors.dart';
@@ -49,7 +50,7 @@ class Class_List extends StatelessWidget{
         return ConditionalBuilder(
           condition: cubit.classesModel != null,
           builder:(context)=> SingleChildScrollView(
-            controller: scroll,
+            controller: Basic_Cubit.get(context).scrollController,
             scrollDirection: Axis.vertical,
             child: Padding(
               padding: EdgeInsets.symmetric(

@@ -76,7 +76,7 @@ Widget buildArticleCard(
     String title,
     String body,
     String mediaSrc,
-    dynamic isImg) {
+    int mediaType,) {
   String dataArticle = timeago.format((DateTime.parse(date)));
 
   String schoolName = 'Admin';
@@ -86,8 +86,16 @@ Widget buildArticleCard(
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(15),
+        boxShadow: [
+          BoxShadow(
+            offset: const Offset(0, 3),
+            color: Colors.blueAccent.withOpacity(0.3),
+            blurRadius: 5,
+          )
+        ],
       ),
       width: width * 0.37,
+
       padding: EdgeInsets.symmetric(vertical: height * 0.02),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -191,7 +199,7 @@ Widget buildArticleCard(
           SizedBox(
             height: height * 0.02,
           ),
-          mediaSrc == ''
+          mediaType == 0
               ? Container()
               : Container(
                   decoration: BoxDecoration(
@@ -205,7 +213,7 @@ Widget buildArticleCard(
                     ],
                     color: Colors.white,
                   ),
-                  child: isImg
+                  child: mediaType == 2
                       ? CachedNetworkImage(
                           imageUrl: mediaSrc,
                           placeholder: (context, url) => SpinKitWeb(width),

@@ -11,6 +11,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:lottie/lottie.dart';
 import 'package:multi_select_flutter/dialog/mult_select_dialog.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
+import 'package:school_dashboard/theme/colors.dart';
 import 'package:school_dashboard/cubit/class_profile/class_profile_states.dart';
 import 'package:school_dashboard/cubit/class_profile/marks_cubit.dart';
 import 'package:school_dashboard/theme/colors.dart';
@@ -352,33 +353,48 @@ Widget Grade_item(context,height,width,sectionNum,studentnum,cubit,saf_id,sectio
           borderRadius: BorderRadius.circular(40),
           color: Colors.grey.shade100
       ),
-      child:Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child:Stack(
         children: [
-          Center(
-            child: Text('$sectionNum',maxLines: 1,overflow: TextOverflow.ellipsis,
-              style: TextStyle(color: Colors.lightBlue,fontSize: width/80),),
-          ),
-          SizedBox(height: height/40,),
-          Text('Number of Student : $studentnum',
-            style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500),),
-          SizedBox(height: height/40,),
-          Expanded(
-            child: Row(children: [
-                  Adds_container(width:width,icon: Icons.calendar_month,text: 'Add Schedule',
-                  ontap: ()async{
-                  Class_Profile_cubit.get(context).Get_Available_Teachers(saf_id: saf_id,section_id: section_id).then((value){
-                    Add_class_schedule(context: context, height: height, width: width, Hessas_Map: cubit.Hessas_Map,cubit:cubit,saf_id: saf_id );
-                  });
-                  },),
-              SizedBox(width: width/80,),
-              Adds_container(width:width,icon: Icons.event_note_outlined,text: 'Add Grades',
-                  ontap: (){
-                    Add_class_Grades(context: context,cubit: cubit,height: height,width: width,saf_id: saf_id!.toInt(),section_id: section_id!.toInt());
-                  })
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Text('$sectionNum',maxLines: 1,overflow: TextOverflow.ellipsis,
+                  style: TextStyle(color: Colors.lightBlue,fontSize: width/80),),
+              ),
+              SizedBox(width: width/50,),
+              SizedBox(height: height/40,),
+              Text('Number of Student : $studentnum',
+                style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500),),
+              SizedBox(height: height/40,),
+              Expanded(
+                child: Row(children: [
+                      Adds_container(width:width,icon: Icons.calendar_month,text: 'Add Schedule',
+                      ontap: ()async{
+                      Class_Profile_cubit.get(context).Get_Available_Teachers(saf_id: saf_id,section_id: section_id).then((value){
+                        Add_class_schedule(context: context, height: height, width: width, Hessas_Map: cubit.Hessas_Map,cubit:cubit,saf_id: saf_id );
+                      });
+                      },),
+                  SizedBox(width: width/80,),
+                  Adds_container(width:width,icon: Icons.event_note_outlined,text: 'Add Grades',
+                      ontap: (){
+                        Add_class_Grades(context: context,cubit: cubit,height: height,width: width,saf_id: saf_id!.toInt(), section_id: section_id,);
+                      })
+                ],),
+              )
             ],),
-          )
-        ],)
+          Padding(
+            padding:  EdgeInsets.only(left: width/8),
+            child: circle_icon_button(button_Function: ()async{
+              cubit.Exam_photo(section_id:section_id).then((value){
+                cubit.Add_Exam_photo(section_id: section_id);
+              });
+            }, icon: Icons.file_open_rounded, hint_message: "Add Exam Schedule",
+                backgroundColor:  Colors.grey.shade100),
+          ),
+
+        ],
+      )
   );
 }
 
@@ -622,12 +638,16 @@ Container default_TextFromField({
   bool is_there_suffix=false,
   Widget ?suffix,
   Color suffixcolor=Colors.blue,
+  String Error_Text='Please Fill That Field',
+  int maxLines=1
 }){
   return Container(height: height/18,
     child: TextFormField(
       style: (is_basic_name)?Name_TextStyle(width: width):(is_email)?email_TextStyle(width: width):TextStyle(),
       readOnly: justread,
       controller: controller,
+      maxLines: maxLines,
+      minLines: 1,
       keyboardType: keyboardtype,
       inputFormatters: inputformater,
       onChanged: changed,
@@ -646,11 +666,16 @@ Container default_TextFromField({
             borderRadius: BorderRadius.circular(borderRadius),
             borderSide:BorderSide(color: bordercolor,width:borderWidth)
         ):InputBorder.none,
+      errorBorder: OutlineInputBorder(
+        gapPadding: 8,
+        borderRadius: BorderRadius.circular(borderRadius),
+          borderSide:BorderSide(color: Colors.red.shade700,width:borderWidth)
+      ),
       suffix: (is_there_suffix)?suffix:null
       ),
       validator: (value){
         if(value==null||value.isEmpty) {
-          return 'Please Fill That Field';}
+          return Error_Text;}
         else
           return null;
       },

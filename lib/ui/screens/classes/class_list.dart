@@ -43,6 +43,12 @@ class Class_List extends StatelessWidget{
         if (state is ClassesDeletingErrorDataState) {
           showToast(text: state.classesModel.message!, state: ToastState.error);
         }
+        if (state is Success_Update_program_State) {
+          showToast(text: 'Successfully Updated', state: ToastState.success);
+        }
+        if (state is Error_Update_program_State) {
+          showToast(text: 'Error in Update', state: ToastState.error);
+        }
 
       },
       builder: (context, state) {

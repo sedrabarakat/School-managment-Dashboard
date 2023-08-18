@@ -3,6 +3,7 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school_dashboard/cubit/auth/auth_cubit.dart';
 import 'package:school_dashboard/theme/colors.dart';
 import 'package:school_dashboard/theme/styles.dart';
@@ -78,7 +79,7 @@ Widget WhiteContainer(context,width,height,cubit,emailController,passwordControl
 
   return Container(
           height: height * 0.52,
-          width: width * 0.5,
+          width: width * 0.35,
           padding: EdgeInsets.symmetric(
               horizontal: width * 0.035, vertical: height * 0.008),
           decoration: BoxDecoration(
@@ -259,7 +260,7 @@ Widget Button(height,width,formkey,emailController,passwordController,AuthCubit 
                         'Login',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: width*0.015,
+                          fontSize: 30.sp,
                           fontWeight: FontWeight.bold,
                         ),
                       ),

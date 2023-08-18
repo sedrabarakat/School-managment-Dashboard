@@ -3,9 +3,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_admin_scaffold/admin_scaffold.dart';
+import 'package:school_dashboard/cubit/home/home_cubit.dart';
+import 'package:school_dashboard/network/local/cash_helper.dart';
+import 'package:school_dashboard/ui/screens/login.dart';
 
 Size size=PlatformDispatcher.instance.views.first.physicalSize;
 double height=size.height;
+
 List<AdminMenuItem> Side_Bar_Menu= const [
   AdminMenuItem(
       title:"Home" , icon: Icons.home,route: '/dashboard_home'
@@ -38,11 +42,6 @@ List<AdminMenuItem> Side_Bar_Menu= const [
       children: [
         AdminMenuItem(title:"Class List",route: '/class_list',icon: CupertinoIcons.square_list),
       ]),
-  AdminMenuItem(title:"Library" ,icon: Icons.book,
-      children: [
-        AdminMenuItem(title:"Add Book",route: '/add_book',icon: CupertinoIcons.plus_circle_fill),
-        AdminMenuItem(title:"Books List",route: '/books_list',icon:CupertinoIcons.square_list),
-      ]),
   AdminMenuItem(title:"Articals" ,icon: Icons.library_books_rounded,
       children: [
         AdminMenuItem(title:"Add Artical",route: '/add_articals',icon:CupertinoIcons.plus_circle_fill),
@@ -56,6 +55,13 @@ List<AdminMenuItem> Side_Bar_Menu= const [
     title:"inbox" ,route: '/inbox', icon: Icons.email_rounded,
   ),
   //label: 'home',icon: Icons.home,
+];
+List<AdminMenuItem> Library_SideBar= const [
+  AdminMenuItem(title:"Library" ,icon: Icons.book,
+      children: [
+        AdminMenuItem(title:"Add / Remove Book",route: '/add_book',icon: CupertinoIcons.plus_circle_fill),
+        AdminMenuItem(title:"Books List",route: '/books_list',icon:CupertinoIcons.square_list),
+      ])
 ];
 
 final List<String> classes = [
@@ -74,6 +80,7 @@ final List<String> classes = [
 ];
 
 List<String> empty =[];
+
 final Map<String,String>Mapclasses={
   'First Grade':'1',
   'Second Grade':"2",
@@ -112,11 +119,13 @@ class MyCustomScrollBehavior extends MaterialScrollBehavior {
 }
 
 
-/*void signOut(context)
+void signOut(context)
 {
 
+  //Home_Cubit.get(context).Home = null;
 
-  //PublicChatsCubit.get(context).close1();
+  CacheHelper.signOut(key: 'user_id');
+  CacheHelper.signOut(key: 'admin_type');
 
   CacheHelper.signOut(key: 'token').then((value)
   {
@@ -125,13 +134,13 @@ class MyCustomScrollBehavior extends MaterialScrollBehavior {
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) =>   LoginScreen(),),
+            builder: (context) =>  LoginScreen(),),
               (route) => false);
     }
   });
 
 
-}*/
+}
 
 var token;
 var user_id;

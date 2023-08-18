@@ -42,6 +42,7 @@ class LoginScreen extends StatelessWidget {
           ).then(
                 (value) {
                 admin_type = admin_type;
+                print('djdsdsfsflksfk=${admin_type}');
             },
           );
 
@@ -67,6 +68,11 @@ class LoginScreen extends StatelessWidget {
             text: state.loginModel.message!,
             state: ToastState.success,
           );
+
+
+          cubit.isAnimated = false;
+          cubit.ratioButtonWidth = 0.14;
+
         }
         if (state is LoginErrorState) {
           showToast(

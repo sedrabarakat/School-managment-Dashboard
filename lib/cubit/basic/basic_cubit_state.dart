@@ -11,3 +11,16 @@ class Change_Route extends Basic_State {
 }
 
 class ShowButtonScroll extends Basic_State {}
+
+
+class LogoutLoadingState extends Basic_State{}
+class LogoutSuccessState extends Basic_State{
+  final LogoutModel logoutModel;
+
+  LogoutSuccessState(this.logoutModel);
+}
+class LogoutErrorState extends Basic_State {
+  final ErrorModel errorModel;
+
+  LogoutErrorState(this.errorModel);
+}

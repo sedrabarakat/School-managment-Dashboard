@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,6 +14,15 @@ import 'package:school_dashboard/network/local/cash_helper.dart';
 import 'package:school_dashboard/network/remote/dio_helper.dart';
 import 'package:school_dashboard/routes/web_router.dart';
 import 'package:school_dashboard/theme/web_theme.dart';
+import 'package:school_dashboard/ui/screens/layout/basic_screen.dart';
+
+import 'cubit/admins/admins_list_cubit.dart';
+import 'cubit/classes/classes_list_cubit.dart';
+import 'cubit/library/library_cubit.dart';
+import 'cubit/parents/parents_list_cubit.dart';
+import 'cubit/students/students_list_cubit.dart';
+import 'cubit/teachers/teachers_list_cubit.dart';
+
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -46,8 +56,9 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (BuildContext context) => AuthCubit()),
+        BlocProvider(create: (BuildContext context) => Home_Cubit()..Get_Home()),
+        BlocProvider(create: (BuildContext context) => Library_cubit()..Get_Books()),
         BlocProvider(create: (BuildContext context) => Basic_Cubit(ScrollController())),
-        BlocProvider(create: (BuildContext context) => Home_Cubit()),
         BlocProvider(create: (BuildContext context) => MarksCubit()),
         BlocProvider(create: (BuildContext context) => Class_Profile_cubit()),
         BlocProvider(create: (BuildContext context) => ArticlesCubit()),

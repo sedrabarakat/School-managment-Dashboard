@@ -145,7 +145,9 @@ Widget number_container({
   );
 }
 
-Widget Newest_articals(context,height,width){
+Widget Newest_articals(context,height,width,{
+   List<dynamic>?list
+}){
   return Container(
     clipBehavior: Clip.hardEdge,
     height: height/2.18,width: width/5,
@@ -153,7 +155,7 @@ Widget Newest_articals(context,height,width){
     decoration:CircularBorder_decoration.copyWith(
         borderRadius: BorderRadius.circular(50)
     ),
-    child: Column(
+    child: (list!.length>0)?Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text('Newest articals',style: TextStyle(
@@ -165,9 +167,9 @@ Widget Newest_articals(context,height,width){
         Expanded(flex:7,
           child: ListView.separated(
               shrinkWrap: true,
-              itemBuilder: (context,index)=>articals_cell(height,width),
+              itemBuilder: (context,index)=>articals_cell(height,width,list[index]),
               separatorBuilder: (context,index)=>Container(height: 1, color:const Color.fromARGB(255, 237, 242, 248),),
-              itemCount: 3),
+              itemCount: list.length),
         ),
         Expanded(
           flex: 1,
@@ -179,29 +181,41 @@ Widget Newest_articals(context,height,width){
               }, icon: const Icon(Icons.arrow_forward_ios,color: Colors.black,),),
           ),
         ),
-      ],),
+        SizedBox(height: height/100,)
+      ],):Column(children: [
+        Text('There is No Artical',style: email_TextStyle(width: width),),
+      Image.asset('assets/images/artical.gif',height: height/2.5,)
+    ],)
   );
 }
 
-Widget articals_cell(height,width){
+Widget articals_cell(height,width,item){
   return Row(
     children: [
       Container(
         height: height/18,width: width/30,
-        decoration: Circle_BoxDecoration.copyWith(color: Colors.grey),),
+        decoration: Circle_BoxDecoration.copyWith(color: Colors.grey),
+        child:(item['img']!=null)?image_container(
+            container_width: width/30,
+            container_height: height/18,
+            imageUrl: item['img']):Default_image(
+            container_width:  width/30,
+            container_height:  height/18,
+            pic_path: 'assets/images/user.png'),
+      ),
       SizedBox(width: width/100,),
       Expanded(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: height/40,),
-            Text('sedra baakat',style:  TextStyle(
+            Text('${item['name']}',style:  TextStyle(
                 fontSize: 15,fontWeight: FontWeight.bold
             ),
               maxLines: 1,
               overflow: TextOverflow.ellipsis ,
             ),
-            Text('hello every one its nice to post here  AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
+            Text('${item['body']}',
               style:  TextStyle(
                   fontSize: 10
               ),

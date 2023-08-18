@@ -200,7 +200,7 @@ class ClassesListCubit extends Cubit<ClassesListState> {
       print(value.data);
       emit(Success_Add_Grade_States());
     }).catchError((error) {
-      //print(error.response.data);
+      print(error.response.data);
       emit(Error_Add_Grade_States(error.toString()));
     });
   }

@@ -51,7 +51,6 @@ Widget Animated_Text({
   bool isRepeating=false,
   List<Color>colors_list= const [Colors.blue,Colors.lightBlueAccent,Colors.white],
 }){
-
   return AnimatedTextKit(
     isRepeatingAnimation: isRepeating,
     animatedTexts: [
@@ -59,7 +58,7 @@ Widget Animated_Text({
           speed: Duration(milliseconds: speed),
           colors: colors_list,
           textStyle:
-          TextStyle(fontWeight: FontWeight.bold, fontSize: width / 50)),
+          TextStyle(fontWeight: FontWeight.bold, fontSize: width / 50,)),
     ],
   );
 }
@@ -475,7 +474,7 @@ image_container({
     clipBehavior: Clip.hardEdge,
     height: container_height,width: container_width,
     decoration:Circle_BoxDecoration,//'http://10.0.2.2:8000/storage/${myprofile['image']}
-    child: ImageNetwork(image: "http://localhost:8000/storage/1689694509.jpg",
+    child: ImageNetwork(image: "$imageUrl",
       debugPrint: true,
       height:container_height,
       width: container_width,
@@ -503,12 +502,13 @@ Widget circle_icon_button({
   required IconData icon,
   required String hint_message,
   Color icon_color=Colors.lightBlue,
+  Color backgroundColor=const Color.fromARGB(255, 239, 244, 249)
 }){
   return Tooltip(
     waitDuration: Duration(milliseconds:500),
     message: hint_message,
     child: CircleAvatar(
-        backgroundColor: basic_background,
+        backgroundColor: backgroundColor,
         child: IconButton(onPressed: button_Function,icon: Icon(icon,color:icon_color,
         ),)
     ),

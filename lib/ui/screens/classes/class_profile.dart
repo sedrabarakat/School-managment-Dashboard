@@ -42,6 +42,11 @@ class Class_Profile extends StatelessWidget{
 
           if(state is Error_delete_section_State){showToast(text: 'Error in deleting...Try Again later', state: ToastState.error);}
 
+          if(state is Success_Add_exam_photo){showToast(text: 'Successfully Add The Exam Schedule', state: ToastState.success);}
+
+          if(state is Error_Add_exam_photo){showToast(text: 'Error in Adding...Try Again later', state: ToastState.error);}
+
+
           if(state is UploadExcelFileSuccessState){Navigator.pop(context); MarksCubit.get(context).cvsFile=null; showToast(text: state.marksModel.message!, state: ToastState.success);}
 
           if(state is UploadExcelFileErrorState){showToast(text: state.marksModel.message!, state: ToastState.error);}

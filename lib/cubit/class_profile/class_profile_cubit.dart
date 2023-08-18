@@ -1,6 +1,7 @@
+import 'dart:typed_data';
+
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_dashboard/constants.dart';
 import '../../models/available_teacher_model.dart';
@@ -181,7 +182,39 @@ Future Update_program({
 }
 
 
+  List<int> ?exam_img_Bytes;
+  FilePickerResult? Exam_img;
+  Future Exam_photo({
+  required int section_id
+})async {
+    Exam_img= await FilePicker.platform.pickFiles(
+      allowMultiple: false,
+    );
+    if(Exam_img!=null){
+      exam_img_Bytes=Exam_img!.files.single.bytes;
 
+    }
+    emit(Add_Exam_File_state());
+
+  }
+
+  Future Add_Exam_photo({
+    required int section_id,
+  })async{
+    emit(Loading_Add_exam_photo());
+    await DioHelper.postDataImage(url: 'updateExamPhoto',
+        data:  FormData.fromMap({
+          'section_id':section_id,
+          'photo':MultipartFile.fromBytes(exam_img_Bytes!,filename:Exam_img!.files.single.name)
+        })
+    ).then((value) {
+      print(value.data);
+      emit(Success_Add_exam_photo());
+    }).catchError((error){
+      print(error);
+      emit(Error_Add_exam_photo(error.toString()));
+    });
+  }
 
 
 /*

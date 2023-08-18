@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_admin_scaffold/admin_scaffold.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:school_dashboard/models/auth/login_model.dart';
+import 'package:school_dashboard/models/error_model.dart';
+import 'package:school_dashboard/network/remote/dio_helper.dart';
 import 'package:school_dashboard/ui/screens/articals/all_articals.dart';
 import 'package:school_dashboard/ui/screens/courses/courses.dart';
 import 'package:school_dashboard/ui/screens/inbox/inbox.dart';
@@ -15,6 +18,7 @@ import 'package:school_dashboard/ui/screens/students/students_list.dart';
 import 'package:school_dashboard/ui/screens/teachers/add_teacher.dart';
 import 'package:school_dashboard/ui/screens/teachers/teachers_list.dart';
 
+import '../../constants.dart';
 import '../../ui/screens/admins/add_admin.dart';
 import '../../ui/screens/admins/admin_list.dart';
 import '../../ui/screens/articals/add_articals.dart';
@@ -41,7 +45,7 @@ class Basic_Cubit extends Cubit<Basic_State> {
 
   static Basic_Cubit get(context)=>BlocProvider.of(context);
 
-  String select_route='/dashboard_home';
+  String select_route=(admin_type==2)?"/books_list":'/dashboard_home';
 
   final Map<String, Widget> screens = {
     '/dashboard_home':Dashboard_home(),
@@ -90,6 +94,34 @@ class Basic_Cubit extends Cubit<Basic_State> {
     const double start = 0;
     scrollController.animateTo(start,
         duration: const Duration(seconds: 1), curve: Curves.easeIn);
+  }
+
+
+  LogoutModel? logutModel;
+
+  ErrorModel? errorModel;
+
+  Future logout() async {
+
+    emit(LogoutLoadingState());
+    DioHelper.postData(
+        url: 'logout',
+        data: {
+          'deviceToken': '.',
+        },
+        token: token
+    ).then((value) {
+      print('value.data: ${value.data}');
+
+      logutModel = LogoutModel.fromJson(value.data);
+
+      emit(LogoutSuccessState(logutModel!));
+    }).catchError((error) {
+      errorModel = ErrorModel.fromJson(error.response.data);
+      emit(LogoutErrorState(errorModel!));
+      print(error.toString());
+    });
+
   }
 
 }

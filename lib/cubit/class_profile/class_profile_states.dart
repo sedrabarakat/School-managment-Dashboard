@@ -86,6 +86,20 @@ class Error_delete_subject_State extends Class_Profile_States{
   Error_delete_subject_State(this.error);
 }
 
+class Add_Exam_File_state extends Class_Profile_States{}
+
+
+class Loading_Add_exam_photo extends Class_Profile_States{}
+
+class Success_Add_exam_photo extends Class_Profile_States{}
+
+class Error_Add_exam_photo extends Class_Profile_States{
+  String error;
+  Error_Add_exam_photo(this.error);
+}
+
+
+
 
 
 class UploadExcelFileLoadingState extends Class_Profile_States {}

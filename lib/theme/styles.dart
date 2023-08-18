@@ -16,6 +16,11 @@ var CircularBorder_decoration=BoxDecoration(
     borderRadius: BorderRadius.circular(20)
 );
 
+var BigCircularBorder_decoration=BoxDecoration(
+    color: Colors.white10,
+    borderRadius: BorderRadius.circular(60)
+);
+
 TextStyle Number_TextStyle({
   required width,
   FontWeight fontWeight=FontWeight.w100,
@@ -137,3 +142,71 @@ blurRadius: 13.0,
 spreadRadius: 3,
 offset: Offset(8, 10,),
 );
+
+var light_gry_shadow= BoxShadow(
+    blurRadius: 20,
+    spreadRadius: 5,
+    color: Colors.grey.shade400,
+    offset: Offset(1,1)
+);
+
+book_style_container(){
+  return BoxDecoration(
+      border: Border(
+        top: BorderSide(
+          color: Color.fromARGB(255, 0, 40, 72),
+          width: 20.0,
+        ),
+        left: BorderSide(
+          color: Colors.white24,
+          width: 28.0,
+        ),
+      ),
+      color: Color.fromARGB(255, 0, 101, 180),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.grey.shade400,
+          blurRadius: 5.0,
+          spreadRadius: 3,
+          offset: Offset(8, 10,),
+        ),
+        BoxShadow(
+            color: Colors.grey.shade400,
+            blurRadius: 5.0,
+            spreadRadius: 4,
+            offset: Offset(1, 7)
+        )
+      ]
+  );
+}
+
+
+book_small_style_container(){
+  return BoxDecoration(
+      border: Border(
+        top: BorderSide(
+          color: Color.fromARGB(255, 0, 40, 72),
+          width: 5.0,
+        ),
+        left: BorderSide(
+          color: Colors.white24,
+          width: 8.0,
+        ),
+      ),
+      color: Color.fromARGB(255, 0, 101, 180),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.grey.shade400,
+          blurRadius: 3.0,
+          spreadRadius: 1,
+          offset: Offset(8, 10,),
+        ),
+        BoxShadow(
+            color: Colors.grey.shade400,
+            blurRadius: 3.0,
+            spreadRadius: 1,
+            offset: Offset(1, 7)
+        )
+      ]
+  );
+}

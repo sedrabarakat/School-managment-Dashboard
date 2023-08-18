@@ -1,23 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_admin_scaffold/admin_scaffold.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:school_dashboard/theme/colors.dart';
 
 import '../../../constants.dart';
 import '../../../cubit/basic/basic_cubit.dart';
+import '../../../theme/colors.dart';
 import '../../../theme/styles.dart';
 import '../../components/components.dart';
 
+var scroll = ScrollController();
 
 class Basic_Screen extends StatelessWidget {
   Basic_Screen({super.key});
+
+  void scrollUp() {
+    final double start = 0;
+    scroll.animateTo(start,
+        duration: Duration(seconds: 1), curve: Curves.easeIn);
+  }
 
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return BlocConsumer<Basic_Cubit, Basic_State>(
-      listener: (context, Basic_State) {},
+      listener: (context, Basic_State) {
+        if (Basic_State is LogoutSuccessState) {
+          showToast(text: Basic_State.logoutModel.message!, state: ToastState.success);
+          signOut(context);
+        }
+
+        if (Basic_State is LogoutErrorState) {
+          showToast(text: Basic_State.errorModel.message!, state: ToastState.error);
+          signOut(context);
+        }
+      },
       builder: (context, Basic_State) {
         Basic_Cubit basic_cubit = Basic_Cubit.get(context);
         Map<String, Widget> screen = basic_cubit.screens;
@@ -47,7 +64,9 @@ class Basic_Screen extends StatelessWidget {
                       decoration: Circle_BoxDecoration,
                     ),
                   ),
-                  Text_Icon_Button(width: width, Function: () {}, text: 'Logout')
+                  Text_Icon_Button(width: width, Function: () {
+                    basic_cubit.logout();
+                  }, text: 'Logout')
                 ],
               ),
               sideBar: SideBar(
@@ -69,7 +88,7 @@ class Basic_Screen extends StatelessWidget {
                   print(basic_cubit.select_route);
                 },
                 selectedRoute: '/',
-                items: Side_Bar_Menu,
+                items: (admin_type==2)?Library_SideBar:Side_Bar_Menu,
               ),
               body: screen[basic_cubit.select_route]!,
             ),

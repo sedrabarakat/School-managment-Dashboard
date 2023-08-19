@@ -9,7 +9,9 @@ import 'package:school_dashboard/cubit/auth/auth_cubit.dart';
 import 'package:school_dashboard/cubit/basic/basic_cubit.dart';
 import 'package:school_dashboard/cubit/class_profile/class_profile_cubit.dart';
 import 'package:school_dashboard/cubit/class_profile/marks_cubit.dart';
+import 'package:school_dashboard/cubit/courses/course_cubit.dart';
 import 'package:school_dashboard/cubit/home/home_cubit.dart';
+import 'package:school_dashboard/cubit/register/register_cubit.dart';
 import 'package:school_dashboard/network/local/cash_helper.dart';
 import 'package:school_dashboard/network/remote/dio_helper.dart';
 import 'package:school_dashboard/routes/web_router.dart';
@@ -23,7 +25,7 @@ import 'cubit/parents/parents_list_cubit.dart';
 import 'cubit/students/students_list_cubit.dart';
 import 'cubit/teachers/teachers_list_cubit.dart';
 
-
+var heightf =1400;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -43,6 +45,8 @@ Future<void> main() async {
   print('token=$token');
   print('user_id=$user_id');
 
+
+
   runApp(MyApp());
 }
 
@@ -56,12 +60,15 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (BuildContext context) => AuthCubit()),
-        BlocProvider(create: (BuildContext context) => Home_Cubit()..Get_Home()),
+        BlocProvider(create: (BuildContext context) => ClassesListCubit()..getClassesTableData()),
         BlocProvider(create: (BuildContext context) => Library_cubit()..Get_Books()),
         BlocProvider(create: (BuildContext context) => Basic_Cubit(ScrollController())),
         BlocProvider(create: (BuildContext context) => MarksCubit()),
         BlocProvider(create: (BuildContext context) => Class_Profile_cubit()),
         BlocProvider(create: (BuildContext context) => ArticlesCubit()),
+
+        BlocProvider(create: (BuildContext context) => RegisterCubit()..getClassesRegister()),
+        BlocProvider(create: (BuildContext context) => CourseCubit()..getTeachers()..getSessions()),
       ],
       child: ScreenUtilInit(
           // designSize: const Size(934, 1920),
@@ -74,10 +81,13 @@ class MyApp extends StatelessWidget {
               title: 'School Web',
               theme: WebTheme.lightTheme,
               debugShowCheckedModeBanner: false,
-              initialRoute: token != null ? '/home' : '/login',
+              initialRoute: (token != null) ?'/home': '/login',
               onGenerateRoute: _appRouter.onGenerateRoute,
             );
           }),
     );
   }
 }
+/*(token != null) ? (
+                  (admin_type!=2)?'/dashboard_home':
+                  (admin_type==2)?'/books_list':'' ): '/login',*/

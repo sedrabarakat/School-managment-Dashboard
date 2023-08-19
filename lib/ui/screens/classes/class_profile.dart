@@ -6,6 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:lottie/lottie.dart';
 import 'package:school_dashboard/cubit/class_profile/marks_cubit.dart';
+import 'package:school_dashboard/cubit/classes/classes_list_cubit.dart';
+import 'package:school_dashboard/cubit/home/home_cubit.dart';
 import 'package:school_dashboard/models/class_profile_model.dart';
 import '../../../constants.dart';
 import '../../../cubit/basic/basic_cubit.dart';
@@ -23,29 +25,32 @@ class Class_Profile extends StatelessWidget{
   Widget build(BuildContext context) {
     var width  =  MediaQuery.of(context).size.width;
     return BlocProvider(
-      create: (BuildContext context)=>Class_Profile_cubit()..get_class_profile(class_id: class_id!.toInt())..get_Hessas(saf_id: class_id!.toInt()),
+      create: (BuildContext context)=>Class_Profile_cubit()..get_class_profile(class_id: class_id!.toInt()),
       child: BlocConsumer<Class_Profile_cubit,Class_Profile_States>(
         listener:(context,state){
-          if(state is Success_Add_Subject_States){showToast(text: 'Added Successfully', state: ToastState.success);}
+          if(state is Success_Add_Subject_States){showToast(text: 'Added Successfully', state: ToastState.success);ClassesListCubit.get(context).getClassesTableData();}
 
           if(state is Error_Add_Subject_States){showToast(text: 'Error in Adding...Try Again later', state: ToastState.error);}
 
-          if(state is Success_delete_subject_State){showToast(text: 'Deleted Successfully', state: ToastState.success);}
+          if(state is Success_delete_subject_State){showToast(text: 'Deleted Successfully', state: ToastState.success);ClassesListCubit.get(context).getClassesTableData();}
 
           if(state is Error_delete_subject_State){showToast(text: 'Error in Deleting', state: ToastState.success);}
 
-          if(state is Success_Add_Section_States){showToast(text: 'Added Successfully', state: ToastState.success);}
+          if(state is Success_Add_Section_States){showToast(text: 'Added Successfully', state: ToastState.success);ClassesListCubit.get(context).getClassesTableData();}
 
           if(state is Error_Add_Section_States){showToast(text: 'Error in Adding...Try Again later', state: ToastState.error);}
 
-          if(state is Success_delete_section_State){showToast(text: 'Deleted Successfully', state: ToastState.success);}
+          if(state is Success_delete_section_State){showToast(text: 'Deleted Successfully', state: ToastState.success);ClassesListCubit.get(context).getClassesTableData();}
 
           if(state is Error_delete_section_State){showToast(text: 'Error in deleting...Try Again later', state: ToastState.error);}
 
-          if(state is Success_Add_exam_photo){showToast(text: 'Successfully Add The Exam Schedule', state: ToastState.success);}
+          if(state is Success_Add_exam_photo){showToast(text: 'Successfully Add The Exam Schedule', state: ToastState.success);ClassesListCubit.get(context).getClassesTableData();}
 
           if(state is Error_Add_exam_photo){showToast(text: 'Error in Adding...Try Again later', state: ToastState.error);}
 
+          if(state is Success_Update_program_State){showToast(text: 'Successfully Added', state: ToastState.success);ClassesListCubit.get(context).getClassesTableData();}
+
+          if(state is Error_Update_program_State){showToast(text: 'Failed...try afain', state: ToastState.error);}
 
           if(state is UploadExcelFileSuccessState){Navigator.pop(context); MarksCubit.get(context).cvsFile=null; showToast(text: state.marksModel.message!, state: ToastState.success);}
 

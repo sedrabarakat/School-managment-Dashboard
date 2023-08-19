@@ -105,7 +105,7 @@ class All_Articals extends StatelessWidget {
                                 String role = cubit.articlesModel!.data!
                                     .articlesList![index].role!;
                                 bool isAdmin = false;
-                                if (role == 'Admin') {
+                                if (role == 'Admin' || role == 'Owner') {
                                   isAdmin = true;
                                 } else {
                                   isAdmin = false;

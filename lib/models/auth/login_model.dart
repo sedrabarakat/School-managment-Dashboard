@@ -29,7 +29,7 @@ class User {
   int? user_id;
   String? name;
   String? email;
-  //String? img;
+  String? img;
   String? role;
   String? gender;
   String? phone_number;
@@ -38,7 +38,7 @@ class User {
     user_id = json['id'];
     name = json['name'];
     email = json['email'];
-    //img = json['img'];
+    img = json['img'];
     role = json['role'];
     gender = json['gender'];
     phone_number = json['phone_number'];

@@ -24,6 +24,7 @@ class Class_Profile_cubit extends Cubit<Class_Profile_States>{
     print(class_number);
     emit(Loading_Add_Section_States());
     await DioHelper.postData(url: 'createSections',
+        token: token,
         data: {
           'saf_id':class_id,
           'number':class_number
@@ -42,6 +43,7 @@ class Class_Profile_cubit extends Cubit<Class_Profile_States>{
 })async{
     emit(Loading_delete_section_State());
     await DioHelper.postData(url: 'deleteSections',
+        token: token,
         data: {
         "ids":ids
     }).then((value){
@@ -59,6 +61,7 @@ class Class_Profile_cubit extends Cubit<Class_Profile_States>{
   })async{
     emit(Loading_Add_Subject_States());
     await DioHelper.postData(url: 'createSubject',
+        token: token,
         data: {
           'name':name,
           'saf_id':saf_id
@@ -77,6 +80,7 @@ class Class_Profile_cubit extends Cubit<Class_Profile_States>{
   })async{
     emit(Loading_delete_subject_State());
     await DioHelper.postData(url: 'deleteSubjects',
+        token: token,
         data: {
           "ids":ids
         }).then((value){
@@ -101,6 +105,7 @@ Future get_class_profile({
 })async{
     emit(Loading_get_class_States());
     await DioHelper.postData(url: 'getClass',
+        token: token,
       data: {'class_id':class_id
     }
     ).then((value){
@@ -130,12 +135,14 @@ Future get_class_profile({
 
 Map<String,dynamic>?Hessas_Map;
 Future get_Hessas({
-  required int saf_id,
+  required int section_id,
 })async{
   emit(Loading_get_hessas_State());
-  await DioHelper.getData(url: 'getHessas/${saf_id}').then((value){
+  await DioHelper.getData(url: 'getHessas/${section_id}',
+      token: token).then((value){
     Hessas_Map=value.data;
-   // print(Hessas_Map?['data']);
+    print('the get');
+   print(Hessas_Map?['data']);
     emit(Success_get_hessas_State());
   }).catchError((error){
    // print(error.response.data);
@@ -152,6 +159,7 @@ Future Get_Available_Teachers({
   emit(Loading_Available_teacher_State());
   await DioHelper.postData(
     url: 'GetAvailableTeachers',
+      token: token,
     data: {
       'saf_id':saf_id,
       'section_id':section_id,
@@ -171,7 +179,7 @@ Future Update_program({
 })async{
   emit(Loading_Update_program_State());
   await DioHelper.postData(url: 'updateProgram'
-      ,data: map
+      ,data: map,token: token
   ).then((value){
      print(value.data);
      emit(Success_Update_program_State());
@@ -203,6 +211,7 @@ Future Update_program({
   })async{
     emit(Loading_Add_exam_photo());
     await DioHelper.postDataImage(url: 'updateExamPhoto',
+        token: token,
         data:  FormData.fromMap({
           'section_id':section_id,
           'photo':MultipartFile.fromBytes(exam_img_Bytes!,filename:Exam_img!.files.single.name)

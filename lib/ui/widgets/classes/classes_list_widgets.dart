@@ -55,6 +55,7 @@ List<DataRow> getClassesRows(
                   IconButton(
                     onPressed: () {
                       class_id=cl.class_id!.toInt();
+                      print(class_id);
                       Basic_Cubit.get(context).change_Route('/class_profile');
 
 

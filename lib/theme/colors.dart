@@ -34,3 +34,5 @@ const primaryColor = Color(0xFFD6E2EA);
 const primaryDark = Colors.black;
 const buttonsColor = Color(0xFFD3567C);
 */
+
+const feldColor = Color.fromARGB(133, 216, 218, 220);

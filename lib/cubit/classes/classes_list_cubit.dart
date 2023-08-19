@@ -193,6 +193,7 @@ class ClassesListCubit extends Cubit<ClassesListState> {
     emit(Loading_Add_Grade_States());
     print(selected_class);
     await DioHelper.postData(url: 'createClass',
+        token: token,
         data: {
           'grade': number
         }

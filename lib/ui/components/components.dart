@@ -10,6 +10,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_network/image_network.dart';
 import 'package:school_dashboard/constants.dart';
 import 'package:school_dashboard/cubit/articles/articles_cubit.dart';
+import 'package:school_dashboard/ui/components/def_dropdown.dart';
 import 'package:simple_animations/multi_tween/multi_tween.dart';
 import 'package:simple_animations/stateless_animation/play_animation.dart';
 import '../../cubit/basic/basic_cubit.dart';
@@ -610,3 +611,152 @@ Widget def_Emoji_picker(message,Color indicatorColor,iconColorSelected, Articles
   );
 }
 
+image_article_container({
+  required double container_width,
+  required double container_height,
+  required String imageUrl,
+}){
+  return  Container(
+    height: container_height,width: container_width,
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(15),
+    ),
+    child: ImageNetwork(image: "$imageUrl",
+      debugPrint: true,
+      height:container_height,
+      width: container_width,
+    ),
+  );
+}
+
+
+Widget def_Container_RegitsterText({
+  required height,
+  required width,
+  required MyController,
+  hinttext,
+  title,
+  Widget? sufix,
+  bool obscureText = false,
+  FormFieldValidator? validator,
+  Key? formkey,
+  Key? datapickerformkey,
+  focusnode,
+  ValueChanged<String>?  onfieldsubmitted,
+  ontap,
+
+}) {
+  return FadeAnimation(
+    1,
+    Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          height: height * 0.07,
+          width: width * 0.2,
+          decoration: BoxDecoration(
+              color: Color.fromARGB(133, 216, 218, 220),
+              borderRadius: BorderRadius.circular(10)),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: width * 0.008),
+            child: Center(
+              child: TextFormField(
+                key: formkey,
+                onTap: ontap,
+                style: TextStyle(fontSize: width*0.012),
+                autovalidateMode: AutovalidateMode.disabled,
+                focusNode: focusnode,
+                onFieldSubmitted:onfieldsubmitted ,
+                validator: validator,
+                obscureText: obscureText,
+                controller: MyController,
+                keyboardType: TextInputType.text,
+                cursorColor: Color.fromARGB(255, 102, 101, 101),
+                decoration: InputDecoration(
+                  errorStyle: TextStyle(
+                    fontSize: width * 0.008,
+                  ),
+                  border: InputBorder.none,
+                  hintText: hinttext,
+                  hintStyle: TextStyle(
+                      fontSize: width * 0.01,
+                      color: Color.fromARGB(255, 154, 177, 189)),
+                  suffixIcon: sufix,
+                ),
+                onChanged: (value) {},
+              ),
+            ),
+          ),
+        ),
+        SizedBox(
+          height: height * 0.015,
+        ),
+        Text(
+          ' $title *',
+          style: TextStyle(
+              fontSize: width * 0.011,
+              fontWeight: FontWeight.w600,
+              color: Color.fromARGB(255, 91, 89, 89)),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget def_Container_Regitsterdropdown(
+    {required height,
+      required width,
+      required List<String> item,
+      hinttext,
+      title,
+      Widget? sufix,
+      bool? iserror,
+      required ValueChanged? onChanged,
+      FormFieldValidator? validator,
+      focusnode,
+
+      required selectedValue,}) {
+  return FadeAnimation(
+    1.1,
+    Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          height: height * 0.07,
+          width: width * 0.2,
+          decoration: BoxDecoration(
+              color: Color.fromARGB(133, 216, 218, 220),
+              borderRadius: BorderRadius.circular(10)),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: width * 0.008),
+            child: Center(
+              child: CustomDropdownButton2(
+                iserror: iserror,
+                width: width,
+                height: height,
+                hint: hinttext,
+                dropdownItems: item,
+                value: selectedValue,
+                focusnode: focusnode,
+                // iconEnabledColor: Colors.red,
+                icon: Icon(Icons.arrow_drop_down),
+                //RegisterCubit.get(context).icongender,
+                onChanged: onChanged,
+              ),
+            ),
+          ),
+        ),
+        SizedBox(
+          height: height * 0.015,
+        ),
+        Text(
+          ' $title *',
+          style: TextStyle(
+              fontSize: width * 0.011,
+              fontWeight: FontWeight.w600,
+              color: Color.fromARGB(255, 91, 89, 89)),
+        ),
+      ],
+    ),
+  );
+}

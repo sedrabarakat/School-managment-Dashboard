@@ -86,8 +86,6 @@ dependencies:
 
   video_player: ^2.7.0
 
-  video_player_web_hls: ^1.1.0
-
   chewie: ^1.7.0
 
   universal_html: ^2.2.3
@@ -103,6 +101,11 @@ dependencies:
   cached_network_image: ^3.2.3
 
   timeago: ^3.5.0
+
+  image_picker: ^0.8.7+1
+  image_cropper: ^3.0.2
+
+  vph_web_date_picker: ^0.0.4
 
 dev_dependencies:
   flutter_test:

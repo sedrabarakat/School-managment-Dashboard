@@ -13,6 +13,7 @@ import 'package:school_dashboard/ui/widgets/teachers/teachers_list_widgets.dart'
 import '../../../cubit/profile/Profiles_cubit.dart';
 import '../../../cubit/profile/student_profile_states.dart';
 import '../../../theme/styles.dart';
+import '../../components/components.dart';
 import '../../widgets/profiles_widget.dart';
 
 class Teacher_profile extends StatelessWidget{
@@ -30,7 +31,12 @@ class Teacher_profile extends StatelessWidget{
   return BlocProvider(
     create: (BuildContext context) => Profiles_cubit()..get_Teacher_profile(teacher_id: Teacher_id!.toInt()),
     child: BlocConsumer<Profiles_cubit,Profiles_states>(
-      listener: (context,state){},
+      listener: (context,state){
+        if(state is Success_update_teacher_profile)
+          showToast(text: 'Successfully updated', state: ToastState.success);
+        if(state is Error_get_teacher_profile)
+          showToast(text: 'Updating Failed...try again', state: ToastState.error);
+      },
       builder: (context,state){
         var subject_list_controler=ScrollController();
         Profiles_cubit profile_cubit = Profiles_cubit.get(context);
@@ -59,7 +65,7 @@ class Teacher_profile extends StatelessWidget{
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: width/50,vertical: width/30),
                             child: Container(
-                              height: height/1.2,width: width/1.9,
+                              height: height/1.2,width: width/1.3,
                               decoration: CircularBorder_decoration.copyWith(borderRadius: BorderRadius.circular(30)),
                               child: Padding(
                                 padding: EdgeInsets.only(top: height/15,),
@@ -69,7 +75,16 @@ class Teacher_profile extends StatelessWidget{
                                     Padding(
                                       padding:  EdgeInsets.only(left: width/70),
                                       child: identity_row(context: context,width: width, img: null,Gender: info!.gender.toString(),
-                                          cubit_object: profile_cubit,name_controller: name,email_controller: email,is_tech: true),
+                                          cubit_object: profile_cubit,name_controller: name,email_controller: email,is_tech: true,
+                                      submit_teacher_button: (){
+                                        profile_cubit.update_teacher(
+                                            id: info.id!,
+                                            name: name.text.toString(),
+                                            gender: Gender.text.toString(),
+                                            email: (email.text==info.email.toString())?'a@gmail.com':email.text.toString(),
+                                            salary: Salary.text.toString()).then((value) => profile_cubit.get_Teacher_profile(teacher_id: info.id!));
+                                      }
+                                      ),
                                     ),
                                     SizedBox(height: height/10,),
                                     Padding(
@@ -88,13 +103,14 @@ class Teacher_profile extends StatelessWidget{
                                         ],),
                                     )  ],),),
                             ),),
+                          /*
                           Padding(
                             padding:  EdgeInsets.only(left: width/200,top: width/30),
                             child: Add_Remove(width: width, label: 'Subject', tip: 'To Add or remove subject to teacher Just write its name'
                                 ' then click on button',
                                 controller: Subject, keyboardtype:TextInputType.text , format: [], hintText: 'Subject name',context: context,
                                 icon: Icons.library_books_rounded, Add_method: (){}, Remove_method: (){}),
-                          )
+                          )*/
                         ],),
                           Padding(padding:  EdgeInsets.only(left: width/2,top: height/2.5),
                             child: Lottie.asset('assets/images/teaher.json',height: height/1.8,width:width/2, fit: BoxFit.fill,

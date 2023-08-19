@@ -19,6 +19,8 @@ Widget Deatils_row({
   required String text,
   required TextEditingController controller,
   double? spacing,
+  bool justread=false,
+  bool Not_editable=false
 }){
   bool is_editing=Profiles_cubit.get(context).is_editing;
   return Padding(
@@ -39,7 +41,7 @@ Widget Deatils_row({
               is_there_border: is_editing,
               fill: is_editing,
               is_there_prefix: false,
-              justread: !is_editing
+              justread: (Not_editable)?justread:!is_editing
           ),
         )
       ],),
@@ -90,6 +92,7 @@ Widget Edit_buttons_row({
   required double width,
   required Profiles_cubit cubit_object,
   required teaching,
+  required VoidCallback submit_button,
 }){
   bool is_editing=Profiles_cubit.get(context).is_editing;
   return Row(
@@ -103,7 +106,7 @@ Widget Edit_buttons_row({
       }, icon: Icons.edit,hint_message: 'edit'),
       SizedBox(width: width/200,),
       (is_editing)?Row(children: [
-        circle_icon_button(button_Function: (){}, icon: Icons.check,icon_color:Colors.green.shade500,
+        circle_icon_button(button_Function: submit_button, icon: Icons.check,icon_color:Colors.green.shade500,
             hint_message: 'Submit'),
         SizedBox(width: width/200,),
         circle_icon_button(button_Function: (){
@@ -113,7 +116,8 @@ Widget Edit_buttons_row({
     ],
   );
 }
-
+String ?Teacher_email_edit;
+String ?Student_email_edit;
 Widget identity_row({
   required BuildContext context,
   required double width,
@@ -122,7 +126,8 @@ Widget identity_row({
   required TextEditingController email_controller,
   required Profiles_cubit cubit_object,
   required String Gender,
-  bool is_tech=false
+  bool is_tech=false,
+  required VoidCallback submit_teacher_button
 }){
   return Row(
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -169,7 +174,8 @@ Widget identity_row({
             ),
           ],),
       ),
-      (is_tech)?Expanded(child: Edit_buttons_row(context: context,width: width,cubit_object: cubit_object,teaching: is_tech)):SizedBox()
+      (is_tech)?Expanded(child: Edit_buttons_row(context: context,width: width,cubit_object: cubit_object,
+          teaching: is_tech,submit_button: submit_teacher_button)):SizedBox()
     ],);
 }
 // padding:  EdgeInsets.only(top: height/35,),

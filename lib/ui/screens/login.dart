@@ -64,6 +64,7 @@ class LoginScreen extends StatelessWidget {
               Navigator.of(context).pushReplacementNamed('/home');
             },
           );
+          print(token);
           showToast(
             text: state.loginModel.message!,
             state: ToastState.success,

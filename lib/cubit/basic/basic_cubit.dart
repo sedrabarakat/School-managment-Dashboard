@@ -80,12 +80,12 @@ class Basic_Cubit extends Cubit<Basic_State> {
     if(item.route != null){
       select_route=item.route!;
       //print(select_route);
-      emit(Change_Route(select_route));
+      emit(Change_Route(select_route!));
     }}
 
   void change_Route(route){
     select_route=route;
-    emit(Change_Route(select_route));
+    emit(Change_Route(select_route!));
   }
 
   bool backToTop = false;

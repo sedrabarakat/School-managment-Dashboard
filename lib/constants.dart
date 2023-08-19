@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_admin_scaffold/admin_scaffold.dart';
+import 'package:school_dashboard/cubit/basic/basic_cubit.dart';
 import 'package:school_dashboard/cubit/home/home_cubit.dart';
 import 'package:school_dashboard/network/local/cash_helper.dart';
 import 'package:school_dashboard/ui/screens/login.dart';
@@ -122,7 +123,7 @@ class MyCustomScrollBehavior extends MaterialScrollBehavior {
 void signOut(context)
 {
 
-  //Home_Cubit.get(context).Home = null;
+
 
   CacheHelper.signOut(key: 'user_id');
   CacheHelper.signOut(key: 'admin_type');
@@ -136,6 +137,10 @@ void signOut(context)
           MaterialPageRoute(
             builder: (context) =>  LoginScreen(),),
               (route) => false);
+      Home_Cubit.get(context).Home = null;
+      admin_type=null;
+      token=null;
+      Basic_Cubit.get(context).change_Route('/dashboard_home');
     }
   });
 

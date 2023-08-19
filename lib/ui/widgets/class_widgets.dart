@@ -57,7 +57,7 @@ void Add_class({
                   height: height/4,width: width/2.8,
                   child: Column(crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text('To Add or Remove class Just choose one and submit it',
+                      const Text('To Add class Just choose one and submit it',
                         style: TextStyle(
                             fontSize: 17,fontWeight: FontWeight.w400,color: Colors.black38
                         ),),
@@ -71,6 +71,7 @@ void Add_class({
                     (ClassesListCubit.get(context).selected_class==null)?
                     showToast(text: 'Select a classs', state: ToastState.warning):ClassesListCubit.get(context).Add_Class(number: ClassesListCubit.get(context).selected_class!);
                     controller.dismiss();
+                    ClassesListCubit.get(context).getClassesTableData();
                   },
                   child: Text('Add'),
                 ),
@@ -371,6 +372,9 @@ Widget Grade_item(context,height,width,sectionNum,studentnum,cubit,saf_id,sectio
                 child: Row(children: [
                       Adds_container(width:width,icon: Icons.calendar_month,text: 'Add Schedule',
                       ontap: ()async{
+                        print(saf_id);
+                        print(section_id);
+                        Class_Profile_cubit.get(context).get_Hessas(section_id: section_id);
                       Class_Profile_cubit.get(context).Get_Available_Teachers(saf_id: saf_id,section_id: section_id).then((value){
                         Add_class_schedule(context: context, height: height, width: width, Hessas_Map: cubit.Hessas_Map,cubit:cubit,saf_id: saf_id );
                       });
@@ -544,7 +548,7 @@ Widget drop_add_sch({
         'term ${item?['time']}',
         style: TextStyle(fontSize: width/110,color: Colors.black54),
       ),
-      items:add_item(available_list: last),
+      items:add_item(available_list: last),//add_item(available_list: last),
       validator: (value) {
         if (value == null) {
           return 'Please select Grade';
@@ -703,6 +707,7 @@ Widget last_Add_Remove_Grade({
         cubit.Add_Sections(class_id: id.toString(), class_number: int.parse(gradecontroller.text)).then((value){
           cubit.get_class_profile(class_id: id);
           gradecontroller.clear();
+          ClassesListCubit.get(context).getClassesTableData();
         });
       }, Remove_method: (){
         MultiSelect(context: context,width: width,title: 'Select Section to Delete',cubit: cubit,intended: 'number',
@@ -711,6 +716,7 @@ Widget last_Add_Remove_Grade({
         ).then((value){
           cubit.get_class_profile(class_id: id);
           gradecontroller.clear();
+          ClassesListCubit.get(context).getClassesTableData();
         });
         //cubit.Get_Available_Teachers(saf_id: 1, section_id: 1,);
       });
@@ -733,6 +739,7 @@ Widget last_Add_Remove_Subject({
         cubit.Add_subject(name: subjectcontroller.text, saf_id: id).then((value){
           cubit.get_class_profile(class_id: id);
           subjectcontroller.clear();
+          ClassesListCubit.get(context).getClassesTableData();
         });
       }, Remove_method: (){
     MultiSelect(context: context,width: width,title: 'Select Grade to Delete',cubit: cubit,intended: 'name',
@@ -740,6 +747,7 @@ Widget last_Add_Remove_Subject({
         items: cubit.subjects)..then((value){
       cubit.get_class_profile(class_id: id);
       subjectcontroller.clear();
+      ClassesListCubit.get(context).getClassesTableData();
     });
   },
       textField_padding:width/10);

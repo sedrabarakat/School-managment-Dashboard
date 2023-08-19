@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:school_dashboard/constants.dart';
 import 'package:school_dashboard/network/remote/dio_helper.dart';
 
 import 'library_states.dart';
@@ -33,6 +34,7 @@ class Library_cubit extends Cubit<Library_states>{
 }) async {
     emit(Loading_Add_Book());
      return await DioHelper.postDataImage(url: 'addBook',
+      token: token,
       data: FormData.fromMap({
         'name':name,
         if(cover!=null)'img':MultipartFile.fromBytes(Cover_Bytes!,filename:cover!.files.single.name)
@@ -52,7 +54,8 @@ List<dynamic>Books_list=[];
 Future Get_Books()async{
     emit(Loading_Book_List());
     return await DioHelper.getData(
-        url: 'booksList').then((value){
+        url: 'booksList',
+      token: token,).then((value){
       Books_list=value.data;
       print(value);
       emit(Success_Book_List());
@@ -68,6 +71,7 @@ Future Delete_book({
     emit(Loading_Delete_Book());
     return await DioHelper.postData(
         url: 'booksDelete',
+        token: token,
       data: {
           'ids':ids
       }
@@ -82,7 +86,8 @@ Future Delete_book({
     required int library_student_id
   })async{
     emit(Loading_Confirm());
-    return await DioHelper.postData(url: 'confirm/${library_student_id}').then((value){
+    return await DioHelper.postData(url: 'confirm/${library_student_id}',
+      token: token,).then((value){
       emit(Success_Confirm());
     }).catchError((error){
       emit(Error_Confirm(error.toString()));
@@ -93,7 +98,8 @@ Future Delete_book({
     required int library_student_id
   })async{
     emit(Loading_DisConfirm());
-    return await DioHelper.postData(url: 'disconfirm/${library_student_id}').then((value){
+    return await DioHelper.postData(url: 'disconfirm/${library_student_id}',
+      token: token,).then((value){
       emit(Success_DisConfirm());
     }).catchError((error){
       emit(Error_DisConfirm(error.toString()));

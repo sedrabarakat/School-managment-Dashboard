@@ -182,7 +182,7 @@ Widget buildArticleCard(
                 ],
               ),
               SizedBox(
-                width: width * 0.15,
+                width: width * 0.1,
               ),
               IconButton(
                 onPressed: () {
@@ -214,13 +214,14 @@ Widget buildArticleCard(
                     color: Colors.white,
                   ),
                   child: mediaType == 2
-                      ? CachedNetworkImage(
+                      ? image_article_container(container_width: width*0.4, container_height: height*0.3, imageUrl: mediaSrc)
+                  /*CachedNetworkImage(
                           imageUrl: mediaSrc,
                           placeholder: (context, url) => SpinKitWeb(width),
                           height: height * 0.4,
                           fit: BoxFit.fill,
                           width: double.infinity,
-                        )
+                        )*/
                       : ChewieListItem(
                           controlsPlace: 20,
                           videoPlayerController:

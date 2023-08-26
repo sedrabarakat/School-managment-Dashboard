@@ -25,7 +25,7 @@ import 'cubit/parents/parents_list_cubit.dart';
 import 'cubit/students/students_list_cubit.dart';
 import 'cubit/teachers/teachers_list_cubit.dart';
 
-var heightf =1400;
+var heightf =1600;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 

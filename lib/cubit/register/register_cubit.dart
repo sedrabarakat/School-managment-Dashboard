@@ -14,6 +14,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:meta/meta.dart';
 import 'package:school_dashboard/constants.dart';
 import 'package:school_dashboard/cubit/register/register_state.dart';
+import 'package:school_dashboard/models/error_model.dart';
 import 'package:school_dashboard/models/teacher_register.dart';
 import 'package:school_dashboard/network/remote/dio_helper.dart';
 import 'package:school_dashboard/theme/colors.dart';
@@ -27,6 +28,8 @@ class RegisterCubit extends Cubit<RegisterState> {
   RegisterCubit() : super(RegisterCubitInitial());
 
   static RegisterCubit get(context) => BlocProvider.of(context);
+
+  ErrorModel? errorModel;
 
   bool isPassword = true;
   IconData suffix = Icons.visibility_off;
@@ -148,6 +151,8 @@ class RegisterCubit extends Cubit<RegisterState> {
     }).catchError((error) {
       print(error.response.data);
       print('error');
+      errorModel = ErrorModel.fromJson(error.response.data);
+      emit(ErrorRegisterTeacher(errorModel!));
       print(error.toString());
     });
   }
@@ -191,6 +196,8 @@ class RegisterCubit extends Cubit<RegisterState> {
     }).catchError((error) {
       print(error.response.data);
       print('error');
+      errorModel = ErrorModel.fromJson(error.response.data);
+      emit(ErrorRegisterParent(errorModel!));
       print(error.toString());
     });
   }
@@ -208,6 +215,10 @@ class RegisterCubit extends Cubit<RegisterState> {
     }).catchError((error) {
       print(error.response.data);
       print('error');
+      errorModel = ErrorModel.fromJson(error.response.data);
+
+      emit(ErrorRegisterAdmin(errorModel!));
+
       print(error.toString());
     });
   }
@@ -286,6 +297,7 @@ class RegisterCubit extends Cubit<RegisterState> {
       address,
       birth_date) async {
     // emit(Loading());
+    print(parent_id);
     print(email);
     if (webimage == null) {
       print('No image selected');
@@ -309,7 +321,7 @@ class RegisterCubit extends Cubit<RegisterState> {
           'is_in_bus': is_in_bus,
           'left_for_bus': left_for_bus,
           'left_for_qusat': left_for_qusat,
-          'parent_id': 1,
+          'parent_id': parent_id,
           'section_id': section_id,
           'address': address,
           'birth_date': birth_date,
@@ -324,6 +336,8 @@ class RegisterCubit extends Cubit<RegisterState> {
       }).catchError((error) {
         print(error.response.data);
         // emit(Error());
+        errorModel = ErrorModel.fromJson(error.response.data);
+        emit(ErrorRegisterStudent(errorModel!));
         print(error.toString());
       });
     } else {
@@ -340,7 +354,7 @@ class RegisterCubit extends Cubit<RegisterState> {
           'is_in_bus': is_in_bus,
           'left_for_bus': left_for_bus,
           'left_for_qusat': left_for_qusat,
-          'parent_id': 1,
+          'parent_id': parent_id,
           'section_id': section_id,
           'address': address,
           'birth_date': birth_date,
@@ -354,6 +368,10 @@ class RegisterCubit extends Cubit<RegisterState> {
         print(value.data);
         //emit(Success());
       }).catchError((error) {
+        errorModel = ErrorModel.fromJson(error.response.data);
+
+        emit(ErrorRegisterStudent(errorModel!));
+
         print(error.response.data);
         // emit(Error());
         print(error.toString());

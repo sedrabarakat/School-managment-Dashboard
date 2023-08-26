@@ -2,13 +2,14 @@ import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:number_paginator/number_paginator.dart';
 import 'package:school_dashboard/constants.dart';
+import 'package:school_dashboard/cubit/basic/basic_cubit.dart';
 import 'package:school_dashboard/cubit/parents/parents_list_cubit.dart';
 import 'package:school_dashboard/models/Tables/parents_table.dart';
 import 'package:collection/collection.dart';
 import 'package:school_dashboard/theme/colors.dart';
 import 'package:school_dashboard/ui/components/components.dart';
 
-
+int? parent_id;
 Widget searchByNameParent(context,width,height,nameController,nameFocusNode,phoneFocusNode){
   return Container(
     width: width * 0.18,
@@ -128,7 +129,11 @@ List<DataRow> getParentsRows(
               )),
               DataCell(
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    parent_id=pa.parent_id!.toInt();
+                    print(parent_id);
+                    Basic_Cubit.get(context).change_Route('/add_student');
+                  },
                   icon: Icon(
                     Icons.add,
                     size: width * 0.015,

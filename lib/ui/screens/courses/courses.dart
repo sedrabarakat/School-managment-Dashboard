@@ -97,7 +97,7 @@ class Courses extends StatelessWidget {
                                     fontSize: width * 0.02),
                               ),
                               Container(
-                                height: height * 0.55,
+                                height: height * 0.65,
                                 width: width * 0.25,
                                 decoration: BoxDecoration(
                                     color: feldColor,

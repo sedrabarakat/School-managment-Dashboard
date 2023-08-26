@@ -316,7 +316,7 @@ Widget Grade_listview({
    child:  ListView.separated(
        shrinkWrap: false,
        scrollDirection: Axis.horizontal,
-       itemBuilder: (context,index)=>Grade_item(context,height,width,sectionsInClass?[index].number,sectionsInClass?[index].numberOfStudent,cubit,class_id,sectionsInClass?[index].id),
+       itemBuilder: (context,index)=>Grade_item(context,height,width,sectionsInClass?[index].number,sectionsInClass?[index].numberOfStudent,cubit,class_id,sectionsInClass?[index].number),
        separatorBuilder: (context,index)=>SizedBox(width: width/80,),
        itemCount: (sectionsInClass?.length!=null)?sectionsInClass!.length:0),);
 }

@@ -7,6 +7,7 @@ import 'package:school_dashboard/cubit/register/register_state.dart';
 import 'package:school_dashboard/main.dart';
 import 'package:school_dashboard/theme/colors.dart';
 import 'package:school_dashboard/ui/components/components.dart';
+import 'package:school_dashboard/ui/widgets/parents/parents_list_widgets.dart';
 import 'package:school_dashboard/ui/widgets/register_widgets.dart';
 import 'package:vph_web_date_picker/vph_web_date_picker.dart';
 
@@ -42,7 +43,6 @@ class Add_Student extends StatelessWidget {
   String? datetime;
   late int classId;
   int? sectionId;
-  var parent_id;
   var boolisinbus;
 
   bool? iserrorgender = false;
@@ -63,7 +63,11 @@ class Add_Student extends StatelessWidget {
     var height = heightf / 2.1;
     //physicalHeight / 2.1;
     return BlocConsumer<RegisterCubit, RegisterState>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if (state is ErrorRegisterStudent){
+          showToast(text: state.errorModel!.message!, state: ToastState.error);
+        }
+      },
       builder: (context, state) {
         var cubit = RegisterCubit.get(context);
 

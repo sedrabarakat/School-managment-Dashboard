@@ -25,7 +25,6 @@ List<AdminMenuItem> Side_Bar_Menu= const [
       ]),
   AdminMenuItem(title:"Students" ,icon: Icons.boy,
       children:[
-        AdminMenuItem(title:"Add Student",route: '/add_student',icon:CupertinoIcons.plus_circle_fill),
         AdminMenuItem(title:"Students List",route: '/students_list',icon:CupertinoIcons.square_list),
       ]),
   AdminMenuItem(title:"Teachers" ,icon: Icons.people,

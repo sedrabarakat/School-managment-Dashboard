@@ -121,7 +121,7 @@ class AdminsListCubit extends Cubit<AdminsListState> {
 
 // Delete Admins
 
-  void deleteStudentsData() async {
+  void deleteAdminsData() async {
     emit(AdminsDeletingLoadingDataState());
     DioHelper.postData(
             url: 'deleteAdmins',
@@ -144,7 +144,7 @@ class AdminsListCubit extends Cubit<AdminsListState> {
     });
   }
 
-  void deleteOneStudentData({required int id}) async {
+  void deleteOneAdminData({required int id}) async {
     emit(AdminsDeletingLoadingDataState());
     DioHelper.postData(
             url: 'deleteAdmins',

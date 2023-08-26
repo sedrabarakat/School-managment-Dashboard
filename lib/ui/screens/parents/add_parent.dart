@@ -70,6 +70,9 @@ class add_parent extends StatelessWidget {
     return BlocConsumer<RegisterCubit, RegisterState>(
       listener: (context, state) {
         // TODO: implement listener
+        if (state is ErrorRegisterParent){
+          showToast(text: state.errorModel!.message!, state: ToastState.error);
+        }
       },
       builder: (context, state) {
         var cubit = RegisterCubit.get(context);

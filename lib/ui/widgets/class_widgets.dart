@@ -626,6 +626,7 @@ Container default_TextFromField({
   required String ?hintText,
   ValueChanged<String>?changed,
   ValueChanged<String>?submit,
+  GestureTapCallback?tap,
   List <TextInputFormatter> ?inputformater,
   IconData ?prefixicon,
   Color prefixcolor=Colors.lightBlue,
@@ -656,7 +657,7 @@ Container default_TextFromField({
       inputFormatters: inputformater,
       onChanged: changed,
       onFieldSubmitted: submit,
-
+      onTap: tap,
       decoration: InputDecoration(
         hintText: hintText,
         filled: fill,

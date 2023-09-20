@@ -48,8 +48,12 @@ List<AdminMenuItem> Side_Bar_Menu= const [
         AdminMenuItem(title:"All Articals",route: '/all_articals',icon:CupertinoIcons.square_list),
       ]),
   AdminMenuItem(
-    title:"Courses" ,route: '/courses',
+    title:"Courses" ,
     icon: Icons.featured_play_list,
+    children: [
+      AdminMenuItem(title:"Add Courses",route: '/add_courses',icon:CupertinoIcons.plus_circle_fill),
+      AdminMenuItem(title:"Courses List",route: '/courses',icon:CupertinoIcons.square_list)
+    ]
   ),
   AdminMenuItem(
     title:"inbox" ,route: '/inbox', icon: Icons.email_rounded,

@@ -150,6 +150,14 @@ var light_gry_shadow= BoxShadow(
     offset: Offset(1,1)
 );
 
+var light_blue_shadow= BoxShadow(
+    blurRadius: 20,
+    spreadRadius: 5,
+    color: Colors.blue.shade100,
+    offset: Offset(1,1)
+);
+
+
 book_style_container(){
   return BoxDecoration(
       border: Border(

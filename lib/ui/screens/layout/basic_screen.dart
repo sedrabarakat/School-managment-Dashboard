@@ -54,16 +54,6 @@ class Basic_Screen extends StatelessWidget {
               appBar: AppBar(
                 backgroundColor: Colors.lightBlue,
                 actions: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                      vertical: height / 140,
-                    ),
-                    child: Container(
-                      width: width / 20,
-                      height: height / 15,
-                      decoration: Circle_BoxDecoration,
-                    ),
-                  ),
                   Text_Icon_Button(width: width, Function: () {
                     basic_cubit.logout();
                   }, text: 'Logout')
@@ -81,6 +71,7 @@ class Basic_Screen extends StatelessWidget {
 
                 ),
                 width: width / 7.5,
+
                 iconColor: Colors.lightBlue,
                 backgroundColor: Colors.white,
                 onSelected: (item) {

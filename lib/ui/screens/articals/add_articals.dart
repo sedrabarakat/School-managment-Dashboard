@@ -62,7 +62,10 @@ class add_articals extends StatelessWidget {
                 ),
                 Row(
                   children: [
-                    Animated_Text(width: width, text: 'Add an article'),
+                    Padding(
+                      padding:  EdgeInsets.only(left: width/50),
+                      child: Animated_Text(width: width, text: 'Add an article'),
+                    ),
                     SizedBox(
                       width: width * 0.4,
                     ),

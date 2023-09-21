@@ -108,12 +108,15 @@ class Add_Courses extends StatelessWidget{
                                         var now=DateTime.now();
                                         showDatePicker(
                                             context: context,
-                                            initialDate: DateTime.now(),
-                                            firstDate: DateTime(now.day + 1),
+                                            initialDate: DateTime.now()
+                                                .add(Duration(days: 1)),
+                                            firstDate: DateTime.now()
+                                                .add(Duration(days: 1)),
                                             lastDate: DateTime(2090)).then((value){
                                           if(value!=null){
                                             Date_controller.text=DateFormat('yyyy-M-dd').format(value).toString();
-                                            print(DateFormat('yyyy-M-dd').format(value));
+                                            //print(DateFormat('yyyy-M-dd').format(value));
+                                            print(DateTime(DateTime.now().day+1));
                                           }
                                         });
 

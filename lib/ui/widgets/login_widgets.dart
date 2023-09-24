@@ -103,7 +103,7 @@ Widget WhiteContainer(context,width,height,cubit,emailController,passwordControl
                     Text(
                         'Login Here',
                         style: TextStyle(color: iconsColor,
-                            fontSize: width * 0.03,
+                            fontSize: width * 0.024,
                             fontWeight: FontWeight.bold
                         ),
 
@@ -260,7 +260,7 @@ Widget Button(height,width,formkey,emailController,passwordController,AuthCubit 
                         'Login',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 30.sp,
+                          fontSize: 25.sp,
                           fontWeight: FontWeight.bold,
                         ),
                       ),

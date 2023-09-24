@@ -1,22 +1,22 @@
 class GetSessionsModel {
   bool? status;
-  List<Data>? data;
+  List<SessionData>? data;
 
   GetSessionsModel({this.status, this.data});
 
   GetSessionsModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     if (json['data'] != null) {
-      data = <Data>[];
+      data = <SessionData>[];
       json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
+        data!.add(new SessionData.fromJson(v));
       });
     }
   }
 
 }
 
-class Data {
+class SessionData {
   int? sessionId;
   String? date;
   String? body;
@@ -26,7 +26,7 @@ class Data {
   String? teacherName;
   String? subjectName;
 
-  Data(
+  SessionData(
       {this.sessionId,
         this.date,
         this.body,
@@ -36,7 +36,7 @@ class Data {
         this.teacherName,
         this.subjectName});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  SessionData.fromJson(Map<String, dynamic> json) {
     sessionId = json['session_id'];
     date = json['date'];
     body = json['body'];

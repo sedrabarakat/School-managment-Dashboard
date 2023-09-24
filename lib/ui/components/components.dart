@@ -572,7 +572,7 @@ Widget backToRout({
           width: width * 0.01,
         ),
         Text(
-          '->     + $To',
+          '->       $To',
           style: TextStyle(color: Colors.grey, fontSize: width * 0.012),
         ),
       ],

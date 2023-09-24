@@ -10,6 +10,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_network/image_network.dart';
 import 'package:school_dashboard/constants.dart';
 import 'package:school_dashboard/cubit/articles/articles_cubit.dart';
+import 'package:school_dashboard/cubit/courses/course_cubit.dart';
 import 'package:school_dashboard/ui/components/def_dropdown.dart';
 import 'package:simple_animations/multi_tween/multi_tween.dart';
 import 'package:simple_animations/stateless_animation/play_animation.dart';
@@ -233,7 +234,7 @@ Widget SpinKitApp(width){
 Widget SpinKitWeb(width) {
   return SpinKitFadingCube(
     color: Colors.blueAccent,
-    size: width * 0.022,
+    size: width * 0.02,
   );
 }
 
@@ -284,7 +285,7 @@ Future<Object?> awsDialogNote(
 }
 
 Future<Object?> awsDialogDeleteForOne(
-    context, width, cubit, int typeCall, int idToDelete) {
+    context, width,cubit, int typeCall, int idToDelete) {
   return AwesomeDialog(
       context: context,
       dialogType: DialogType.warning,
@@ -307,7 +308,10 @@ Future<Object?> awsDialogDeleteForOne(
       btnOkOnPress: () {
         //addOneStudentToIds();
         //cubit.ids.add(Ids(StudentData.student_id));
-        if (typeCall == 1) {
+        if (typeCall == 0) {
+          cubit.delete_Session(sessionId: idToDelete);
+        }
+          else if (typeCall == 1) {
           cubit.deleteOneStudentData(id: idToDelete);
         } else if (typeCall == 2) {
           cubit.deleteOneTeacherData(id: idToDelete);

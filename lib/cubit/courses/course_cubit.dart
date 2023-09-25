@@ -120,6 +120,8 @@ class Courses_cubit extends Cubit<Courses_State> {
   int compareString(bool ascending, String value1, String value2) =>
       ascending ? value1.compareTo(value2) : value2.compareTo(value1);
 
+
+  ///////////////////////////////////////////////////////
   Map<String,dynamic>student_in_course={};
   Future get_student_in_course({
   required int session_id
@@ -161,7 +163,7 @@ class Courses_cubit extends Cubit<Courses_State> {
     });
   }
 
-
+///////////////////////////////////////
   ErrorModel? errorModel;
 
   Future get_Sessions () async {

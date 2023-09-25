@@ -56,3 +56,21 @@ class  Error_delete_session extends Courses_State {
 }
 
 class SessionsSortingColumn extends Courses_State {}
+class Loading_get_Student_for_session extends Courses_State {}
+
+class Success_get_Student_for_session extends Courses_State {}
+
+class Error_get_Student_for_session extends Courses_State {
+  String error;
+  Error_get_Student_for_session(this.error);
+}
+
+class Loading_Confirm_booking extends Courses_State {}
+
+class Success_Confirm_booking extends Courses_State {}
+
+class Error_Confirm_booking extends Courses_State {
+  String error;
+  Error_Confirm_booking(this.error);
+}
+

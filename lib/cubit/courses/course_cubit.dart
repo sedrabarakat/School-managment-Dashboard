@@ -121,6 +121,49 @@ class Courses_cubit extends Cubit<Courses_State> {
       ascending ? value1.compareTo(value2) : value2.compareTo(value1);
 
 
+  ///////////////////////////////////////////////////////
+  Map<String,dynamic>student_in_course={};
+  Future get_student_in_course({
+  required int session_id
+})async{
+    emit(Loading_get_Student_for_session());
+    return DioHelper.postData(url: 'getStudentsForSession',
+    token: token,
+    data: {
+      'session_id':session_id
+    }).
+    then((value){
+      student_in_course=value.data;
+      print(student_in_course);
+      emit(Success_get_Student_for_session());
+    }).
+    catchError((error){
+      print(error.response.data);
+      emit(Error_get_Student_for_session(error));
+    });
+  }
+  
+  Future confirm_booking({
+  required int session_id,
+    required int student_id
+})async{
+    emit(Loading_Confirm_booking());
+    DioHelper.postData(url: 'confirmBooking',
+    token: token,
+    data: {
+      'session_id':session_id,
+      'student_id':student_id,
+    }).
+    then((value){
+      get_student_in_course(session_id: 4);
+      emit(Success_Confirm_booking());
+    }).
+    catchError((error){
+      emit(Error_Confirm_booking(error));
+    });
+  }
+
+///////////////////////////////////////
   ErrorModel? errorModel;
 
   Future get_Sessions () async {

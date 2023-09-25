@@ -25,6 +25,7 @@ import '../../ui/screens/articals/add_articals.dart';
 import '../../ui/screens/classes/class_list.dart';
 import '../../ui/screens/classes/class_profile.dart';
 import '../../ui/screens/courses/add_courses.dart';
+import '../../ui/screens/courses/course_students_list.dart';
 import '../../ui/screens/home/dashboard_home.dart';
 import '../../ui/screens/parents/add_parent.dart';
 import '../../ui/screens/parents/parents_list.dart';
@@ -73,9 +74,10 @@ class Basic_Cubit extends Cubit<Basic_State> {
     '/all_articals':All_Articals(),
     '/add_articals': add_articals(),
 
-    '/inbox':Inbox(),//Inbox()
+    '/inbox':Inbox(),
     '/courses':Courses(),//Courses()
-    '/add_courses':Add_Courses()
+    '/add_courses':Add_Courses(),
+    '/course_students_list':course_student_list()
   };
 
   void on_select(AdminMenuItem item){

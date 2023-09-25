@@ -67,7 +67,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (BuildContext context) => ArticlesCubit()),
 
         BlocProvider(create: (BuildContext context) => RegisterCubit()..getClassesRegister()),
-        BlocProvider(create: (BuildContext context) => Courses_cubit()..get_teacher_for_session()),
+        BlocProvider(create: (BuildContext context) => Courses_cubit()..get_teacher_for_session()..get_student_in_course(session_id: 4)),
       ],
       child: ScreenUtilInit(
           // designSize: const Size(934, 1920),

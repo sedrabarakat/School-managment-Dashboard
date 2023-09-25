@@ -54,7 +54,7 @@ List<DataRow> getSessionsRows(
                       onPressed: () {
                         Sessions_id = se.sessionId;
                         Basic_Cubit.get(context)
-                            .change_Route('/session_profile');
+                            .change_Route('/course_students_list');
                       },
                       icon: Icon(
                         Icons.edit,

@@ -123,6 +123,7 @@ class Courses_cubit extends Cubit<Courses_State> {
 
   ///////////////////////////////////////////////////////
   Map<String,dynamic>student_in_course={};
+  List<dynamic>?student_List=[];
   Future get_student_in_course({
   required int session_id
 })async{
@@ -134,6 +135,7 @@ class Courses_cubit extends Cubit<Courses_State> {
     }).
     then((value){
       student_in_course=value.data;
+      student_List=student_in_course['data'];
       print(student_in_course);
       emit(Success_get_Student_for_session());
     }).
@@ -155,7 +157,7 @@ class Courses_cubit extends Cubit<Courses_State> {
       'student_id':student_id,
     }).
     then((value){
-      get_student_in_course(session_id: 4);
+      get_student_in_course(session_id: session_id);
       emit(Success_Confirm_booking());
     }).
     catchError((error){

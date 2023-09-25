@@ -9,6 +9,7 @@ import 'package:school_dashboard/ui/components/components.dart';
 import 'package:school_dashboard/ui/components/table_components.dart';
 //import 'package:school_dashboard/ui/widgets/courses_widgets/sessions_list_widgets.dart';
 import '../../../cubit/courses/course_state.dart';
+import '../../widgets/courses/sessions_list_widgets.dart';
 
 
 class Courses extends StatelessWidget {
@@ -75,14 +76,13 @@ class Courses extends StatelessWidget {
                             SizedBox(
                               height: height * 0.05,
                             ),
-                            /*
                             dataTableSessions(
                               context,
                               width,
                               height,
                               cubit,
                               cubit.sessionsModel!,
-                            ),*/
+                            ),
                             SizedBox(height: height*0.05,),
                             cubit.sessionsModel!.data!.isNotEmpty ? Container() : Center(child: Text('There are no sessions yet',style: TextStyle(fontSize: width*0.02,fontWeight: FontWeight.w600,color: Colors.blue),)),
                             cubit.sessionsModel!.data!.isNotEmpty ? Container() :SizedBox(

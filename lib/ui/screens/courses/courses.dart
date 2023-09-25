@@ -35,7 +35,6 @@ class Courses extends StatelessWidget {
             if (state is Error_delete_session) {
               showToast(text: state.errorModel.message!, state: ToastState.error);
             }
-
           },
           builder: (context, state) {
             var cubit = Courses_cubit.get(context);

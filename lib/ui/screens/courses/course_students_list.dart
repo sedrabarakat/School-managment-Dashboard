@@ -49,8 +49,8 @@ class course_student_list extends StatelessWidget{
                             width: width/1.2,height: height/1.5,
                             decoration: CircularBorder_decoration,
                             child: ConditionalBuilder(
-                              condition: cubit.student_List?.isNotEmpty==true,
-                              builder: (context)=>Column(
+                              condition: cubit.student_in_course.isNotEmpty,
+                              builder: (context)=>(cubit.student_List!.length>0)?Column(
                                 children: [
                                   Init_student_course_cell(width: width),
                                   SizedBox(height: height/20,),
@@ -64,10 +64,12 @@ class course_student_list extends StatelessWidget{
                                         separatorBuilder: (context,index)=>SizedBox(height: height/22,),
                                         itemCount:cubit.student_in_course['data'].length),
                                   )
-                                ],),
-                              fallback:(context)=>Center(
+                                ],):Center(
                                 child:
-                                Text('There is No Student',style: email_TextStyle(width: width),),) ,
+                                Text('There is No Student',style: email_TextStyle(width: width),),),
+                              fallback:(context)=> Center(
+                                child: SpinKitWeb(width),
+                              ) ,
                             ),),
                         ],
                       )

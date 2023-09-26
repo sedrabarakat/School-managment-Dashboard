@@ -20,7 +20,7 @@ Widget Init_student_course_cell({
         SizedBox(width: width/3.5,),
         Text('Reserve',style: TextStyle(fontSize: width/80,fontWeight: FontWeight.w600,color: Colors.lightBlue),),
         SizedBox(width: width/6.5,),
-        Text('Taken',style: TextStyle(fontSize: width/80,fontWeight: FontWeight.w600,color: Colors.lightBlue),),
+        Text('Payment',style: TextStyle(fontSize: width/80,fontWeight: FontWeight.w600,color: Colors.lightBlue),),
       ],
     ),
   );

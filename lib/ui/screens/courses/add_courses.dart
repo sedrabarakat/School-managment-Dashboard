@@ -24,7 +24,12 @@ class Add_Courses extends StatelessWidget{
     var validation_key=GlobalKey<FormState>();
     double width=MediaQuery.sizeOf(context).width;
     return BlocConsumer<Courses_cubit,Courses_State>(
-        listener: (context,state){},
+        listener: (context,state){
+          if(state is Success_Create_Session)
+            showToast(text: 'Successfully Added', state: ToastState.success);
+          if(state is Error_Create_Session)
+            showToast(text: 'Cannot Add that session...Try Again', state: ToastState.success);
+        },
         builder: (context,state){
           Courses_cubit cubit=Courses_cubit.get(context);
           //List<dynamic>teacher_List=cubit.teacher_for_session['data'];

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:school_dashboard/theme/styles.dart';
+import 'package:school_dashboard/ui/widgets/courses/sessions_list_widgets.dart';
 
 import '../../../constants.dart';
 import '../../../cubit/courses/course_cubit.dart';
@@ -55,7 +56,7 @@ Widget student_course_cell({
             backgroundColor: (status=='0')?Colors.red.shade700:Colors.lightBlue,
             Function: (){
               if(status=='0')
-              cubit.confirm_booking(session_id: 4, student_id: stuid);
+              cubit.confirm_booking(session_id: Sessions_id!, student_id: stuid);
             },
             widthSize: width/15,
             heightSize: height/20, text:(status=='0')?'Tap if paid':'has Paid')

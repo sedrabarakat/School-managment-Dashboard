@@ -161,6 +161,7 @@ class Courses_cubit extends Cubit<Courses_State> {
       emit(Success_Confirm_booking());
     }).
     catchError((error){
+      print(error.response.data);
       emit(Error_Confirm_booking(error));
     });
   }

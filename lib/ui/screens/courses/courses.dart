@@ -7,7 +7,7 @@ import 'package:school_dashboard/cubit/basic/basic_cubit.dart';
 import 'package:school_dashboard/cubit/courses/course_cubit.dart';
 import 'package:school_dashboard/ui/components/components.dart';
 import 'package:school_dashboard/ui/components/table_components.dart';
-//import 'package:school_dashboard/ui/widgets/courses_widgets/sessions_list_widgets.dart';
+import 'package:school_dashboard/ui/widgets/courses/sessions_list_widgets.dart';
 import '../../../cubit/courses/course_state.dart';
 import '../../widgets/courses/sessions_list_widgets.dart';
 

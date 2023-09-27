@@ -460,7 +460,7 @@ class Add_Teacher extends StatelessWidget {
                                 },
                                     cubit.onenter_creat,
                                     cubit.onexitc_creat,
-                                    'Creat',
+                                    'Create',
                                     cubit.buttonColor,
                                     cubit.textbuttonweightcreat),
                                 SizedBox(

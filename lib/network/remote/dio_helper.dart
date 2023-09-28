@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 
-String baseUrl = 'https://52c5-190-2-147-86.ngrok.io/api/';
+String baseUrl = 'http://192.168.1.108:8000/api/';
 
 class DioHelper {
   static late Dio dio;

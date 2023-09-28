@@ -61,7 +61,7 @@ class Dashboard_home extends StatelessWidget {
                               child: Row(
                                 children: [
                                   financial_chart_container(height, width, incoming:(Home?['data']['Income']!=null)?double.parse('${Home?['data']['Income']}'):2000,
-                                      outcoming: 222),
+                                      outcoming: (Home?['data']['Outcome']!=null)?double.parse('${Home?['data']['Outcome']}'):2000),
                                   SizedBox(width: width / 35,),
                                   female_male_chart(height: height, width: width,
                                       female: (Home?['data']['Female_perecentage']!=null)?Home!['data']['Female_perecentage']:50,

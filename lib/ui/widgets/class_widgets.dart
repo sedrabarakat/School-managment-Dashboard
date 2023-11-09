@@ -243,12 +243,12 @@ Widget Add_Remove({
             children: [
               SizedBox(width: width/22,),
               elevatedbutton(Function: Add_method,
-                  widthSize: width/30,
+                  widthSize: width/20,
                   heightSize: height/30,
                   text: 'Add'),
               SizedBox(width: width/80,),
               elevatedbutton(
-                  Function: Remove_method,widthSize: width/23,heightSize: height/30,
+                  Function: Remove_method,widthSize: width/18,heightSize: height/30,
                   text: 'Remove',backgroundColor: Colors.blue.shade800,
                   foregroundColor: Colors.white60)
             ],)

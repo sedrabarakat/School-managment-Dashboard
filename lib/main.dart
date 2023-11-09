@@ -29,6 +29,7 @@ var heightf =1600;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+
   Bloc.observer = MyBlocObserver();
 
   DioHelper.init();

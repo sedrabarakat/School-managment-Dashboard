@@ -23,6 +23,7 @@ class Home_Cubit extends Cubit<Home_State>{
    emit(Success_Get_Home());
   }).
   catchError((error){
+   print(error.response.data);
    emit(Error_Get_Home(error.toString()));
   });
  }

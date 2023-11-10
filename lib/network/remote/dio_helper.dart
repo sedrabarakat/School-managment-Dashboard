@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 
-String baseUrl = 'http://192.168.1.108:8000/api/';
+String baseUrl = 'https://laravel2.chefcoders.com/api/';
 
 class DioHelper {
   static late Dio dio;

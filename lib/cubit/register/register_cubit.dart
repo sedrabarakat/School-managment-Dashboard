@@ -240,9 +240,9 @@ class RegisterCubit extends Cubit<RegisterState> {
   var passwordParentController = TextEditingController();
   var genderParentController = TextEditingController();
   var phoneParentController = TextEditingController();
-  String? valueGender;
+  String? parentGender;
 
-  void clearControllers() {
+  void clearParentControllers() {
     nameParentController.clear();
 
     emailParentController.clear();
@@ -253,7 +253,7 @@ class RegisterCubit extends Cubit<RegisterState> {
 
     phoneParentController.clear();
 
-    valueGender = null;
+    parentGender = null;
 
     emit(ResetDataState());
   }
@@ -289,6 +289,34 @@ class RegisterCubit extends Cubit<RegisterState> {
 ////////////////////////////////////////////////////////////////////////////////
 
   //Admin
+
+  var nameAdminController = TextEditingController();
+  var emailAdminController = TextEditingController();
+  var passwordAdminController = TextEditingController();
+  var genderAdminController = TextEditingController();
+  var phoneAdminController = TextEditingController();
+
+  String? adminGender;
+  String? adminRole;
+
+  void clearAdminControllers() {
+    nameAdminController.clear();
+
+    emailAdminController.clear();
+
+    passwordAdminController.clear();
+
+    genderAdminController.clear();
+
+    phoneAdminController.clear();
+
+    adminGender = null;
+
+    adminRole = null;
+
+    emit(ResetDataState());
+  }
+
   void registerAdmin(phone, name, email, password, gender, role) async {
     isLoading = true;
     emit(LoadingRegister());

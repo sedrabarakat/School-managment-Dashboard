@@ -26,7 +26,7 @@ class Add_Parent extends StatelessWidget {
       listener: (context, state) {
         var cubit = RegisterCubit.get(context);
         if (state is SuccessRegisterParent) {
-          cubit.clearControllers();
+          cubit.clearParentControllers();
           showToast(text: 'Parent Created Successfully', state: ToastState.success);
         }
         if (state is ErrorRegisterParent) {
@@ -131,13 +131,13 @@ class Add_Parent extends StatelessWidget {
                             hinttext: "Select gender",
                             title: "Gender",
                             item: genderitem,
-                            selectedValue: cubit.valueGender,
+                            selectedValue: cubit.parentGender,
                             iserror: isErrorGender,
                             focusnode: genderFocusNode,
                             onChanged: (value) {
                               FocusScope.of(context)
                                   .requestFocus(emailFocusNode);
-                              cubit.valueGender = value;
+                              cubit.parentGender = value;
                               value == null
                                   ? isErrorGender = true
                                   : isErrorGender = false;
@@ -211,14 +211,15 @@ class Add_Parent extends StatelessWidget {
                     child: Row(
                       children: [
                         buttonRegister(cubit, height, width, () {
-                          if (formkey.currentState!.validate() && cubit.valueGender != null) {
-                            print('yess');
-                            RegisterCubit.get(context).registerParents(
-                                cubit.phoneParentController.text,
-                                cubit.nameParentController.text,
-                                cubit.emailParentController.text,
-                                cubit.passwordParentController.text,
-                                cubit.valueGender);
+                          if (formkey.currentState!.validate()) {
+                            if (cubit.parentGender != null) {
+                              RegisterCubit.get(context).registerParents(
+                                  cubit.phoneParentController.text,
+                                  cubit.nameParentController.text,
+                                  cubit.emailParentController.text,
+                                  cubit.passwordParentController.text,
+                                  cubit.parentGender);
+                            }
                           }
                         }, cubit.onEnterCreate, cubit.onExitCreate, 'Create',
                             cubit.buttonColor, cubit.textButtonWeightCreate),
@@ -226,7 +227,7 @@ class Add_Parent extends StatelessWidget {
                           width: width * 0.025,
                         ),
                         buttonRegister(cubit, height, width, () {
-                          cubit.clearControllers();
+                          cubit.clearParentControllers();
                         }, cubit.onEnterReset, cubit.onExitReset, 'Reset',
                             cubit.buttonReset, cubit.textButtonWeightReset),
                       ],

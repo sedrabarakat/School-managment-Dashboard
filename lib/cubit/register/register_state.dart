@@ -6,12 +6,12 @@ abstract class RegisterState {}
 
 class RegisterCubitInitial extends RegisterState {}
 class ChangePasswordVisibility extends RegisterState {}
-class Selectdropdown extends RegisterState {}
+class SelectDropdown extends RegisterState {}
 class ResetDataState extends RegisterState {}
 class PickImage  extends RegisterState {}
-class updatedropdown extends RegisterState {}
-class updatedlengthteacherlist extends RegisterState {}
-class updatedteacherlistview extends RegisterState {}
+class UpdateDropdown extends RegisterState {}
+class UpdatedLengthTeacherList extends RegisterState {}
+class UpdatedTeacherListview extends RegisterState {}
 
 class ErrorRegisterStudent extends RegisterState {
   ErrorModel? errorModel;
@@ -33,3 +33,13 @@ class ErrorRegisterTeacher extends RegisterState {
 
   ErrorRegisterTeacher(this.errorModel);
 }
+
+class SuccessRegisterStudent extends RegisterState {}
+
+class SuccessRegisterParent extends RegisterState {}
+
+class SuccessRegisterAdmin extends RegisterState {}
+
+class SuccessRegisterTeacher extends RegisterState {}
+
+class LoadingRegister extends RegisterState {}

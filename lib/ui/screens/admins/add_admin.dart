@@ -206,7 +206,7 @@ class Add_Admin extends StatelessWidget {
                                     value == null
                                         ? iserrorgender = true
                                         : iserrorgender = false;
-                                    RegisterCubit.get(context).updatdropdown();
+                                    RegisterCubit.get(context).updateDropdown();
 
                                     state.didChange(value);
                                   },
@@ -308,7 +308,7 @@ class Add_Admin extends StatelessWidget {
                                     value == null
                                         ? iserrRole = true
                                         : iserrRole = false;
-                                    RegisterCubit.get(context).updatdropdown();
+                                    RegisterCubit.get(context).updateDropdown();
 
                                     state.didChange(value);
                                   },
@@ -327,10 +327,9 @@ class Add_Admin extends StatelessWidget {
                               right: width * 0.05),
                           child: Row(
                             children: [
-                              buttonregister(cubit, height, width, () {
+                              buttonRegister(cubit, height, width, () {
                                 if (formkey.currentState!.validate()) {
-                                  print('yess');
-                                  RegisterCubit.get(context).RegisterAdmin(
+                                  RegisterCubit.get(context).registerAdmin(
                                       PhoneController.text,
                                       nameController.text,
                                       emailController.text,
@@ -340,29 +339,28 @@ class Add_Admin extends StatelessWidget {
                                 }
                                 // RegisterCubit.get(context).updatdropdown();
                               },
-                                  cubit.onenter_creat,
-                                  cubit.onexitc_creat,
+                                  cubit.onEnterCreate,
+                                  cubit.onExitCreate,
                                   'Create',
                                   cubit.buttonColor,
-                                  cubit.textbuttonweightcreat),
+                                  cubit.textButtonWeightCreate),
                               SizedBox(
                                 width: width * 0.025,
                               ),
-                              buttonregister(cubit, height, width, () {
+                              buttonRegister(cubit, height, width, () {
                                 nameController.clear();
                                 PhoneController.clear();
                                 Valuegender = null;
                                 emailController.clear();
                                 passwordController.clear();
                                 ValueRole = null;
-
-                                cubit.updatscreen();
+                                //cubit.updateScreen();
                               },
-                                  cubit.onenter_reset,
-                                  cubit.onexitc_reset,
+                                  cubit.onEnterReset,
+                                  cubit.onExitReset,
                                   'Reset',
                                   cubit.buttonReset,
-                                  cubit.textbuttonweightreset),
+                                  cubit.textButtonWeightReset),
                             ],
                           ),
                         )

@@ -2,13 +2,10 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:number_paginator/number_paginator.dart';
-import 'package:school_dashboard/constants.dart';
 import 'package:school_dashboard/cubit/admins/admins_list_cubit.dart';
 import 'package:school_dashboard/cubit/basic/basic_cubit.dart';
-import 'package:school_dashboard/theme/colors.dart';
 import 'package:school_dashboard/ui/components/components.dart';
 import 'package:school_dashboard/ui/components/table_components.dart';
-import 'package:school_dashboard/ui/screens/layout/basic_screen.dart';
 import 'package:school_dashboard/ui/widgets/admins/admins_list_widgets.dart';
 
 class Admin_List extends StatelessWidget{
@@ -19,8 +16,6 @@ class Admin_List extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     final height = 753.599975586;
- //   final height = heightSize/1.2500000000000000331740987392709;
-    //final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return BlocProvider(
   create: (context) => AdminsListCubit()..getAdminsTableData(paginationNumber: 0),

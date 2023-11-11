@@ -51,7 +51,7 @@ class Basic_Cubit extends Cubit<Basic_State> {
 
   final Map<String, Widget> screens = {
     '/dashboard_home':Dashboard_home(),
-    '/add_parent': add_parent(),
+    '/add_parent': Add_Parent(),
     '/parents_list':Parents_List(),
 
     '/add_student':Add_Student(),

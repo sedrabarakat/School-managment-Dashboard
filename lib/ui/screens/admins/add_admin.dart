@@ -45,7 +45,6 @@ class Add_Admin extends StatelessWidget {
       builder: (context, state) {
         var cubit = RegisterCubit.get(context);
         return cubit.isLoading == false ? SingleChildScrollView(
-          controller: Basic_Cubit.get(context).scrollController,
           child: Container(
             margin: EdgeInsets.symmetric(
                 horizontal: width * 0.03, vertical: height * 0.1),
@@ -139,14 +138,14 @@ class Add_Admin extends StatelessWidget {
                             hinttext: "Select gender",
                             title: "Gender",
                             item: genderitem,
-                            selectedValue: cubit.adminGender,
+                            selectedValue: cubit.valueGenderAdmin,
                             iserror: iserrorgender,
                             focusnode: genderFocusNode,
                             onChanged: (value) {
                               FocusScope.of(context)
                                   .requestFocus(emailFocusNode);
 
-                              cubit.adminGender = value;
+                              cubit.valueGenderAdmin = value;
 
                               value == null
                                   ? iserrorgender = true
@@ -234,14 +233,14 @@ class Add_Admin extends StatelessWidget {
                             hinttext: "Select Role",
                             title: "Roll",
                             item: RollAdmin,
-                            selectedValue: cubit.adminRole,
+                            selectedValue: cubit.valueRoleAdmin,
                             iserror: iserrRole,
                             focusnode: RoleFocusNode,
                             onChanged: (value) {
                               // FocusScope.of(context)
                               //     .requestFocus(emailFocusNode);
 
-                              cubit.adminRole = value;
+                              cubit.valueRoleAdmin = value;
 
                               value == null
                                   ? iserrRole = true
@@ -267,14 +266,14 @@ class Add_Admin extends StatelessWidget {
                       children: [
                         buttonRegister(cubit, height, width, () {
                           if (formkey.currentState!.validate()) {
-                            if (cubit.adminGender != null && cubit.adminRole != null) {
+                            if (cubit.valueGenderAdmin != null && cubit.valueRoleAdmin != null) {
                               RegisterCubit.get(context).registerAdmin(
                                   cubit.phoneAdminController.text,
                                   cubit.nameAdminController.text,
                                   cubit.emailAdminController.text,
                                   cubit.passwordAdminController.text,
-                                  cubit.adminGender,
-                                  cubit.adminRole);
+                                  cubit.valueGenderAdmin,
+                                  cubit.valueRoleAdmin);
                             }
                           }
                         },

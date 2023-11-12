@@ -51,7 +51,7 @@ class Teacher_profile extends StatelessWidget{
           Salary.text=info.salary.toString();
           Number.text=info.phoneNumber.toString();
           img=info.img;
-        }//Center(child: Lottie.asset('assets/images/teacher_profile.json', fit: BoxFit.fill,))
+        }
         return ConditionalBuilder(
             condition: !teacher_model.isNull,
             builder: (context)=>SingleChildScrollView(

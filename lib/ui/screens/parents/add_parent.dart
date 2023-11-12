@@ -36,7 +36,6 @@ class Add_Parent extends StatelessWidget {
       builder: (context, state) {
         var cubit = RegisterCubit.get(context);
         return cubit.isLoading == false ? SingleChildScrollView(
-          controller: Basic_Cubit.get(context).scrollController,
           child: Container(
             margin: EdgeInsets.symmetric(
                 horizontal: width * 0.03, vertical: height * 0.1),
@@ -131,13 +130,13 @@ class Add_Parent extends StatelessWidget {
                             hinttext: "Select gender",
                             title: "Gender",
                             item: genderitem,
-                            selectedValue: cubit.parentGender,
+                            selectedValue: cubit.valueGenderParent,
                             iserror: isErrorGender,
                             focusnode: genderFocusNode,
                             onChanged: (value) {
                               FocusScope.of(context)
                                   .requestFocus(emailFocusNode);
-                              cubit.parentGender = value;
+                              cubit.valueGenderParent = value;
                               value == null
                                   ? isErrorGender = true
                                   : isErrorGender = false;
@@ -212,13 +211,13 @@ class Add_Parent extends StatelessWidget {
                       children: [
                         buttonRegister(cubit, height, width, () {
                           if (formkey.currentState!.validate()) {
-                            if (cubit.parentGender != null) {
+                            if (cubit.valueGenderParent != null) {
                               RegisterCubit.get(context).registerParents(
                                   cubit.phoneParentController.text,
                                   cubit.nameParentController.text,
                                   cubit.emailParentController.text,
                                   cubit.passwordParentController.text,
-                                  cubit.parentGender);
+                                  cubit.valueGenderParent);
                             }
                           }
                         }, cubit.onEnterCreate, cubit.onExitCreate, 'Create',

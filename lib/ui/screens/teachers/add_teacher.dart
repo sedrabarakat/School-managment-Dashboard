@@ -128,9 +128,6 @@ class Add_Teacher extends StatelessWidget {
                           return null;
                         },
                       ),
-                      // SizedBox(
-                      //   width: width * 0.1,
-                      // ),
                       def_Container_RegitsterText(
                         focusnode: phoneFocusNode,
                         onfieldsubmitted: (value) {
@@ -153,10 +150,6 @@ class Add_Teacher extends StatelessWidget {
                           return null;
                         },
                       ),
-                      // SizedBox(
-                      //   width: width * 0.05,
-                      // ),
-
                       FormField(
                         validator: (value) {
                           value == null
@@ -175,13 +168,13 @@ class Add_Teacher extends StatelessWidget {
                             hinttext: "Select gender",
                             title: "Gender",
                             item: genderitem,
-                            selectedValue: cubit.teValueGender,
+                            selectedValue: cubit.valueGenderTeacher,
                             iserror: iserrorgender,
                             focusnode: genderFocusNode,
                             onChanged: (value) {
                               FocusScope.of(context)
                                   .requestFocus(emailFocusNode);
-                              cubit.teValueGender = value;
+                              cubit.valueGenderTeacher = value;
                               value == null
                                   ? iserrorgender = true
                                   : iserrorgender = false;
@@ -216,15 +209,12 @@ class Add_Teacher extends StatelessWidget {
                         ),
                         validator: (value) {
                           if (!EmailValidator.validate(value!)) {
-                            print('errror email');
+                            print('error email');
                             return 'Please enter a valid Email';
                           }
                           return null;
                         },
                       ),
-                      // SizedBox(
-                      //   width: width * 0.06,
-                      // ),
                       def_Container_RegitsterText(
                         focusnode: passwordFocusNode,
                         height: height,
@@ -289,7 +279,7 @@ class Add_Teacher extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Select the class and subject taught by the teacher ',
+                        'Select Classes and Subjects that teacher will be teaching:',
                         style: TextStyle(
                             fontSize: width * 0.011,
                             fontWeight: FontWeight.w600,
@@ -302,7 +292,7 @@ class Add_Teacher extends StatelessWidget {
                             onPressed: () {
                               cubit.plusTeacherList();
                             },
-                            icon: const Icon(Icons.add)),
+                            icon: const Icon(Icons.add,color: Colors.white,)),
                       ),
                       const SizedBox(
                         width: 10,
@@ -313,44 +303,39 @@ class Add_Teacher extends StatelessWidget {
                             onPressed: () {
                               cubit.minTeacherList();
                             },
-                            icon: const Icon(Icons.remove)),
+                            icon: const Icon(Icons.remove,color: Colors.white,)),
                       ),
                     ],
                   ),
                   SizedBox(
                     height: height * 0.04,
                   ),
-                  Padding(
+                  cubit.listTeacherLength > 0 ? Padding(
                     padding: EdgeInsets.only(
                       left: width * 0.03,
                     ),
                     child: Container(
-                      height: height * 0.2,
+                      height: height * 0.18,
                       child: ListView.separated(
                           scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) => subject_teacher(
+                          itemBuilder: (context, index) => subjectTeacherList(
                                 height,
                                 width,
                                 iserrorclassStudent,
-                                classstudentFocusNode,
                                 context,
                                 iserrorsubject,
-                                subjectsFocusNode,
                                 cubit,
                                 index,
-                                cubit.subjects[index],
-                                cubit.itemListSubjectsId,
                               ),
                           separatorBuilder: (context, index) => const SizedBox(
                                 width: 20,
                               ),
                           itemCount: cubit.listTeacherLength),
                     ),
-                  ),
+                  ) : Container(),
                   SizedBox(
-                    height: height * 0.015,
+                    height: height * 0.035,
                   ),
-
                   Padding(
                     padding: EdgeInsets.only(
                         left: width * 0.03,
@@ -360,13 +345,13 @@ class Add_Teacher extends StatelessWidget {
                       children: [
                         buttonRegister(cubit, height, width, () {
                           if (formkey.currentState!.validate()) {
-                            if (cubit.teValueGender != null) {
+                            if (cubit.valueGenderTeacher != null) {
                               RegisterCubit.get(context).registerTeacher(
                                   cubit.phoneTeacherController.text,
                                   cubit.nameTeacherController.text,
                                   cubit.emailTeacherController.text,
                                   cubit.passwordTeacherController.text,
-                                  cubit.teValueGender,
+                                  cubit.valueGenderTeacher,
                                   cubit.salaryTeacherController.text);
                             }
                           }
@@ -395,24 +380,16 @@ class Add_Teacher extends StatelessWidget {
 // color: Color.fromARGB(255, 120, 139, 149)
 int? classId;
 
-Widget subject_teacher(
+Widget subjectTeacherList(
     height,
     width,
     iserrorclassStudent,
-    classstudentFocusNode,
     context,
-    iserrorsubject,
-    subjectsFocusNode,
+iserrorsubject,
     RegisterCubit cubit,
-    index,
-    itemlistsubjects,
-    itemlistsubjectsid) {
-  //int? classId;
+    index,) {
 
-  int? subjectId;
-  var valueclassscreen;
   return Container(
-    height: height * 0.8,
     width: width * 0.2,
     decoration: BoxDecoration(
         color: const Color.fromARGB(133, 216, 218, 220),
@@ -425,36 +402,52 @@ Widget subject_teacher(
                 ? iserrorclassStudent = true
                 : iserrorclassStudent = false;
             if (value == null) {
-              print('errror select');
+              print('error select');
               return;
             }
             return null;
           },
           builder: (FormFieldState<dynamic> state) {
-            // String valueclassStudent='';
             return CustomDropdownButton2(
               iserror: iserrorclassStudent,
               width: width,
               height: height,
-              hint: 'select class',
+              hint: 'Select Class',
               dropdownItems: classStudent,
-              value: valueclassscreen,
-              focusnode: classstudentFocusNode,
-              // iconEnabledColor: Colors.red,
+              value: cubit.valueClassTeacherList.length <= index ? null : cubit.valueClassTeacherList[index],
               icon: const Icon(Icons.arrow_drop_down),
               onChanged: (value) {
-                cubit.teValueClassStudent = value;
+                if (cubit.valueClassTeacherList.length == index) {
+                  cubit.valueClassTeacherList.add('');
+                }
+                cubit.valueClassTeacherList[index] = value;
+
+                if (cubit.valueSubjectTeacherList.length == index) {
+                  cubit.valueSubjectTeacherList.add('');
+                }
+
+                cubit.valueSubjectTeacherList[index] = null;
+                cubit.subjects[index] = [];
+
+                print('valueClassTeacherList=');
+                print(cubit.valueClassTeacherList);
+
                 RegisterCubit.get(context).updateDropdown();
                 value == null
                     ? iserrorclassStudent = true
                     : iserrorclassStudent = false;
                 state.didChange(value);
-                cubit.dataclass.forEach((value) {
-                  if (value['grade'] == int.tryParse(cubit.teValueClassStudent!)) {
-                    classId = value['id'];
-                    RegisterCubit.get(context).subjectsRegister(classId, index);
+                for (var value in cubit.dataclass) {
+                  if (value['grade'] == int.tryParse(cubit.valueClassTeacherList[index])) {
+                    RegisterCubit.get(context)
+                        .getSubjectsRegister(value['id'],index);
+                    break;
                   }
-                });
+                }
+                print('classesIds=');
+                print(cubit.classesIds);
+                print('subjectsIds=');
+                print(cubit.subjectsIds);
               },
             );
           },
@@ -466,7 +459,7 @@ Widget subject_teacher(
           validator: (value) {
             value == null ? iserrorsubject = true : iserrorsubject = false;
             if (value == null) {
-              print('errror select');
+              print('error select');
               return;
             }
             return null;
@@ -476,20 +469,36 @@ Widget subject_teacher(
               iserror: iserrorsubject,
               width: width,
               height: height,
-              hint: 'select subject',
-              dropdownItems: itemlistsubjects,
-              value: cubit.teValueSubject,
-              focusnode: subjectsFocusNode,
+              hint: 'Select Subject',
+              dropdownItems: cubit.subjects[index],
+              value: cubit.valueSubjectTeacherList.length <= index ? null : cubit.valueSubjectTeacherList[index],
               icon: const Icon(Icons.arrow_drop_down),
               onChanged: (value) {
-                cubit.teValueSubject = value;
-                int indexselect = itemlistsubjects.indexOf(value);
-                subjectId = itemlistsubjectsid[indexselect];
-                print('class id $classId');
-                RegisterCubit.get(context)
-                    .addSubjectTeacher(classId, subjectId);
+                if (cubit.valueSubjectTeacherList.length == index) {
+                  cubit.valueSubjectTeacherList.add('');
+                }
+                cubit.valueSubjectTeacherList[index] = value;
+
+                print('valueSubjectTeacherList=');
+                print(cubit.valueSubjectTeacherList);
+
+                RegisterCubit.get(context).updateDropdown();
                 value == null ? iserrorsubject = true : iserrorsubject = false;
                 state.didChange(value);
+                for (var value in cubit.dataSubject) {
+                  if (value['name'] == cubit.valueSubjectTeacherList[index]) {
+
+                    if (cubit.subjectsIds.length == index) {
+                      cubit.subjectsIds.add(0);
+                    }
+                    cubit.subjectsIds[index] = value['id'];
+                    break;
+                  }
+                }
+                print('classesIds=');
+                print(cubit.classesIds);
+                print('subjectsIds=');
+                print(cubit.subjectsIds);
               },
             );
           },

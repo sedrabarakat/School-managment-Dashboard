@@ -52,8 +52,8 @@ class Profiles_cubit extends Cubit<Profiles_states>{
     data: {
       'student_id':student_id
     }).then((value){
-     emit(Success_get_student_profile());
      student_profile_model=Student_profile_model.fromJson(value.data);
+     emit(Success_get_student_profile());
     }).catchError((error){
       print(error.response.data);
       emit(Error_get_student_profile(error.toString()));

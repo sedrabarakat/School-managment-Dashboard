@@ -21,15 +21,6 @@ List<String> section = [];
 
 late List<String> classStudent = [];
 
-
-// late List<List<String>> subjects = [
-
-// ];
-
-// late List<List<int>> subjectsid = [
-
-// ];
-
 Widget buttonRegister(
     cubit, height, width, ontap, onenter, onexit, title, color, fontweight) {
   return InkWell(

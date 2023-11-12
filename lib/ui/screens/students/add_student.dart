@@ -115,14 +115,14 @@ class Add_Student extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(10),
                                   color: const Color(0xFFEDEDED),
                                 ),
-                                child: RegisterCubit.get(context).webImage ==
+                                child: RegisterCubit.get(context).webImageStudent ==
                                         null
                                     ? Icon(
                                         Icons.image,
                                         size: 40.sp,
                                       )
                                     : Image.memory(
-                                        RegisterCubit.get(context).webImage!,
+                                        RegisterCubit.get(context).webImageStudent!,
                                         fit: BoxFit.contain,
                                       ),
                               ),
@@ -200,14 +200,14 @@ class Add_Student extends StatelessWidget {
                                   hinttext: "Select gender",
                                   title: "Gender",
                                   item: genderitem,
-                                  selectedValue: cubit.Valuegender,
+                                  selectedValue: cubit.valueGenderStudent,
                                   iserror: cubit.iserrorgender,
                                   focusnode: genderFocusNode,
                                   onChanged: (value) {
                                     FocusScope.of(context)
                                         .requestFocus(classFocusNode);
 
-                                    cubit.Valuegender = value;
+                                    cubit.valueGenderStudent = value;
 
                                     value == null
                                         ? cubit.iserrorgender = true
@@ -246,14 +246,15 @@ class Add_Student extends StatelessWidget {
                                   hinttext: "Select ",
                                   title: "Select Class Student",
                                   item: classStudent,
-                                  selectedValue: cubit.valueclassStudent,
+                                  selectedValue: cubit.valueClassStudent,
                                   iserror: cubit.iserrorclassStudent,
                                   focusnode: classFocusNode,
                                   onChanged: (value) {
+                                    print('value=$value');
                                     FocusScope.of(context)
                                         .requestFocus(sectionFocusNode);
 
-                                    cubit.valueclassStudent = value;
+                                    cubit.valueClassStudent = value;
 
                                     value == null
                                         ? cubit.iserrorclassStudent = true
@@ -261,19 +262,20 @@ class Add_Student extends StatelessWidget {
                                     RegisterCubit.get(context).updateDropdown();
 
                                     state.didChange(value);
-
-                                    cubit.dataclass.forEach((value) {
+                                    print(cubit.valueClassStudent);
+                                    for (var value in cubit.dataclass) {
+                                      print('${value['grade']} <><> ${cubit.valueClassStudent!}');
                                       if (value['grade'] ==
                                           int.tryParse(
-                                              cubit.valueclassStudent!)) {
+                                              cubit.valueClassStudent!)) {
                                         cubit.classId = value['id'];
-                                        cubit.valuesection = null;
                                         section = [];
                                         RegisterCubit.get(context)
-                                            .getSectionsRegister(
-                                                classid: cubit.classId);
+                                            .getSectionsRegisterForStudent(
+                                                classId: cubit.classId!);
+                                        break;
                                       }
-                                    });
+                                    }
                                   },
                                 );
                               },
@@ -296,14 +298,14 @@ class Add_Student extends StatelessWidget {
                                   hinttext: "Select ",
                                   title: "Select Section",
                                   item: section,
-                                  selectedValue: cubit.valuesection,
+                                  selectedValue: cubit.valueSectionStudent,
                                   iserror: cubit.iserrorsection,
                                   focusnode: sectionFocusNode,
                                   onChanged: (value) {
                                     FocusScope.of(context)
                                         .requestFocus(Birth_dateFocusNode);
 
-                                    cubit.valuesection = value;
+                                    cubit.valueSectionStudent = value;
 
                                     value == null
                                         ? cubit.iserrorsection = true
@@ -312,12 +314,13 @@ class Add_Student extends StatelessWidget {
 
                                     state.didChange(value);
 
-                                    cubit.datasection.forEach((value) {
+                                    for (var value in cubit.datasectionst) {
                                       if (value['number'] ==
-                                          int.tryParse(cubit.valuesection!)) {
+                                          int.tryParse(cubit.valueSectionStudent!)) {
                                         cubit.sectionId = value['id'];
+                                        break;
                                       }
-                                    });
+                                    }
                                   },
                                 );
                               },
@@ -336,7 +339,7 @@ class Add_Student extends StatelessWidget {
                                   width: 300,
                                 );
                                 if (pickedDate != null) {
-                                  cubit.datetime = DateFormat("yyyy/MM/dd")
+                                  cubit.valueDateTimeStudent = DateFormat("yyyy/MM/dd")
                                       .format(pickedDate);
                                   _selectedDate = pickedDate;
                                   cubit.birthDateController.text =
@@ -405,7 +408,8 @@ class Add_Student extends StatelessWidget {
                                 size: width * 0.018,
                               ),
                               validator: (value) {
-                                if (value is String && value != '') {
+                                int? parsedValue = int.tryParse(value);
+                                if (parsedValue == null && value != '') {
                                   return 'Must be a number';
                                 }
                                 return null;
@@ -429,10 +433,7 @@ class Add_Student extends StatelessWidget {
                               validator: (value) {
                                 value = int.tryParse(value);
                                 if (value == null) {
-                                  return 'Please Type The a number';
-                                }
-                                if (value is String) {
-                                  return 'Must be a number';
+                                  return 'Please Type The number';
                                 }
                                 return null;
                               },
@@ -506,21 +507,21 @@ class Add_Student extends StatelessWidget {
                             children: [
                               buttonRegister(cubit, height, width, () {
                                 if (formkey.currentState!.validate()) {
-                                  if (cubit.Valuegender != null &&
-                                      cubit.datetime != null &&
+                                  if (cubit.valueGenderStudent != null &&
+                                      cubit.valueDateTimeStudent != null &&
                                       cubit.sectionId != null) {
                                     RegisterCubit.get(context).registerStudents(
                                       cubit.phoneStudentController.text,
                                       cubit.nameStudentController.text,
                                       cubit.emailStudentController.text,
                                       cubit.passwordStudentController.text,
-                                      cubit.Valuegender,
+                                      cubit.valueGenderStudent,
                                       cubit.leftBusController.text,
                                       cubit.leftTuitionFeesController.text,
                                       parent_id,
                                       cubit.sectionId,
                                       cubit.addressStudentController.text,
-                                      cubit.datetime,
+                                      cubit.valueDateTimeStudent,
                                     );
                                   }
                                 }

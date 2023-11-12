@@ -71,7 +71,6 @@ class Class_Profile_cubit extends Cubit<Class_Profile_States>{
       print(value.data);
     }).catchError((error){
       emit(Error_Add_Subject_States(error.toString()));
-      //print(error.response.data);
     });
   }
 

@@ -6,7 +6,7 @@ import 'package:flutter_admin_scaffold/admin_scaffold.dart';
 import 'package:school_dashboard/cubit/basic/basic_cubit.dart';
 import 'package:school_dashboard/cubit/home/home_cubit.dart';
 import 'package:school_dashboard/network/local/cash_helper.dart';
-import 'package:school_dashboard/ui/screens/login.dart';
+import 'package:school_dashboard/ui/screens/login/login.dart';
 
 Size size=PlatformDispatcher.instance.views.first.physicalSize;
 double height=size.height;
@@ -126,8 +126,6 @@ class MyCustomScrollBehavior extends MaterialScrollBehavior {
 void signOut(context)
 {
 
-
-
   CacheHelper.signOut(key: 'user_id');
   CacheHelper.signOut(key: 'admin_type');
 
@@ -155,3 +153,5 @@ var user_id;
 var admin_type;
 
 var heightSize = 800.0;
+
+var select_route;

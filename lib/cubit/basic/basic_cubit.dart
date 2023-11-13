@@ -47,7 +47,7 @@ class Basic_Cubit extends Cubit<Basic_State> {
 
   static Basic_Cubit get(context)=>BlocProvider.of(context);
 
-  String select_route=(admin_type==2)?"/books_list":'/dashboard_home';
+  //String select_route=(admin_type==2)?"/books_list":'/dashboard_home';
 
   final Map<String, Widget> screens = {
     '/dashboard_home':Dashboard_home(),

@@ -61,6 +61,12 @@ class LoginScreen extends StatelessWidget {
           ).then(
             (value) {
               token = state.loginModel.data!.token;
+              if (admin_type == 2) {
+                select_route = '/books_list';
+              }
+              else {
+                select_route = '/dashboard_home';
+              }
               Navigator.of(context).pushReplacementNamed('/home');
             },
           );

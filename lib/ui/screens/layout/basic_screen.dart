@@ -38,7 +38,7 @@ class Basic_Screen extends StatelessWidget {
       builder: (context, Basic_State) {
         Basic_Cubit basic_cubit = Basic_Cubit.get(context);
         Map<String, Widget> screen = basic_cubit.screens;
-        var selected_route=basic_cubit.select_route;
+        var selected_route= select_route;
         return Scaffold(
           appBar: null,
           floatingActionButton: basic_cubit.backToTop ? FloatingActionButton(
@@ -76,12 +76,12 @@ class Basic_Screen extends StatelessWidget {
                 backgroundColor: Colors.white,
                 onSelected: (item) {
                   basic_cubit.on_select(item);
-                  print(basic_cubit.select_route);
+                  print(select_route);
                 },
                 selectedRoute: '/',
                 items: (admin_type==2)?Library_SideBar:Side_Bar_Menu,
               ),
-              body: screen[basic_cubit.select_route]!,
+              body: screen[select_route]!,
             ),
         );
       },

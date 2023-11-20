@@ -136,7 +136,9 @@ Widget identity_row({
         child: Center(
           child: IconButton(icon: Icon(Icons.arrow_back_ios_sharp,),
             onPressed: (){
-              (is_tech)?Basic_Cubit.get(context).change_Route("/teachers_list"):Basic_Cubit.get(context).change_Route("/students_list");
+              (is_tech)?
+              Basic_Cubit.get(context).routing(route: '/teachers_list',context: context) :
+              Basic_Cubit.get(context).routing(route: '/students_list',context: context);
             },),
         ),),
       (img!=null)?image_container(

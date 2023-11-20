@@ -7,12 +7,13 @@ import 'package:school_dashboard/cubit/class_profile/class_profile_cubit.dart';
 import 'package:school_dashboard/cubit/classes/classes_list_cubit.dart';
 import 'package:school_dashboard/models/Tables/classes_table.dart';
 import 'package:collection/collection.dart';
+import 'package:school_dashboard/routes/web_router.dart';
 import 'package:school_dashboard/ui/components/components.dart';
 import 'package:school_dashboard/ui/screens/classes/class_profile.dart';
 
 import '../class_widgets.dart';
 
- int ?class_id;
+
 
 
 List<DataColumn2> getClassesColumns(ClassesListCubit cubit) => cubit.ClassesColumns.map(
@@ -56,9 +57,8 @@ List<DataRow> getClassesRows(
                     onPressed: () {
                       class_id=cl.class_id!.toInt();
                       print(class_id);
-                      Basic_Cubit.get(context).change_Route('/class_profile');
-
-
+                    //  Basic_Cubit.get(context).routing(context: context, route: '/class_list/class_profile/:class_id');
+                      W_Router.router.go('/class_list/class_profile/$class_id');
                     },
                     icon: Icon(
                       Icons.edit,

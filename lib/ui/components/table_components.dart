@@ -35,7 +35,7 @@ Widget routeRow(String s, width, context) {
     children: [
       TextButton(
           onPressed: () {
-            Basic_Cubit.get(context).change_Route('/dashboard_home');
+            Basic_Cubit.get(context).routing(route: '/dashboard_home',context: context);
           },
           child: Text(
             'Home',

@@ -9,7 +9,9 @@ import 'package:collection/collection.dart';
 import 'package:school_dashboard/theme/colors.dart';
 import 'package:school_dashboard/ui/components/components.dart';
 
-int? parent_id;
+import '../../../routes/web_router.dart';
+
+
 Widget searchByNameParent(context,width,height,nameController,nameFocusNode,phoneFocusNode){
   return Container(
     width: width * 0.18,
@@ -132,7 +134,8 @@ List<DataRow> getParentsRows(
                   onPressed: () {
                     parent_id=pa.parent_id!.toInt();
                     print(parent_id);
-                    Basic_Cubit.get(context).change_Route('/add_student');
+                 //   Basic_Cubit.get(context).routing(route: '/add_student',context: context);
+                    W_Router.router.go('/parents_list/$parent_id/add_student');
                   },
                   icon: Icon(
                     Icons.add,

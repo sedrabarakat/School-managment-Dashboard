@@ -24,3 +24,5 @@ class LogoutErrorState extends Basic_State {
 
   LogoutErrorState(this.errorModel);
 }
+
+class Change_num extends Basic_State {}

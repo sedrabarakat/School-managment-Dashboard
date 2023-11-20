@@ -1,9 +1,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:school_dashboard/constants.dart';
 import 'package:school_dashboard/cubit/auth/auth_cubit.dart';
+import 'package:school_dashboard/cubit/basic/basic_cubit.dart';
 import 'package:school_dashboard/network/local/cash_helper.dart';
+import 'package:school_dashboard/routes/web_router.dart';
 import 'package:school_dashboard/theme/colors.dart';
 import 'package:school_dashboard/ui/components/components.dart';
 import 'package:school_dashboard/ui/widgets/login_widgets.dart';
@@ -27,7 +30,7 @@ class LoginScreen extends StatelessWidget {
     final height = 753.599975586;
     // final height = MediaQuery.of(context).size.height;
     //final height = heightSize / 1.2500000000000000331740987392709;
-    final width = MediaQuery.of(context).size.width;
+
     var cubit = AuthCubit.get(context);
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
@@ -61,7 +64,8 @@ class LoginScreen extends StatelessWidget {
           ).then(
             (value) {
               token = state.loginModel.data!.token;
-              Navigator.of(context).pushReplacementNamed('/home');
+              Basic_Cubit.get(context).routing(route: '/dashboard_home', context: context);
+             (admin_type==2)?W_Router.router.go('/books_list'):W_Router.router.go('/dashboard_home');
             },
           );
           print(token);
@@ -69,6 +73,7 @@ class LoginScreen extends StatelessWidget {
             text: state.loginModel.message!,
             state: ToastState.success,
           );
+
 
 
           cubit.isAnimated = false;
@@ -88,26 +93,29 @@ class LoginScreen extends StatelessWidget {
         backgroundColor: primaryColor,
         appBar: null,
         body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Stack(
-                alignment: Alignment.topCenter,
-                children: [
-                  Wave(width),
-                  Logo(width, height),
-                ],
-              ),
-              WhiteContainer(
-                  context,
-                  width,
-                  height,
-                  cubit,
-                  emailController,
-                  passwordController,
-                  emailFocusNode,
-                  passwordFocusNode,
-                  formKey)
-            ],
+          scrollDirection: Axis.horizontal,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Stack(
+                  alignment: Alignment.topCenter,
+                  children: [
+                    Wave(width),
+                    Logo(width, height),
+                  ],
+                ),
+                WhiteContainer(
+                    context,
+                    width,
+                    height,
+                    cubit,
+                    emailController,
+                    passwordController,
+                    emailFocusNode,
+                    passwordFocusNode,
+                    formKey)
+              ],
+            ),
           ),
         ),
       ),

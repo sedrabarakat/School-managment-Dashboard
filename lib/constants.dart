@@ -10,6 +10,7 @@ import 'package:school_dashboard/ui/screens/login.dart';
 
 Size size=PlatformDispatcher.instance.views.first.physicalSize;
 double height=size.height;
+double width=size.width;
 
 List<AdminMenuItem> Side_Bar_Menu= const [
   AdminMenuItem(
@@ -143,7 +144,8 @@ void signOut(context)
       Home_Cubit.get(context).Home = null;
       admin_type=null;
       token=null;
-      Basic_Cubit.get(context).change_Route('/dashboard_home');
+     // Basic_Cubit.get(context).change_Route('/dashboard_home');
+      context.go('/login');
     }
   });
 
@@ -155,3 +157,10 @@ var user_id;
 var admin_type;
 
 var heightSize = 800.0;
+
+int ?Teacher_id;
+int ?class_id;
+int ? Student_id;
+int? Sessions_id;
+int? parent_id;
+

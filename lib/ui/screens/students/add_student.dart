@@ -11,6 +11,8 @@ import 'package:school_dashboard/ui/widgets/parents/parents_list_widgets.dart';
 import 'package:school_dashboard/ui/widgets/register_widgets.dart';
 import 'package:vph_web_date_picker/vph_web_date_picker.dart';
 
+import '../../../constants.dart';
+
 class Add_Student extends StatelessWidget {
   var nameController = TextEditingController();
   var emailController = TextEditingController();

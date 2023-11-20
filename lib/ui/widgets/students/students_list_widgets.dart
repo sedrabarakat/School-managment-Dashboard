@@ -10,7 +10,9 @@ import 'package:school_dashboard/cubit/students/students_list_cubit.dart';
 import 'package:school_dashboard/models/Tables/students_table.dart';
 import 'package:school_dashboard/ui/components/components.dart';
 
-int? Student_id;
+import '../../../routes/web_router.dart';
+
+
 
 Widget searchByNameStudent(
     context, width, height, nameController, nameFocusNode, classFocusNode) {
@@ -200,7 +202,8 @@ List<DataRow> getStudentsRows(
                   IconButton(
                     onPressed: () {
                       Student_id = st.student_id;
-                      Basic_Cubit.get(context).change_Route('/student_profile');
+                    //  Basic_Cubit.get(context).routing(route: '/students_list/student_profile/:Student_id',context:context );
+                      W_Router.router.go("/students_list/student_profile/$Student_id");
                     },
                     icon: Icon(
                       Icons.edit,

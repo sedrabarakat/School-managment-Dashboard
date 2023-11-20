@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_admin_scaffold/admin_scaffold.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:school_dashboard/routes/web_router.dart';
 
 import '../../../constants.dart';
 import '../../../cubit/basic/basic_cubit.dart';
@@ -55,7 +56,8 @@ class Basic_Screen extends StatelessWidget {
                 backgroundColor: Colors.lightBlue,
                 actions: [
                   Text_Icon_Button(width: width, Function: () {
-                    basic_cubit.logout();
+                    basic_cubit.logout().then((value) =>  W_Router.router.go('/login'));
+
                   }, text: 'Logout')
                 ],
               ),
@@ -80,8 +82,8 @@ class Basic_Screen extends StatelessWidget {
                 },
                 selectedRoute: '/',
                 items: (admin_type==2)?Library_SideBar:Side_Bar_Menu,
-              ),
-              body: screen[basic_cubit.select_route]!,
+              ),//screen[basic_cubit.select_route]!
+              body:screen[basic_cubit.select_route]!,
             ),
         );
       },

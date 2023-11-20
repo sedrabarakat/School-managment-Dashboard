@@ -9,7 +9,9 @@ import 'package:school_dashboard/models/Tables/teachers_table.dart';
 import 'package:school_dashboard/theme/colors.dart';
 import 'package:school_dashboard/ui/components/components.dart';
 
-int ?Teacher_id;
+import '../../../routes/web_router.dart';
+
+
 Widget searchByNameTeacher(
     context, width, height, nameController, nameFocusNode) {
   return Container(
@@ -103,7 +105,8 @@ List<DataRow> getTeachersRows(List<TeacherData> allTeachers, width, heigth,
                   IconButton(
                     onPressed: () {
                       Teacher_id=te.teacher_id;
-                      Basic_Cubit.get(context).change_Route('/teacher_profile');
+                      //Basic_Cubit.get(context).routing(route: '/teachers_list/teacher_profile/:Teacher_id',context: context);
+                       W_Router.router.go('/teachers_list/teacher_profile/$Teacher_id');
                     },
                     icon: Icon(
                       Icons.edit,

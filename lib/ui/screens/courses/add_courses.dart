@@ -22,7 +22,7 @@ class Add_Courses extends StatelessWidget{
     var price_controller=TextEditingController();
     var Date_controller=TextEditingController();
     var validation_key=GlobalKey<FormState>();
-    double width=MediaQuery.sizeOf(context).width;
+
     return BlocConsumer<Courses_cubit,Courses_State>(
         listener: (context,state){
           if(state is Success_Create_Session)
@@ -34,164 +34,167 @@ class Add_Courses extends StatelessWidget{
           Courses_cubit cubit=Courses_cubit.get(context);
           //List<dynamic>teacher_List=cubit.teacher_for_session['data'];
           return SingleChildScrollView(
-            child: Padding(
-              padding: EdgeInsets.symmetric(vertical: height/10,horizontal: width/15),
-              child: Container(
-                  height: height/1.3,width: width,
-                  decoration: CircularBorder_decoration.copyWith(borderRadius: BorderRadius.circular(30),
-                      boxShadow: [light_blue_shadow]),
-                  child: ConditionalBuilder(
-                    condition: cubit.teacher_for_session.length>0,
-                    builder: (context)=>Padding(
-                        padding: EdgeInsets.only(left: width/20,top: height/15),
-                        child: Form(
-                          key: validation_key,
-                          child: Row(children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Animated_Text(width: width, text: 'Add Course'),
-                                SizedBox(height: height/20,),
-                                Text('Session description',style: email_TextStyle(width: width)),
-                                SizedBox(height: height/60,),
-                                SizedBox(
-                                  width: width/5,
-                                  child: default_TextFromField(
-                                      maxLines: 2,
-                                      is_there_prefix: true,
-                                      prefixicon: Icons.description,
-                                      width: width/10,
-                                      controller: body_controller,
-                                      keyboardtype: TextInputType.text,
-                                      hintText: 'Session description '),
-                                ),
-
-                                SizedBox(height: height/30,),
-
-                                Text('Student Number',style: email_TextStyle(width: width)),
-                                SizedBox(height: height/60,),
-                                SizedBox(
-                                  width: width/5,
-                                  child: default_TextFromField(
-                                      is_there_prefix: true,
-                                      prefixicon: Icons.people_outline_rounded,
-                                      width: width/10,
-                                      controller: Num_controller,
-                                      keyboardtype: TextInputType.number,
-                                      inputformater: [
-                                        FilteringTextInputFormatter.digitsOnly
-                                      ],
-                                      hintText: 'Student Number'),
-                                ),
-
-                                SizedBox(height: height/30,),
-
-                                Text('Session Price',style: email_TextStyle(width: width)),
-                                SizedBox(height: height/60,),
-                                SizedBox(
-                                  width: width/5,
-                                  child: default_TextFromField(
-                                      is_there_prefix: true,
-                                      prefixicon: Icons.price_change,
-                                      width: width/10,
-                                      controller: price_controller,
-                                      inputformater: [
-                                        FilteringTextInputFormatter.digitsOnly
-                                      ],
-                                      keyboardtype: TextInputType.number,
-                                      hintText: 'Session Price'),
-                                ),
-
-                                SizedBox(height: height/30),
-
-                                Text('Session Date',style: email_TextStyle(width: width)),
-                                SizedBox(height: height/60,),
-                                SizedBox(
-                                  width: width/5,
-                                  child: default_TextFromField(
-                                      tap: (){
-                                        showDatePicker(
-                                            context: context,
-                                            initialDate: DateTime.now().add(Duration(days: 1)),
-                                            firstDate: DateTime.now().add(Duration(days: 1)),
-                                            lastDate: DateTime(2090)).then((value){
-                                          if(value!=null){
-                                            Date_controller.text=DateFormat('yyyy-M-dd').format(value).toString();
-                                            print(DateFormat('yyyy-M-dd').format(value));
-                                          }
-                                        });
-
-                                      },
-                                      is_there_prefix: true,
-                                      prefixicon: Icons.date_range,
-                                      width: width/10,
-                                      controller: Date_controller,
-                                      keyboardtype: TextInputType.none,
-                                      hintText: 'Session Date'),
-                                ),
-
-                              ],
-                            ),
-                            Padding(
-                              padding:  EdgeInsets.only(
-                                  top: height/11,left: width/8
-                              ),
-                              child: Column(
+            scrollDirection: Axis.horizontal,
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical: height/10,horizontal: width/15),
+                child: Container(
+                    height: height/1.3,width: width,
+                    decoration: CircularBorder_decoration.copyWith(borderRadius: BorderRadius.circular(30),
+                        boxShadow: [light_blue_shadow]),
+                    child: ConditionalBuilder(
+                      condition: cubit.teacher_for_session.length>0,
+                      builder: (context)=>Padding(
+                          padding: EdgeInsets.only(left: width/20,top: height/15),
+                          child: Form(
+                            key: validation_key,
+                            child: Row(children: [
+                              Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text('Session Teacher',style: email_TextStyle(width: width)),
+                                  Animated_Text(width: width, text: 'Add Course'),
+                                  SizedBox(height: height/20,),
+                                  Text('Session description',style: email_TextStyle(width: width)),
                                   SizedBox(height: height/60,),
-                                  if(cubit.teacher_for_session.length>0)
-                                    drop_Teacher_for_session(
-                                        is_techer_drop: true,
-                                        context: context,
-                                        last: cubit.teacher_for_session['data'],
-                                        height: height, width: width*1.5),
+                                  SizedBox(
+                                    width: width/5,
+                                    child: default_TextFromField(
+                                        maxLines: 2,
+                                        is_there_prefix: true,
+                                        prefixicon: Icons.description,
+                                        width: width/10,
+                                        controller: body_controller,
+                                        keyboardtype: TextInputType.text,
+                                        hintText: 'Session description '),
+                                  ),
+
+                                  SizedBox(height: height/30,),
+
+                                  Text('Student Number',style: email_TextStyle(width: width)),
+                                  SizedBox(height: height/60,),
+                                  SizedBox(
+                                    width: width/5,
+                                    child: default_TextFromField(
+                                        is_there_prefix: true,
+                                        prefixicon: Icons.people_outline_rounded,
+                                        width: width/10,
+                                        controller: Num_controller,
+                                        keyboardtype: TextInputType.number,
+                                        inputformater: [
+                                          FilteringTextInputFormatter.digitsOnly
+                                        ],
+                                        hintText: 'Student Number'),
+                                  ),
+
+                                  SizedBox(height: height/30,),
+
+                                  Text('Session Price',style: email_TextStyle(width: width)),
+                                  SizedBox(height: height/60,),
+                                  SizedBox(
+                                    width: width/5,
+                                    child: default_TextFromField(
+                                        is_there_prefix: true,
+                                        prefixicon: Icons.price_change,
+                                        width: width/10,
+                                        controller: price_controller,
+                                        inputformater: [
+                                          FilteringTextInputFormatter.digitsOnly
+                                        ],
+                                        keyboardtype: TextInputType.number,
+                                        hintText: 'Session Price'),
+                                  ),
+
                                   SizedBox(height: height/30),
-                                  ConditionalBuilder(
-                                      condition: cubit.subject_for_session.length>0,
-                                      builder: (context)=>Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text('Session Subject',style: email_TextStyle(width: width)),
-                                          SizedBox(height: height/60,),
-                                          drop_Teacher_for_session(
 
+                                  Text('Session Date',style: email_TextStyle(width: width)),
+                                  SizedBox(height: height/60,),
+                                  SizedBox(
+                                    width: width/5,
+                                    child: default_TextFromField(
+                                        tap: (){
+                                          showDatePicker(
                                               context: context,
-                                              last: cubit.subject_for_session['data'],
-                                              height: height, width: width*1.5, is_techer_drop: false)
-                                        ],),
-                                      fallback: (context)=>SizedBox())
+                                              initialDate: DateTime.now().add(Duration(days: 1)),
+                                              firstDate: DateTime.now().add(Duration(days: 1)),
+                                              lastDate: DateTime(2090)).then((value){
+                                            if(value!=null){
+                                              Date_controller.text=DateFormat('yyyy-M-dd').format(value).toString();
+                                              print(DateFormat('yyyy-M-dd').format(value));
+                                            }
+                                          });
 
+                                        },
+                                        is_there_prefix: true,
+                                        prefixicon: Icons.date_range,
+                                        width: width/10,
+                                        controller: Date_controller,
+                                        keyboardtype: TextInputType.none,
+                                        hintText: 'Session Date'),
+                                  ),
 
-                                ],),
-                            ),
-                            Padding(
-                              padding:  EdgeInsets.only(
-                                  left:width/20,
-                                  top: height/2
+                                ],
                               ),
-                              child: elevatedbutton(
-                                  Function: (){
-                                    if(validation_key.currentState!.validate()){
-                                      cubit.create_Session(
-                                          body: body_controller.text,
-                                          subjects_has_teacher_id: subjects_has_teacher_id!,
-                                          counter: int.parse(Num_controller.text),
-                                          price: int.parse(price_controller.text),
-                                          date: Date_controller.text);
-                                    }
-                                  },
-                                  widthSize: width/16,
-                                  heightSize: height/20,
-                                  text: 'Add Session'),
-                            )
-                          ],),
-                        )
-                    ),
-                    fallback: (context)=>SizedBox(),
-                  )
-              ),),);
+                              Padding(
+                                padding:  EdgeInsets.only(
+                                    top: height/11,left: width/8
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text('Session Teacher',style: email_TextStyle(width: width)),
+                                    SizedBox(height: height/60,),
+                                    if(cubit.teacher_for_session.length>0)
+                                      drop_Teacher_for_session(
+                                          is_techer_drop: true,
+                                          context: context,
+                                          last: cubit.teacher_for_session['data'],
+                                          height: height, width: width*1.5),
+                                    SizedBox(height: height/30),
+                                    ConditionalBuilder(
+                                        condition: cubit.subject_for_session.length>0,
+                                        builder: (context)=>Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text('Session Subject',style: email_TextStyle(width: width)),
+                                            SizedBox(height: height/60,),
+                                            drop_Teacher_for_session(
+
+                                                context: context,
+                                                last: cubit.subject_for_session['data'],
+                                                height: height, width: width*1.5, is_techer_drop: false)
+                                          ],),
+                                        fallback: (context)=>SizedBox())
+
+
+                                  ],),
+                              ),
+                              Padding(
+                                padding:  EdgeInsets.only(
+                                    left:width/20,
+                                    top: height/2
+                                ),
+                                child: elevatedbutton(
+                                    Function: (){
+                                      if(validation_key.currentState!.validate()){
+                                        cubit.create_Session(
+                                            body: body_controller.text,
+                                            subjects_has_teacher_id: subjects_has_teacher_id!,
+                                            counter: int.parse(Num_controller.text),
+                                            price: int.parse(price_controller.text),
+                                            date: Date_controller.text);
+                                      }
+                                    },
+                                    widthSize: width/16,
+                                    heightSize: height/20,
+                                    text: 'Add Session'),
+                              )
+                            ],),
+                          )
+                      ),
+                      fallback: (context)=>SizedBox(),
+                    )
+                ),),),
+          );
         });
   }
 }

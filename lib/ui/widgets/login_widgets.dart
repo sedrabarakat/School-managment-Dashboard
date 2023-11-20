@@ -4,7 +4,9 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:school_dashboard/cubit/auth/auth_cubit.dart';
+import 'package:school_dashboard/cubit/basic/basic_cubit.dart';
 import 'package:school_dashboard/theme/colors.dart';
 import 'package:school_dashboard/theme/styles.dart';
 import 'package:school_dashboard/ui/components/components.dart';
@@ -248,6 +250,7 @@ Widget Button(height,width,formkey,emailController,passwordController,AuthCubit 
                     cubit.login(
                         email: emailController.text,
                         password: passwordController.text);
+                  //  context.go('/basic_screen');
                     //toast(text: 'Login Successfulyy');
                   }
                 },

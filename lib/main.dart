@@ -1,7 +1,11 @@
 
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:school_dashboard/BlocObserver.dart';
 import 'package:school_dashboard/constants.dart';
 import 'package:school_dashboard/cubit/articles/articles_cubit.dart';
@@ -11,12 +15,16 @@ import 'package:school_dashboard/cubit/class_profile/class_profile_cubit.dart';
 import 'package:school_dashboard/cubit/class_profile/marks_cubit.dart';
 import 'package:school_dashboard/cubit/courses/course_cubit.dart';
 import 'package:school_dashboard/cubit/home/home_cubit.dart';
+import 'package:school_dashboard/cubit/home/home_states.dart';
 import 'package:school_dashboard/cubit/register/register_cubit.dart';
 import 'package:school_dashboard/network/local/cash_helper.dart';
 import 'package:school_dashboard/network/remote/dio_helper.dart';
 import 'package:school_dashboard/routes/web_router.dart';
 import 'package:school_dashboard/theme/web_theme.dart';
+import 'package:school_dashboard/ui/screens/home/dashboard_home.dart';
 import 'package:school_dashboard/ui/screens/layout/basic_screen.dart';
+import 'package:window_manager/window_manager.dart';
+import 'package:window_size/window_size.dart';
 
 import 'cubit/admins/admins_list_cubit.dart';
 import 'cubit/classes/classes_list_cubit.dart';
@@ -37,7 +45,7 @@ Future<void> main() async {
 
   admin_type = CacheHelper.getData(key: 'admin_type');
 
-  token = CacheHelper.getData(key: 'token');
+  token = "65|qr68Aj4b9AwmManUUKHH5Gr1tacX7PNfkEApSUV7";
 
   user_id = CacheHelper.getData(key: 'user_id');
 
@@ -45,6 +53,19 @@ Future<void> main() async {
   print('token=$token');
   print('user_id=$user_id');
 
+/* try{
+   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
+     //https://github.com/google/flutter-desktop-embedding.git
+     setWindowMaxSize( Size(800, 800));
+     setWindowMinSize( Size(800, 800));
+   }
+ }
+ catch(e){
+   if (kIsWeb) {
+     setWindowMaxSize( Size(800, 800));
+     setWindowMinSize( Size(800, 800));
+    }
+ }*/
 
   runApp(MyApp());
 }
@@ -54,8 +75,10 @@ class MyApp extends StatelessWidget {
 
   final WebRouter _appRouter = WebRouter();
 
+
   @override
   Widget build(BuildContext context) {
+    var width = MediaQuery.of(context).size.width;
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (BuildContext context) => AuthCubit()),
@@ -69,19 +92,23 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (BuildContext context) => RegisterCubit()..getClassesRegister()),
         BlocProvider(create: (BuildContext context) => Courses_cubit()..get_teacher_for_session()..get_student_in_course(session_id: 4)),
       ],
+
       child: ScreenUtilInit(
           // designSize: const Size(934, 1920),
-          designSize: const Size(1920, 934),
+          designSize: (width>800)? Size(1920, 934):Size(1000,200),
+
           minTextAdapt: true,
           splitScreenMode: true,
           builder: (context, child) {
-            return MaterialApp(
+            return MaterialApp.router(
               scrollBehavior: MyCustomScrollBehavior(),
               title: 'School Web',
               theme: WebTheme.lightTheme,
               debugShowCheckedModeBanner: false,
-              initialRoute: (token != null) ?'/home': '/login',
-              onGenerateRoute: _appRouter.onGenerateRoute,
+              routerDelegate: W_Router.router.routerDelegate,
+              routeInformationParser: W_Router.router.routeInformationParser,
+              routeInformationProvider: W_Router.router.routeInformationProvider,
+
             );
           }),
     );
@@ -90,3 +117,13 @@ class MyApp extends StatelessWidget {
 /*(token != null) ? (
                   (admin_type!=2)?'/dashboard_home':
                   (admin_type==2)?'/books_list':'' ): '/login',*/
+
+/*  if (kIsWeb) {
+    // Some web specific code there
+  }
+  else if (defaultTargetPlatform == TargetPlatform.iOS || defaultTargetPlatform == TargetPlatform.android) {
+    // Some android/ios specific code
+  }
+  else if (defaultTargetPlatform == TargetPlatform.linux || defaultTargetPlatform == TargetPlatform.macOS || defaultTargetPlatform == TargetPlatform.windows || defaultTargetPlatform == TargetPlatform.fuchsia) {
+    // Some desktop specific code there
+  }*/

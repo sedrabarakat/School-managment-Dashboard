@@ -177,7 +177,7 @@ Widget Newest_articals(context,height,width,{
             padding:  EdgeInsets.only(left: width/8),
             child: IconButton(
               onPressed: (){
-                Basic_Cubit.get(context).change_Route('/all_articals');
+                Basic_Cubit.get(context).routing(route: '/all_articals',context: context);
               }, icon: const Icon(Icons.arrow_forward_ios,color: Colors.black,),),
           ),
         ),

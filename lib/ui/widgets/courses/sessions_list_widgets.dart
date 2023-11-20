@@ -7,7 +7,9 @@ import 'package:school_dashboard/cubit/courses/course_cubit.dart';
 import 'package:school_dashboard/models/course_model.dart';
 import 'package:school_dashboard/ui/components/components.dart';
 
-int? Sessions_id;
+import '../../../routes/web_router.dart';
+
+
 
 List<DataColumn2> getSessionsColumns(Courses_cubit cubit) =>
     cubit.SessionsColumns.map(
@@ -53,8 +55,8 @@ List<DataRow> getSessionsRows(
                     IconButton(
                       onPressed: () {
                         Sessions_id = se.sessionId;
-                        Basic_Cubit.get(context)
-                            .change_Route('/course_students_list');
+                        //Basic_Cubit.get(context).routing(route: '/courses/course_students_list/:Sessions_id',context: context);
+                        W_Router.router.go('/courses/course_students_list/$Sessions_id');
                       },
                       icon: Icon(
                         Icons.edit,

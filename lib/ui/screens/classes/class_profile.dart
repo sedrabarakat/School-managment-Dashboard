@@ -23,7 +23,7 @@ class Class_Profile extends StatelessWidget{
   var gradecontroller=TextEditingController();
   @override
   Widget build(BuildContext context) {
-    var width  =  MediaQuery.of(context).size.width;
+
     return BlocProvider(
       create: (BuildContext context)=>Class_Profile_cubit()..get_class_profile(class_id: class_id!.toInt()),
       child: BlocConsumer<Class_Profile_cubit,Class_Profile_States>(
@@ -63,68 +63,71 @@ class Class_Profile extends StatelessWidget{
           List<SectionsInClass>? sectionsInClass=cubit.class_profile?.data?.sectionsInClass;
           var stuNum=cubit.class_profile?.data?.pupilsInClass;
           return SingleChildScrollView(
-            child: Container(
-                height: height,width: width,color: basic_background,
-                child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(left: width/25,top: height/12),
-                        child: Container(
-                          height: height/1.25,width: width/2,clipBehavior: Clip.hardEdge,
-                          padding: EdgeInsets.only(left: width/25,top: height/12,right:width/35 ),
-                          decoration: CircularBorder_decoration.copyWith(borderRadius: BorderRadius.circular(60)),
-                          child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Flexible(
-                                  child: Row(children: [
-                                    Animated_Text(text: "Class Profile",width: width,speed: 400),
-                                    Expanded(
-                                      flex: 5,
-                                        child: SizedBox(width:width/3.8,)),
-                                    Expanded(
-                                      child: SizedBox(width: width/25,
-                                          child: Text((stuNum.isNull)?'0':'${cubit.class_profile?.data?.pupilsInClass}',style: email_TextStyle(width: width*1.7),overflow: TextOverflow.ellipsis,)),
-                                    )
-                                  ],),
-                                ),
-                                SizedBox(height: height/20,),
-                                Animated_Text(text: "Subjects",width: width*0.6,speed: 400,colors_list: [Colors.black54,Colors.black26,]),
+            scrollDirection: Axis.horizontal,
+            child: SingleChildScrollView(
+              child: Container(
+                  height: height,width: width,color: basic_background,
+                  child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(left: width/25,top: height/12),
+                          child: Container(
+                            height: height/1.25,width: width/2,clipBehavior: Clip.hardEdge,
+                            padding: EdgeInsets.only(left: width/25,top: height/12,right:width/35 ),
+                            decoration: CircularBorder_decoration.copyWith(borderRadius: BorderRadius.circular(60)),
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Flexible(
+                                    child: Row(children: [
+                                      Animated_Text(text: "Class Profile",width: width,speed: 400),
+                                      Expanded(
+                                        flex: 5,
+                                          child: SizedBox(width:width/3.8,)),
+                                      Expanded(
+                                        child: SizedBox(width: width/25,
+                                            child: Text((stuNum.isNull)?'0':'${cubit.class_profile?.data?.pupilsInClass}',style: email_TextStyle(width: width*1.7),overflow: TextOverflow.ellipsis,)),
+                                      )
+                                    ],),
+                                  ),
+                                  SizedBox(height: height/20,),
+                                  Animated_Text(text: "Subjects",width: width*0.6,speed: 400,colors_list: [Colors.black54,Colors.black26,]),
+                                  SizedBox(height: height/30,),
+                                  ConditionalBuilder(
+                                      condition: subject?.length!=null,
+                                      builder: (context)=>Subject_listview(width:width,subjects: subject),
+                                      fallback: (context)=>Subject_Loading_listview(width: width)),
+                                  SizedBox(height: height/15,),
+                                  Animated_Text(text: "Grades",width: width*0.6,speed: 400,colors_list: [Colors.black54,Colors.black26,]),
+                                  SizedBox(height: height/30,),
+                                  ConditionalBuilder(
+                                      condition: sectionsInClass?.length!=null,
+                                      builder: (context)=>Grade_listview(width: width,sectionsInClass: sectionsInClass,cubit: cubit),
+                                      fallback: (context)=>Grade_Loading_listview(width: width))
+                                ]),
+                          ),),
+                        Padding(
+                          padding: EdgeInsets.only(left: width/50,top: height/12),
+                          child: Stack(
+                            children: [
+                              Column(children: [
+                                last_Add_Remove_Grade(width: width, context: context, gradecontroller: gradecontroller, cubit: cubit, id: class_id!.toInt()),
                                 SizedBox(height: height/30,),
-                                ConditionalBuilder(
-                                    condition: subject?.length!=null,
-                                    builder: (context)=>Subject_listview(width:width,subjects: subject),
-                                    fallback: (context)=>Subject_Loading_listview(width: width)),
-                                SizedBox(height: height/15,),
-                                Animated_Text(text: "Grades",width: width*0.6,speed: 400,colors_list: [Colors.black54,Colors.black26,]),
-                                SizedBox(height: height/30,),
-                                ConditionalBuilder(
-                                    condition: sectionsInClass?.length!=null,
-                                    builder: (context)=>Grade_listview(width: width,sectionsInClass: sectionsInClass,cubit: cubit),
-                                    fallback: (context)=>Grade_Loading_listview(width: width))
-                              ]),
-                        ),),
-                      Padding(
-                        padding: EdgeInsets.only(left: width/50,top: height/12),
-                        child: Stack(
-                          children: [
-                            Column(children: [
-                              last_Add_Remove_Grade(width: width, context: context, gradecontroller: gradecontroller, cubit: cubit, id: class_id!.toInt()),
-                              SizedBox(height: height/30,),
-                              last_Add_Remove_Subject(width: width, context: context, subjectcontroller: subjectcontroller, cubit: cubit, id: class_id!.toInt())
+                                last_Add_Remove_Subject(width: width, context: context, subjectcontroller: subjectcontroller, cubit: cubit, id: class_id!.toInt())
+                              ],),
+                              Padding(
+                                padding:  EdgeInsets.only(left: width/6.6,top: height/7.2),
+                                child: Lottie.asset('assets/images/teaching.json',height: height/3,width:width/6.5 , fit: BoxFit.fill,
+                                ),),
+                              Padding(
+                                padding:  EdgeInsets.only(top: height/2.1,right: width/7,bottom: height/10),
+                                child: Lottie.asset('assets/images/book.json', fit: BoxFit.cover,height: height/1.2,width: width/7
+                                ),),
                             ],),
-                            Padding(
-                              padding:  EdgeInsets.only(left: width/6.6,top: height/7.2),
-                              child: Lottie.asset('assets/images/teaching.json',height: height/3,width:width/6.5 , fit: BoxFit.fill,
-                              ),),
-                            Padding(
-                              padding:  EdgeInsets.only(top: height/2.1,right: width/7,bottom: height/10),
-                              child: Lottie.asset('assets/images/book.json', fit: BoxFit.cover,height: height/1.2,width: width/7
-                              ),),
-                          ],),
-                      )
-                    ])
+                        )
+                      ])
+              ),
             ),
           );
         },

@@ -64,7 +64,6 @@ class LoginScreen extends StatelessWidget {
           ).then(
             (value) {
               token = state.loginModel.data!.token;
-              Basic_Cubit.get(context).routing(route: '/dashboard_home', context: context);
              (admin_type==2)?W_Router.router.go('/books_list'):W_Router.router.go('/dashboard_home');
             },
           );

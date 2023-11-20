@@ -13,23 +13,10 @@ import 'package:school_dashboard/ui/screens/classes/class_profile.dart';
 import 'package:school_dashboard/ui/screens/courses/add_courses.dart';
 import 'package:school_dashboard/ui/screens/courses/courses.dart';
 import 'package:school_dashboard/ui/screens/home/dashboard_home.dart';
-import 'package:school_dashboard/ui/screens/inbox/inbox.dart';
-import 'package:school_dashboard/ui/screens/layout/basic_screen.dart';
-import 'package:school_dashboard/ui/screens/library/add_book.dart';
-import 'package:school_dashboard/ui/screens/login.dart';
-import 'package:school_dashboard/ui/screens/parents/add_parent.dart';
-import 'package:school_dashboard/ui/screens/students/add_student.dart';
-import 'package:school_dashboard/ui/screens/students/student_profile.dart';
-import 'package:school_dashboard/ui/screens/students/students_list.dart';
-import 'package:school_dashboard/ui/screens/teachers/add_teacher.dart';
-import 'package:school_dashboard/ui/screens/teachers/teacher_profile.dart';
-import 'package:school_dashboard/ui/screens/teachers/teachers_list.dart';
 
+import 'package:school_dashboard/ui/screens/layout/basic_screen.dart';
+import 'package:school_dashboard/ui/screens/login.dart';
 import '../constants.dart';
-import '../ui/screens/articals/add_articals.dart';
-import '../ui/screens/courses/course_students_list.dart';
-import '../ui/screens/library/books_list.dart';
-import '../ui/screens/parents/parents_list.dart';
 
 
 class WebRouter {

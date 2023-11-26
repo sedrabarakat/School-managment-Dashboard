@@ -33,7 +33,7 @@ class Dashboard_home extends StatelessWidget {
       }
           return SingleChildScrollView(
             child: ConditionalBuilder(
-              condition: Home.isNull==false,
+              condition: Home != null,
               builder: (context)=>Container(
                   height: height, width: width,
                   color: basic_background,

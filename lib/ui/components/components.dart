@@ -12,8 +12,8 @@ import 'package:school_dashboard/constants.dart';
 import 'package:school_dashboard/cubit/articles/articles_cubit.dart';
 import 'package:school_dashboard/cubit/courses/course_cubit.dart';
 import 'package:school_dashboard/ui/components/def_dropdown.dart';
-import 'package:simple_animations/multi_tween/multi_tween.dart';
-import 'package:simple_animations/stateless_animation/play_animation.dart';
+import 'package:simple_animations/animation_builder/play_animation_builder.dart';
+import 'package:simple_animations/movie_tween/movie_tween.dart';
 import '../../cubit/basic/basic_cubit.dart';
 import '../../cubit/students/students_list_cubit.dart';
 import '../../theme/colors.dart';
@@ -201,17 +201,20 @@ class FadeAnimation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final tween = MultiTween<AniProps>()
-      ..add(AniProps.opacity, Tween(begin: 0.0, end: 1.0))
-      ..add(AniProps.translateY, Tween(begin: -30.0, end: 0.0),
-          const Duration(milliseconds: 500), Curves.easeOut);
 
-    return PlayAnimation<MultiTweenValues<AniProps>>(
-      delay: Duration(milliseconds: (500 * delay).round()),
+
+    var tween = MovieTween()
+      ..scene(duration: const Duration(milliseconds: 700))
+          .tween(AniProps.opacity, Tween<double>(begin: 0.0, end: 1.0),curve: Curves.easeOut)
+          .tween(AniProps.translateY, Tween<double>(begin: 300.0, end: 0),curve: Curves.easeOut);
+
+
+    return PlayAnimationBuilder<Movie>(
+      delay: Duration(milliseconds: (700 * delay).round()),
       duration: tween.duration,
       tween: tween,
       child: child,
-      builder: (context, child, animation) => Opacity(
+      builder: (context, animation, _) => Opacity(
         opacity: animation.get(AniProps.opacity),
         child: Transform.translate(
             offset: Offset(0, animation.get(AniProps.translateY)),

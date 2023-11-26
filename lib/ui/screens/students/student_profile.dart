@@ -47,7 +47,7 @@ class Student_profile extends StatelessWidget{
           Student_profile_model ?student_profile_model=profile_cubit.student_profile_model;
           var data=profile_cubit.student_profile_model?.data;
           StudentData? studentData=student_profile_model?.data?.studentData;
-          if(data.isNull!=true){
+          if(data != null){
             name.text=studentData!.name.toString();
             email.text=studentData.email.toString();
 
@@ -66,7 +66,7 @@ class Student_profile extends StatelessWidget{
             img=studentData.img;
           }
           return ConditionalBuilder(
-              condition: !data.isNull,
+              condition: data != null,
               builder: (context)=>SingleChildScrollView(
                 child: Container(
                     height: height,width: width,

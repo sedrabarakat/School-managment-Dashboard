@@ -53,7 +53,7 @@ class Teacher_profile extends StatelessWidget{
           img=info.img;
         }
         return ConditionalBuilder(
-            condition: !teacher_model.isNull,
+            condition: teacher_model != null,
             builder: (context)=>SingleChildScrollView(
               child: Container(
                   width: width,height: height,color: basic_background,

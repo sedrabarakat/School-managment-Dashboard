@@ -1,15 +1,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:school_dashboard/constants.dart';
 import 'package:school_dashboard/cubit/auth/auth_cubit.dart';
-import 'package:school_dashboard/cubit/basic/basic_cubit.dart';
 import 'package:school_dashboard/network/local/cash_helper.dart';
-import 'package:school_dashboard/routes/web_router.dart';
 import 'package:school_dashboard/theme/colors.dart';
 import 'package:school_dashboard/ui/components/components.dart';
 import 'package:school_dashboard/ui/widgets/login_widgets.dart';
+
+import '../../../routes/web_router.dart';
 
 
 class LoginScreen extends StatelessWidget {

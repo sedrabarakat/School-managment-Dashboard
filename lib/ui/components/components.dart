@@ -12,8 +12,8 @@ import 'package:school_dashboard/constants.dart';
 import 'package:school_dashboard/cubit/articles/articles_cubit.dart';
 import 'package:school_dashboard/cubit/courses/course_cubit.dart';
 import 'package:school_dashboard/ui/components/def_dropdown.dart';
-import 'package:simple_animations/multi_tween/multi_tween.dart';
-import 'package:simple_animations/stateless_animation/play_animation.dart';
+import 'package:simple_animations/animation_builder/play_animation_builder.dart';
+import 'package:simple_animations/movie_tween/movie_tween.dart';
 import '../../cubit/basic/basic_cubit.dart';
 import '../../cubit/students/students_list_cubit.dart';
 import '../../theme/colors.dart';
@@ -201,17 +201,20 @@ class FadeAnimation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final tween = MultiTween<AniProps>()
-      ..add(AniProps.opacity, Tween(begin: 0.0, end: 1.0))
-      ..add(AniProps.translateY, Tween(begin: -30.0, end: 0.0),
-          const Duration(milliseconds: 500), Curves.easeOut);
 
-    return PlayAnimation<MultiTweenValues<AniProps>>(
-      delay: Duration(milliseconds: (500 * delay).round()),
+
+    var tween = MovieTween()
+      ..scene(duration: const Duration(milliseconds: 700))
+          .tween(AniProps.opacity, Tween<double>(begin: 0.0, end: 1.0),curve: Curves.easeOut)
+          .tween(AniProps.translateY, Tween<double>(begin: 300.0, end: 0),curve: Curves.easeOut);
+
+
+    return PlayAnimationBuilder<Movie>(
+      delay: Duration(milliseconds: (700 * delay).round()),
       duration: tween.duration,
       tween: tween,
       child: child,
-      builder: (context, child, animation) => Opacity(
+      builder: (context, animation, _) => Opacity(
         opacity: animation.get(AniProps.opacity),
         child: Transform.translate(
             offset: Offset(0, animation.get(AniProps.translateY)),
@@ -510,7 +513,7 @@ Widget circle_icon_button({
   Color backgroundColor=const Color.fromARGB(255, 239, 244, 249)
 }){
   return Tooltip(
-    waitDuration: Duration(milliseconds:500),
+    waitDuration: const Duration(milliseconds:500),
     message: hint_message,
     child: CircleAvatar(
         backgroundColor: backgroundColor,
@@ -547,7 +550,7 @@ ElevatedButton elevatedbutton({
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(borderRadius)
         ),
-        animationDuration: Duration(seconds: 100),
+        animationDuration: const Duration(seconds: 100),
         splashFactory: InkSplash.splashFactory
     ),
   );
@@ -592,7 +595,7 @@ Widget def_Emoji_picker(message,Color indicatorColor,iconColorSelected, Articles
       print(emoji);
     },
     config: Config(columns: 7,
-      gridPadding: EdgeInsets.all(18),
+      gridPadding: const EdgeInsets.all(18),
       initCategory: Category.RECENT,
       bgColor: Colors.white,
       indicatorColor: indicatorColor,//Color(0xFFD3567C)
@@ -655,52 +658,49 @@ Widget def_Container_RegitsterText({
     Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          height: height * 0.07,
-          width: width * 0.2,
-          decoration: BoxDecoration(
-              color: Color.fromARGB(133, 216, 218, 220),
-              borderRadius: BorderRadius.circular(10)),
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: width * 0.008),
-            child: Center(
-              child: TextFormField(
-                key: formkey,
-                onTap: ontap,
-                style: TextStyle(fontSize: width*0.012),
-                autovalidateMode: AutovalidateMode.disabled,
-                focusNode: focusnode,
-                onFieldSubmitted:onfieldsubmitted ,
-                validator: validator,
-                obscureText: obscureText,
-                controller: MyController,
-                keyboardType: TextInputType.text,
-                cursorColor: Color.fromARGB(255, 102, 101, 101),
-                decoration: InputDecoration(
-                  errorStyle: TextStyle(
-                    fontSize: width * 0.008,
-                  ),
-                  border: InputBorder.none,
-                  hintText: hinttext,
-                  hintStyle: TextStyle(
-                      fontSize: width * 0.01,
-                      color: Color.fromARGB(255, 154, 177, 189)),
-                  suffixIcon: sufix,
-                ),
-                onChanged: (value) {},
-              ),
-            ),
-          ),
+        Text(
+          ' $title',
+          style: TextStyle(
+              fontSize: 20.sp,
+              fontWeight: FontWeight.w600,
+              color: const Color.fromARGB(255, 91, 89, 89)),
         ),
         SizedBox(
           height: height * 0.015,
         ),
-        Text(
-          ' $title *',
-          style: TextStyle(
-              fontSize: width * 0.011,
-              fontWeight: FontWeight.w600,
-              color: Color.fromARGB(255, 91, 89, 89)),
+        Container(
+          height: height * 0.07,
+          width: width * 0.2,
+          decoration: BoxDecoration(
+              color: const Color.fromARGB(133, 216, 218, 220),
+              borderRadius: BorderRadius.circular(10),),
+          padding: EdgeInsets.symmetric(horizontal: width * 0.008),
+          child: Center(
+            child: TextFormField(
+              key: formkey,
+              onTap: ontap,
+              style: TextStyle(color:Colors.black , fontSize: 22.sp),
+              autovalidateMode: AutovalidateMode.disabled,
+              focusNode: focusnode,
+              onFieldSubmitted:onfieldsubmitted,
+              validator: validator,
+              obscureText: obscureText,
+              controller: MyController,
+              keyboardType: TextInputType.text,
+              cursorColor: const Color.fromARGB(255, 102, 101, 101),
+              decoration: InputDecoration(
+                errorStyle: TextStyle(
+                  fontSize: width * 0.008,
+                ),
+                border: InputBorder.none,
+                hintText: hinttext,
+                hintStyle: TextStyle(
+                    fontSize: width * 0.01,
+                    color: const Color.fromARGB(255, 154, 177, 189)),
+                suffixIcon: sufix,
+              ),
+            ),
+          ),
         ),
       ],
     ),
@@ -725,11 +725,21 @@ Widget def_Container_Regitsterdropdown(
     Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Text(
+          ' $title',
+          style: TextStyle(
+              fontSize: width * 0.011,
+              fontWeight: FontWeight.w600,
+              color: const Color.fromARGB(255, 91, 89, 89)),
+        ),
+        SizedBox(
+          height: height * 0.015,
+        ),
         Container(
           height: height * 0.07,
           width: width * 0.2,
           decoration: BoxDecoration(
-              color: Color.fromARGB(133, 216, 218, 220),
+              color: const Color.fromARGB(133, 216, 218, 220),
               borderRadius: BorderRadius.circular(10)),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: width * 0.008),
@@ -743,22 +753,12 @@ Widget def_Container_Regitsterdropdown(
                 value: selectedValue,
                 focusnode: focusnode,
                 // iconEnabledColor: Colors.red,
-                icon: Icon(Icons.arrow_drop_down),
+                icon: const Icon(Icons.arrow_drop_down),
                 //RegisterCubit.get(context).icongender,
                 onChanged: onChanged,
               ),
             ),
           ),
-        ),
-        SizedBox(
-          height: height * 0.015,
-        ),
-        Text(
-          ' $title *',
-          style: TextStyle(
-              fontSize: width * 0.011,
-              fontWeight: FontWeight.w600,
-              color: Color.fromARGB(255, 91, 89, 89)),
         ),
       ],
     ),

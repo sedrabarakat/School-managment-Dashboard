@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_admin_scaffold/admin_scaffold.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:school_dashboard/cubit/class_profile/marks_cubit.dart';
 import 'package:school_dashboard/models/auth/login_model.dart';
 import 'package:school_dashboard/models/error_model.dart';
 import 'package:school_dashboard/network/remote/dio_helper.dart';
@@ -29,12 +28,11 @@ import '../../ui/screens/classes/class_profile.dart';
 import '../../ui/screens/courses/add_courses.dart';
 import '../../ui/screens/courses/course_students_list.dart';
 import '../../ui/screens/home/dashboard_home.dart';
-import '../../ui/screens/login.dart';
+import '../../ui/screens/login/login.dart';
 import '../../ui/screens/parents/add_parent.dart';
 import '../../ui/screens/parents/parents_list.dart';
 import '../../ui/screens/students/student_profile.dart';
 import '../../ui/screens/teachers/teacher_profile.dart';
-import '../../ui/widgets/teachers/teachers_list_widgets.dart';
 
 part 'basic_cubit_state.dart';
 
@@ -52,11 +50,11 @@ class Basic_Cubit extends Cubit<Basic_State> {
   static Basic_Cubit get(context)=>BlocProvider.of(context);
 
   String select_route=(admin_type==2)?"/books_list":'/dashboard_home';
-   int su=27;
+
   final Map<String, Widget> screens = {
     '/login':LoginScreen(),
     '/dashboard_home':Dashboard_home(),
-    '/add_parent': add_parent(),
+    '/add_parent': Add_Parent(),
     '/parents_list':Parents_List(),
 
     '/add_student':Add_Student(),
@@ -107,9 +105,7 @@ class Basic_Cubit extends Cubit<Basic_State> {
       emit(Change_Route(select_route!));
     }}
 
-void ss(){
-    emit(Change_num());
-  }
+
 
   bool backToTop = false;
 
@@ -148,23 +144,3 @@ void ss(){
   }
 
 }
-/* /students_list/student_profile
-    switch(route){
-      case '/student_profile':
-        W_Router.router.go('/students_list/student_profile');
-        break;
-
-      case '/teacher_profile':
-        W_Router.router.go('/teachers_list/teacher_profile');
-        break;
-
-      case '/class_profile':
-        W_Router.router.go('/class_list/class_profile');
-        break;
-
-      case '/course_students_list':
-        W_Router.router.go('/add_courses/course_students_list');
-        break;
-      default:
-        W_Router.router.go(route!);
-    }*/

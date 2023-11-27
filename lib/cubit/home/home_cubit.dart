@@ -1,7 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school_dashboard/constants.dart';
 import 'package:school_dashboard/network/remote/dio_helper.dart';
-import 'package:simple_animations/developer_tools/animation_developer_tools.dart';
 
 import '../../models/home.dart';
 import 'home_states.dart';
@@ -23,6 +22,7 @@ class Home_Cubit extends Cubit<Home_State>{
    emit(Success_Get_Home());
   }).
   catchError((error){
+   print(error.response.data);
    emit(Error_Get_Home(error.toString()));
   });
  }

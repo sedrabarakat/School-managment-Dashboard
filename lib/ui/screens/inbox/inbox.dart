@@ -28,7 +28,7 @@ class Inbox extends StatelessWidget{
             scrollDirection: Axis.horizontal,
             child: SingleChildScrollView(
               child: Container(
-                width: width,color: basic_background,
+                width: width/1.17,color: basic_background,
                 child: Padding(
                   padding:  EdgeInsets.only(left: width/15,right: width/15,bottom: height/20),
                   child: Stack(
@@ -36,10 +36,10 @@ class Inbox extends StatelessWidget{
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Inbox_Presentation(width:width,height:height),
+                          Inbox_Presentation(width:width/1.1,height:height),
                           SizedBox(height: height/20,),
                           Container(
-                            width: width/1.2,height: height/1.5,
+                            width: width/1.25,height: height/1.5,
                             decoration: CircularBorder_decoration,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,

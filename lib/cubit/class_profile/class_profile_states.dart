@@ -98,6 +98,7 @@ class Error_Add_exam_photo extends Class_Profile_States{
   Error_Add_exam_photo(this.error);
 }
 
+class Loading extends Class_Profile_States{}
 
 
 

@@ -32,23 +32,24 @@ class course_student_list extends StatelessWidget{
             return SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: SingleChildScrollView(
+                physics: NeverScrollableScrollPhysics(),
                 child: Stack(
                   children: [
                     Container(
-                      width: width,color: basic_background,
+                      width: width/1.21,color: basic_background,
                       child: Padding(
                         padding:  EdgeInsets.only(left: width/20,right: width/15,bottom: height/20,top: height/20),
                         child:Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Animated_Text(width: width, text: 'Students enrolled in that Course'),
+                            Animated_Text(width: width/1.2, text: 'Students enrolled in that Course'),
                              SizedBox(height: height/20,),
                              backToRout(from: 'Courses', width: width,
                                from_rout: '/courses', context: context, To: 'Course Students'),
                             //assets/images/book_small.png
                             SizedBox(height: height/20,),
                             Container(
-                              width: width/1.2,height: height/1.5,
+                              width: width/1.4,height: height/1.5,
                               decoration: CircularBorder_decoration,
                               child: ConditionalBuilder(
                                 condition: cubit.student_in_course.isNotEmpty,
@@ -78,10 +79,10 @@ class course_student_list extends StatelessWidget{
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(left: width/2),
+                      padding: EdgeInsets.only(left: width/2.2),
                       child: Image.asset('assets/images/book_small.png',height: height/4.5,fit: BoxFit.fitHeight,),),
                     Padding(
-                      padding: EdgeInsets.only(left: width/1.6),
+                      padding: EdgeInsets.only(left: width/1.75),
                       child: Image.asset('assets/images/courses1.png',height: height/4.4,fit: BoxFit.fitHeight,),),
                     //assets/images/book2.png
                   ],

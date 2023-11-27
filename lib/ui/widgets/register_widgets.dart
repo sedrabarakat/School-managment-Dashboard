@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school_dashboard/cubit/auth/auth_cubit.dart';
 import 'package:school_dashboard/ui/components/components.dart';
 
@@ -20,30 +21,15 @@ List<String> section = [];
 
 late List<String> classStudent = [];
 
-
-// late List<List<String>> subjects = [
-
-// ];
-
-// late List<List<int>> subjectsid = [
-
-// ];
-
-Widget buttonregister(
+Widget buttonRegister(
     cubit, height, width, ontap, onenter, onexit, title, color, fontweight) {
   return InkWell(
       onTap: ontap,
-      //() {
-      // if (formkey.currentState!.validate()) {
-      //   print('yess');
-      // }
-      // RegisterCubit.get(context).updatdropdown();
-      //},
       child: MouseRegion(
         onEnter: onenter,
         onExit: onexit,
         child: Container(
-          height: height * 0.065,
+          height: height * 0.055,
           width: width * 0.085,
           decoration: BoxDecoration(
             color: color,
@@ -55,8 +41,8 @@ Widget buttonregister(
                 style: TextStyle(
                   letterSpacing: 1.5,
                   color: Colors.white,
-                  fontWeight: fontweight,
-                  fontSize: width * 0.014,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 24.sp,
                 ),
               )),
         ),

@@ -33,7 +33,7 @@ class Dashboard_home extends StatelessWidget {
         Adminnum = Home['data']['Admins_Num'];
       }
           return ConditionalBuilder(
-            condition: Home.isNull==false,
+            condition: Home!=null,
             builder: (context)=>SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: SingleChildScrollView(

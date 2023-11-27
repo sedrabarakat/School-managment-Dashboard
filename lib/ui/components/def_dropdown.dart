@@ -1,6 +1,7 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 InputDecorator CustomDropdownButton2({
   required String hint,
@@ -52,22 +53,16 @@ InputDecorator CustomDropdownButton2({
         //To avoid long text overflowing.
         isExpanded: true,
         focusNode:focusnode ,
-
-
-        hint: Container(
-          //alignment: hintAlignment,
-          child: Text(
-            hint,
-            overflow: TextOverflow.ellipsis,
-            maxLines: 1,
-            style: TextStyle(
-              fontSize: width * 0.01,
-              color: Color.fromARGB(255, 154, 177, 189),
-            ),
+        hint: Text(
+          hint,
+          overflow: TextOverflow.ellipsis,
+          maxLines: 1,
+          style: TextStyle(
+            fontSize: width * 0.01,
+            color: const Color.fromARGB(255, 154, 177, 189),
           ),
         ),
         value: value,
-
         items: dropdownItems
             ?.map((item) => DropdownMenuItem<String>(
           value: item,
@@ -78,7 +73,7 @@ InputDecorator CustomDropdownButton2({
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
               style: TextStyle(
-                fontSize: width * 0.012,
+                fontSize: 16.sp,
               ),
             ),
           ),
@@ -89,9 +84,9 @@ InputDecorator CustomDropdownButton2({
         buttonStyleData: ButtonStyleData(
           // height: buttonHeight ?? 40,
           // width: buttonWidth ?? 140,
-          padding: buttonPadding ?? EdgeInsets.only(left: 0, right: 0),
+          padding: buttonPadding ?? const EdgeInsets.only(left: 0, right: 0),
           decoration: buttonDecoration ??
-              BoxDecoration(
+              const BoxDecoration(
 
                 // borderRadius: BorderRadius.circular(14),
                 // border: Border.all(
@@ -101,7 +96,7 @@ InputDecorator CustomDropdownButton2({
           elevation: buttonElevation,
         ),
         iconStyleData: IconStyleData(
-          icon: icon ?? Icon(Icons.arrow_forward_ios_outlined),
+          icon: icon ?? const Icon(Icons.arrow_forward_ios_outlined),
           iconSize: width * 0.02,
           iconEnabledColor: iconEnabledColor,
           iconDisabledColor: iconDisabledColor,

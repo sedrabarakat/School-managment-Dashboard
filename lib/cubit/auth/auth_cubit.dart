@@ -25,7 +25,7 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
 
-  var ratioButtonWidth = 0.14;
+  var ratioButtonWidth = 0.12;
 
   bool isAnimated = false;
 

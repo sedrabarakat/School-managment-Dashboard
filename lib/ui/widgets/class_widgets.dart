@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:ui';
 import 'package:aligned_dialog/aligned_dialog.dart';
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flash/flash.dart';
 import 'package:flash/flash_helper.dart';
@@ -347,6 +348,7 @@ Widget Grade_Loading_item({
 }
 
 Widget Grade_item(context,height,width,sectionNum,studentnum,cubit,saf_id,section_id){
+  bool is_Loading=cubit.is_loading;
   return Container(
       padding: EdgeInsets.symmetric(horizontal: width/150,vertical: height/50),
       width: width/6,
@@ -370,15 +372,20 @@ Widget Grade_item(context,height,width,sectionNum,studentnum,cubit,saf_id,sectio
               SizedBox(height: height/40,),
               Expanded(
                 child: Row(children: [
-                      Adds_container(width:width,icon: Icons.calendar_month,text: 'Add Schedule',
-                      ontap: ()async{
-                        print(saf_id);
-                        print(section_id);
-                        Class_Profile_cubit.get(context).get_Hessas(section_id: section_id);
+                  (is_Loading)?SizedBox(
+                    width: width/15,
+                      child: SpinKitWeb(width)):Adds_container(width:width,icon: Icons.calendar_month,text: 'Add Schedule',
+                    ontap: ()async{
+                      cubit.change_load();
+                      print(saf_id);
+                      print(section_id);
+                      Class_Profile_cubit.get(context).get_Hessas(section_id: section_id);
                       Class_Profile_cubit.get(context).Get_Available_Teachers(saf_id: saf_id,section_id: section_id).then((value){
                         Add_class_schedule(context: context, height: height, width: width, Hessas_Map: cubit.Hessas_Map,cubit:cubit,saf_id: saf_id );
                       });
-                      },),
+                    },),
+
+
                   SizedBox(width: width/80,),
                   Adds_container(width:width,icon: Icons.event_note_outlined,text: 'Add Grades',
                       ontap: (){
@@ -426,8 +433,8 @@ Widget Adds_container({  //add_sch_grades
       child: Column(children: [
         SizedBox(height: height/50,),
         Icon(icon,color: Colors.white,size: 50,),
-        SizedBox(height: height/50,),
-        Text(text,style: TextStyle(color: Colors.white,fontWeight:FontWeight.w500,fontSize: width/130),),
+        SizedBox(height: height/70,),
+        Text(text,style: TextStyle(color: Colors.white,fontWeight:FontWeight.w500,fontSize: width/170),),
       ],),),
   );
 }
@@ -442,12 +449,15 @@ void Add_class_schedule({
    Map<String,dynamic>?Hessas_Map,
 }){
   context.showModalFlash(
+
     builder: (context, controller) => Flash(
+
       controller: controller,
       dismissDirections: FlashDismissDirection.values,
       slideAnimationCreator: (context, position, parent, curve, reverseCurve) {
         return controller.controller.drive(Tween(begin: Offset(0.1, 0.1), end: Offset.zero));
       },
+
       child:AlertDialog(
         contentPadding: EdgeInsets.only(left: 24.0, top: 16.0, right: 24.0, bottom: 16.0),
         title: Padding(
@@ -493,6 +503,7 @@ void Add_class_schedule({
               });
               print(jsonEncode(update_map));
              cubit.Update_program(map: update_map);
+
               controller.dismiss();
             },
             child: Text('Add'),
@@ -500,13 +511,17 @@ void Add_class_schedule({
           TextButton(
             onPressed: (){
               controller.dismiss();
+              cubit.change_load();
             },
             child: Text('Cancel'),
           ),
         ],
       ),
     ),
-  );}
+  ).then((value){
+    cubit.change_load();
+  });
+}
 
 void Loading_schedule({
   required BuildContext context,

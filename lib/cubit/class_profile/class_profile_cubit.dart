@@ -71,7 +71,6 @@ class Class_Profile_cubit extends Cubit<Class_Profile_States>{
       print(value.data);
     }).catchError((error){
       emit(Error_Add_Subject_States(error.toString()));
-      //print(error.response.data);
     });
   }
 
@@ -272,6 +271,14 @@ print(daily_available_list);
     });
 
   }
+
+ bool is_loading=false;
+
+  void change_load(){
+    is_loading=!is_loading;
+    emit(Loading());
+  }
+
 
 
 

@@ -1,17 +1,8 @@
-import 'dart:developer';
-import 'dart:io';
-
-import 'dart:typed_data';
 import 'package:dio/dio.dart';
-import 'package:bloc/bloc.dart';
-import 'package:dio/dio.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-
-import 'package:meta/meta.dart';
 import 'package:school_dashboard/constants.dart';
 import 'package:school_dashboard/cubit/register/register_state.dart';
 import 'package:school_dashboard/models/error_model.dart';
@@ -20,16 +11,17 @@ import 'package:school_dashboard/network/remote/dio_helper.dart';
 import 'package:school_dashboard/theme/colors.dart';
 import 'package:school_dashboard/ui/widgets/register_widgets.dart';
 
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-
-
 class RegisterCubit extends Cubit<RegisterState> {
   RegisterCubit() : super(RegisterCubitInitial());
 
   static RegisterCubit get(context) => BlocProvider.of(context);
 
   ErrorModel? errorModel;
+
+  bool? isLoading = false;
+
+  //////////////////////////////////////////////////////////////////////////////
+  // Password
 
   bool isPassword = true;
   IconData suffix = Icons.visibility_off;
@@ -40,97 +32,525 @@ class RegisterCubit extends Cubit<RegisterState> {
     emit(ChangePasswordVisibility());
   }
 
+  //////////////////////////////////////////////////////////////////////////////
+  // Dropdown
+
   String? selectedValue;
-  selectdropdown(value) {
+
+  selectDropdown(value) {
     selectedValue = value;
-
-    print(value);
-    emit(Selectdropdown());
+    emit(SelectDropdown());
   }
 
-  updatdropdown() {
-    emit(Selectdropdown());
+  updateDropdown() {
+    emit(SelectDropdown());
   }
 
-  updatscreen() {
-    emit(ResetDataState());
-  }
-
-  Icon? icongender = Icon(Icons.arrow_drop_down);
-  //Color genderdropcolor = Colors.grey;
-  // void changeSelectgender() {
-  //   icongender = Icon(Icons.arrow_drop_up_outlined);
-  //   //  genderdropcolor = Colors.blue;
-  //   emit(Selectdropdown());
-  // }
-
-  bool myerror = false;
-  changeStateSelect(value) {
-    value == true ? myerror = true : myerror = false;
-    print(value);
-
-    emit(Selectdropdown());
-  }
+  //////////////////////////////////////////////////////////////////////////////
+  // Buttons Animation
 
   Color buttonColor = Colors.lightBlue;
   Color buttonReset = Colors.lightBlue;
-  FontWeight textbuttonweightcreat = FontWeight.w300;
-  FontWeight textbuttonweightreset = FontWeight.w300;
-  // TextStyle buttontextstyle(width) {
-  //   return TextStyle(
-  //       color: Colors.white,
-  //       fontWeight: FontWeight.w500,
-  //       fontSize: width * 0.015);
-  // }
+  FontWeight textButtonWeightCreate = FontWeight.w300;
+  FontWeight textButtonWeightReset = FontWeight.w300;
 
-  void onexitc_creat(PointerEvent details) {
-    buttonColor = Colors.lightBlue;
-    textbuttonweightcreat = FontWeight.w400;
-    print('onExit');
-
-    emit(Selectdropdown());
-  }
-
-  void onenter_creat(PointerEvent details) {
+  void onEnterCreate(PointerEvent details) {
     buttonColor = shadow;
-    textbuttonweightcreat = FontWeight.w900;
+    textButtonWeightCreate = FontWeight.w900;
     print('onHover');
-    emit(Selectdropdown());
+    emit(SelectDropdown());
   }
 
-  void onexitc_reset(PointerEvent details) {
-    buttonReset = Colors.lightBlue;
-    textbuttonweightreset = FontWeight.w400;
+  void onExitCreate(PointerEvent details) {
+    buttonColor = Colors.lightBlue;
+    textButtonWeightCreate = FontWeight.w400;
     print('onExit');
-
-    emit(Selectdropdown());
+    emit(SelectDropdown());
   }
 
-  void onenter_reset(PointerEvent details) {
-    buttonReset = Color.fromARGB(175, 177, 20, 9);
-    textbuttonweightreset = FontWeight.w900;
+  void onEnterReset(PointerEvent details) {
+    buttonReset = const Color.fromARGB(175, 177, 20, 9);
+    textButtonWeightReset = FontWeight.w900;
     print('onHover');
-    emit(Selectdropdown());
+    emit(SelectDropdown());
   }
 
-  var listTecherLength = 1;
-  void plusteacherlist() {
-    listTecherLength = listTecherLength + 1;
+  void onExitReset(PointerEvent details) {
+    buttonReset = Colors.lightBlue;
+    textButtonWeightReset = FontWeight.w400;
+    print('onExit');
+    emit(SelectDropdown());
+  }
+
+  //////////////////////////////////////////////////////////////////////////////
+  // Pick Image
+
+  Uint8List? webImageStudent;
+  Uint8List? webImageTeacher;
+
+  Future<dynamic> myPickImage(bool isteacher) async {
+    try {
+      final XImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (XImage == null) return;
+
+      //For Web
+      if (isteacher) {
+        webImageTeacher = await XImage.readAsBytes();
+      } else {
+        webImageStudent = await XImage.readAsBytes();
+      }
+    } on PlatformException {
+      print('Failed to pick image');
+    }
+    emit(PickImage());
+  }
+
+////////////////////////////////////////////////////////////////////////////////
+
+  //Parent
+
+  var nameParentController = TextEditingController();
+  var emailParentController = TextEditingController();
+  var passwordParentController = TextEditingController();
+  var genderParentController = TextEditingController();
+  var phoneParentController = TextEditingController();
+  String? valueGenderParent;
+
+  void clearParentControllers() {
+    nameParentController.clear();
+
+    emailParentController.clear();
+
+    passwordParentController.clear();
+
+    genderParentController.clear();
+
+    phoneParentController.clear();
+
+    valueGenderParent = null;
+
+    emit(ResetDataState());
+  }
+
+  void registerParents(phone, name, email, password, gender) {
+    print('RegisterParents');
+    isLoading = true;
+    emit(LoadingRegister());
+    DioHelper.postData(
+      url: 'registerParent',
+      data: {
+        'phone_number': phone,
+        'name': name,
+        'email': email,
+        'password': password,
+        'gender': gender,
+      },
+      token: token,
+    ).then((value) {
+      print(value.data);
+      isLoading = false;
+      emit(SuccessRegisterParent());
+    }).catchError((error) {
+      print(error.response.data);
+      print('error');
+      isLoading = false;
+      errorModel = ErrorModel.fromJson(error.response.data);
+      emit(ErrorRegisterParent(errorModel!));
+      print(error.toString());
+    });
+  }
+
+////////////////////////////////////////////////////////////////////////////////
+
+  //Admin
+
+  var nameAdminController = TextEditingController();
+  var emailAdminController = TextEditingController();
+  var passwordAdminController = TextEditingController();
+  var genderAdminController = TextEditingController();
+  var phoneAdminController = TextEditingController();
+
+  String? valueGenderAdmin;
+  String? valueRoleAdmin;
+
+  void clearAdminControllers() {
+    nameAdminController.clear();
+
+    emailAdminController.clear();
+
+    passwordAdminController.clear();
+
+    genderAdminController.clear();
+
+    phoneAdminController.clear();
+
+    valueGenderAdmin = null;
+
+    valueRoleAdmin = null;
+
+    emit(ResetDataState());
+  }
+
+  void registerAdmin(phone, name, email, password, gender, role) async {
+    isLoading = true;
+    emit(LoadingRegister());
+    DioHelper.postData(
+      url: 'registerAdmin',
+      data: {
+        'phone_number': phone,
+        'name': name,
+        'email': email,
+        'password': password,
+        'gender': gender,
+        'role': role
+      },
+      token: token,
+    ).then((value) {
+      print(value.data);
+      isLoading = false;
+      emit(SuccessRegisterAdmin());
+    }).catchError((error) {
+      print(error.response.data);
+      print('error');
+      errorModel = ErrorModel.fromJson(error.response.data);
+      isLoading = false;
+      emit(ErrorRegisterAdmin(errorModel!));
+
+      print(error.toString());
+    });
+  }
+
+  //////////////////////////////////////////////////////////////////////////////
+
+  //Student
+
+  var nameStudentController = TextEditingController();
+  var emailStudentController = TextEditingController();
+  var passwordStudentController = TextEditingController();
+  var genderStudentController = TextEditingController();
+  var phoneStudentController = TextEditingController();
+  var addressStudentController = TextEditingController();
+  var leftBusController = TextEditingController();
+  var leftTuitionFeesController = TextEditingController();
+  var birthDateController = TextEditingController();
+  String? valueGenderStudent;
+  String? valueInBus;
+  String? valueClassStudent;
+  String? valueSectionStudent;
+  String? valueDateTimeStudent;
+  int? classId;
+  int? sectionId;
+
+  bool? iserrorgender = false;
+  bool? iserrorinbus = false;
+  bool? iserrorsection = false;
+  bool? iserrorclassStudent = false;
+
+  void clearStudentControllers() {
+    nameStudentController.clear();
+
+    emailStudentController.clear();
+
+    passwordStudentController.clear();
+
+    genderStudentController.clear();
+
+    phoneStudentController.clear();
+
+    addressStudentController.clear();
+
+    leftBusController.clear();
+
+    leftTuitionFeesController.clear();
+
+    birthDateController.clear();
+
+    webImageStudent = null;
+
+    valueGenderStudent = null;
+    valueInBus = null;
+    valueClassStudent = null;
+    valueSectionStudent = null;
+    iserrorgender = false;
+    iserrorinbus = false;
+    iserrorsection = false;
+    iserrorclassStudent = false;
+    sectionId = null;
+    valueDateTimeStudent = null;
+    section = [];
+
+    emit(ResetDataState());
+  }
+
+  List<dynamic> datasectionst = [];
+
+  void getSectionsRegisterForStudent({required int classId}) {
+    print("Calling getSectionsRegisterForStudent...");
+    DioHelper.postData(url: 'getSectionsRegister', data: {
+      'class_id': classId,
+    },token: token,).then((value) {
+      section = [];
+      datasectionst = [];
+      value.data['data'].forEach((v) {
+        section.add(v['number'].toString());
+      });
+      value.data['data'].forEach((v) {
+        datasectionst.add(v);
+      });
+      emit(UpdateDropdown());
+    }).catchError((error) {
+      print('error.response.data: ${error.response.data}');
+      print(error.toString());
+    });
+
+  }
+
+
+  Future<void> registerStudents(
+      phone,
+      name,
+      email,
+      password,
+      gender,
+      left_for_bus,
+      left_for_qusat,
+      parent_id,
+      section_id,
+      address,
+      birth_date) async {
+    int in_in_bus = 0;
+    dynamic leftybusy = 0;
+    if (left_for_bus == null ||
+        left_for_bus == '' ||
+        int.parse(left_for_bus) <= 0) {
+      in_in_bus = 0;
+      leftybusy = 0;
+    } else {
+      in_in_bus = 1;
+      leftybusy = left_for_bus;
+    }
+    isLoading = true;
+    emit(LoadingRegister());
+    if (webImageStudent == null) {
+      print('No image selected');
+      String assetImage = 'assets/images/user.png';
+      ByteData byteData = await rootBundle.load(assetImage);
+      Uint8List bytes = byteData.buffer.asUint8List();
+      webImageStudent = bytes;
+      String filename = 'image_${DateTime.now().millisecondsSinceEpoch}';
+      print(filename);
+      DioHelper.postDataImage(
+        url: 'registerStudent',
+        data: FormData.fromMap(
+          {
+            'phone_number': phone,
+            'name': name,
+            'email': email,
+            'password': password,
+            'gender': gender,
+            'is_in_bus': in_in_bus,
+            'left_for_bus': leftybusy,
+            'left_for_qusat': left_for_qusat,
+            'parent_id': parent_id,
+            'section_id': section_id,
+            'address': address,
+            'birth_date': birth_date,
+            'img': await MultipartFile.fromBytes(
+              webImageStudent!,
+              filename: filename,
+              // contentType: MediaType('image', 'png'),
+            ),
+          },
+        ),
+        token: token,
+      ).then((value) {
+        isLoading = false;
+        emit(SuccessRegisterStudent());
+      }).catchError((error) {
+        print(error.response.data);
+        errorModel = ErrorModel.fromJson(error.response.data);
+        emit(ErrorRegisterStudent(errorModel!));
+        isLoading = false;
+        print(error.toString());
+      });
+    } else {
+      String filename = 'image_${DateTime.now().millisecondsSinceEpoch}';
+      print(filename);
+      DioHelper.postDataImage(
+        url: 'registerStudent',
+        data: FormData.fromMap(
+          {
+            'phone_number': phone,
+            'name': name,
+            'email': email,
+            'password': password,
+            'gender': gender,
+            'is_in_bus': in_in_bus,
+            'left_for_bus': leftybusy,
+            'left_for_qusat': left_for_qusat,
+            'parent_id': parent_id,
+            'section_id': section_id,
+            'address': address,
+            'birth_date': birth_date,
+            'img': await MultipartFile.fromBytes(
+              webImageStudent!,
+              filename: filename,
+              // contentType: MediaType('image', 'png'),
+            ),
+          },
+        ),
+        token: token,
+      ).then((value) {
+        isLoading = false;
+        print(value.data);
+        emit(SuccessRegisterStudent());
+      }).catchError((error) {
+        isLoading = false;
+        errorModel = ErrorModel.fromJson(error.response.data);
+        emit(ErrorRegisterStudent(errorModel!));
+        print(error.response.data);
+        print(error.toString());
+      });
+    }
+  }
+
+  //////////////////////////////////////////////////////////////////////////////
+  //Teacher
+
+  var nameTeacherController = TextEditingController();
+  var emailTeacherController = TextEditingController();
+  var passwordTeacherController = TextEditingController();
+  var genderTeacherController = TextEditingController();
+  var phoneTeacherController = TextEditingController();
+  var salaryTeacherController = TextEditingController();
+  String? valueGenderTeacher;
+
+///////////
+  // init
+  String? valueClassTeacher;
+  String? valueSubjectTeacher;
+
+
+  //Lists
+  List<dynamic> valueClassTeacherList = [];
+  List<dynamic> valueSubjectTeacherList = [];
+  List<List<String>> subjects = [];
+
+  //Value List to Send
+  List<int> classesIds = [];
+  List<int> subjectsIds = [];
+
+///////////
+  //Array of Objects
+  List<SubjectTeacherModelAPi> safsToTeach = [];
+
+  void clearTeachersControllers() {
+
+    webImageTeacher = null;
+
+    nameTeacherController.clear();
+
+    emailTeacherController.clear();
+
+    passwordTeacherController.clear();
+
+    genderTeacherController.clear();
+
+    phoneTeacherController.clear();
+
+    salaryTeacherController.clear();
+
+    valueGenderTeacher = null;
+
+    valueClassTeacherList.clear();
+    valueSubjectTeacherList.clear();
+
+    subjects.clear();
+
+    classesIds.clear();
+    subjectsIds.clear();
+
+    safsToTeach.clear();
+
+    listTeacherLength = 0;
+
+    emit(ResetDataState());
+  }
+
+  void addOneObject(
+    dynamic safsId,
+    dynamic subjectId,
+  ) {
+    safsToTeach.add(SubjectTeacherModelAPi(
+      safId: safsId,
+      subjectId: subjectId,
+    ));
+  }
+
+  void addAllObjects() {
+    print('adding objects...');
+    for (int i = 0; i < subjectsIds.length; i++) {
+      if (subjectsIds[i] != 0) {
+        addOneObject(
+          classesIds[i],
+          subjectsIds[i],
+        );
+      }
+    }
+  }
+
+//////////////////////////////
+  var listTeacherLength = 0;
+
+  void plusTeacherList() {
     subjects.add([]);
-    // valueClassTeacher.add([]);
-    emit(updatedlengthteacherlist());
+    listTeacherLength = listTeacherLength + 1;
+
+    print(listTeacherLength);
+    emit(UpdatedLengthTeacherList());
   }
 
-  void minteacherlist() {
-    if (listTecherLength > 1) listTecherLength = listTecherLength - 1;
-    emit(updatedlengthteacherlist());
+  void minTeacherList() {
+    if (listTeacherLength > 0){
+      listTeacherLength = listTeacherLength - 1;
+      print(listTeacherLength);
+      //
+      if (valueClassTeacherList.length > listTeacherLength) {
+        valueClassTeacherList.removeLast();
+      }
+      if (valueSubjectTeacherList.length > listTeacherLength) {
+        valueSubjectTeacherList.removeLast();
+      }
+      //
+      if (classesIds.length > listTeacherLength) {
+        classesIds.removeLast();
+      }
+      if (subjectsIds.length > listTeacherLength) {
+        subjectsIds.removeLast();
+      }
+      //
+      if (safsToTeach.length > listTeacherLength) {
+        safsToTeach.removeLast();
+      }
+
+      print('classesIds=');
+      print(classesIds);
+      print('subjectsIds=');
+      print(subjectsIds);
+
+      emit(UpdatedLengthTeacherList());
+    }
   }
 
-  registerteacher? registerteachermodel;
-  Future<void> RegisterTeacher(
+/////////////////////////////
+
+  registerteacher? registerTeacherModel;
+
+  Future<void> registerTeacher(
       phone, name, email, password, gender, salary) async {
-    String filename = 'image_${DateTime.now().millisecondsSinceEpoch}';
-    print('apiiiiii liat $ListSubjectSendApi');
+    addAllObjects();
+    isLoading = true;
+    emit(LoadingRegister());
     DioHelper.postData(
       url: 'registerTeacher',
       data: {
@@ -140,299 +560,134 @@ class RegisterCubit extends Cubit<RegisterState> {
         'password': password,
         'gender': gender,
         'salary': salary,
-        'subjects': ListSubjectSendApi,
+        'subjects': safsToTeach,
       },
       token: token,
     ).then((value) {
-      registerteachermodel = registerteacher.fromJson(value.data);
-      if (registerteachermodel!.status == "true")
-        sendimage(registerteachermodel!.id);
+      registerTeacherModel = registerteacher.fromJson(value.data);
+      if (value.data['status']) {
+        print('hahaha');
+        sendTeacherImage(registerTeacherModel!.id);
+      }
       print(value.data);
     }).catchError((error) {
       print(error.response.data);
       print('error');
+      isLoading = false;
       errorModel = ErrorModel.fromJson(error.response.data);
       emit(ErrorRegisterTeacher(errorModel!));
       print(error.toString());
     });
   }
 
-  Future<void> sendimage(id) async {
-    if (webimageteacher == null) {
+///////
+  Future<void> sendTeacherImage(id) async {
+    if (webImageTeacher == null) {
       print('No image selected');
-
       String assetImage = 'assets/images/profile.png';
       ByteData byteData = await rootBundle.load(assetImage);
       Uint8List bytes = byteData.buffer.asUint8List();
-
-      webimageteacher = bytes;
+      webImageTeacher = bytes;
     }
-
     String filename = 'image_${DateTime.now().millisecondsSinceEpoch}';
     DioHelper.postDataImage(
-      url: 'registerTeacherPhoto',
-      data: FormData.fromMap({
-        'id': id,
-        'img': await MultipartFile.fromBytes(
-          webimageteacher!,
-          filename: filename,
-          // contentType: MediaType('image', 'png'),
-        ),
-      }),
-      token: token,
-    );
-  }
-
-  void RegisterParents(phone, name, email, password, gender) {
-    print('RegisterParents');
-    DioHelper.postData(url: 'registerParent', data: {
-      'phone_number': phone,
-      'name': name,
-      'email': email,
-      'password': password,
-      'gender': gender,
-    },token: token,).then((value) {
+        url: 'registerTeacherPhoto',
+        token: token,
+        data: FormData.fromMap({
+          'id': id,
+          'img': await MultipartFile.fromBytes(
+            webImageTeacher!,
+            filename: filename,
+            // contentType: MediaType('image', 'png'),
+          ),
+        })).then((value) {
       print(value.data);
+      isLoading = false;
+      emit(SuccessRegisterTeacher());
     }).catchError((error) {
       print(error.response.data);
       print('error');
+      isLoading = false;
       errorModel = ErrorModel.fromJson(error.response.data);
-      emit(ErrorRegisterParent(errorModel!));
+      emit(ErrorRegisterTeacher(errorModel!));
       print(error.toString());
     });
   }
 
-  void RegisterAdmin(phone, name, email, password, gender, role) {
-    DioHelper.postData(url: 'registerParent', data: {
-      'phone_number': phone,
-      'name': name,
-      'email': email,
-      'password': password,
-      'gender': gender,
-      'role': role
-    },token: token,).then((value) {
-      print(value.data);
-    }).catchError((error) {
-      print(error.response.data);
-      print('error');
-      errorModel = ErrorModel.fromJson(error.response.data);
+  //////////////////////////////////////////////////////////////////////////////
 
-      emit(ErrorRegisterAdmin(errorModel!));
+  // Get classes and sections and adding subjects
 
-      print(error.toString());
-    });
-  }
+  List<dynamic> dataclass = [];
 
-  late List<dynamic> dataclass;
   void getClassesRegister() {
-    DioHelper.getData(url: 'getClassesRegister',token: token,).then((value) {
-      classStudent = [];
-      dataclass = [];
-
+    classStudent = [];
+    DioHelper.getData(
+      url: 'getClassesRegister',
+      token: token,
+    ).then((value) {
       value.data['data'].forEach((v) {
-        //print(v['grade']);
         classStudent.add(v['grade'].toString());
       });
+////
+      dataclass = [];
       value.data['data'].forEach((v) {
-        //print(v['grade']);
         dataclass.add(v);
       });
-      // classstud = value.data['data'][1]['grade'];
-      print(classStudent);
-      print("dataclass iss $dataclass");
-      emit(updatedropdown());
-    }).catchError(onError);
+      print('classStudent=$classStudent');
+      print('dataclass=$dataclass');
+      emit(UpdateDropdown());
+    }).catchError((error) {
+      print('error.response.data: ${error.response.data}');
+      print(error.toString());
+    });
   }
 
-  late List<dynamic> datasection;
-  void getSectionsRegister({required int classid}) {
-    DioHelper.postData(url: 'getSectionsRegister', data: {
-      'class_id': classid,
-    },token: token,).then((value) {
-      section = [];
-      datasection = [];
-      value.data['data'].forEach((v) {
-        //print(v['grade']);
-        section.add(v['number'].toString());
-      });
-      value.data['data'].forEach((v) {
-        datasection.add(v);
-      });
-      // classstud = value.data['data'][1]['grade'];
-      print(section);
-      emit(updatedropdown());
-    }).catchError(onError);
-  }
+  List<dynamic> dataSubject = [];
 
-  Uint8List? webimage;
-  Uint8List? webimageteacher;
-  //Uint8List webimage = Uint8List(8);
-  Future<dynamic> mypickImage(bool isteacher) async {
-    try {
-      final XImage = await ImagePicker().pickImage(source: ImageSource.gallery);
-      if (XImage == null) return;
-
-      //For Web
-      if (isteacher)
-        webimageteacher = await XImage.readAsBytes();
-      else
-        webimage = await XImage.readAsBytes();
-    } on PlatformException {
-      print('Failed to pick image');
+  void getSubjectsRegister(id,index) {
+    if (classesIds.length == index) {
+      classesIds.add(0);
     }
-    emit(PickImage());
-  }
-
-  Future<void> RegisterStudents(
-      phone,
-      name,
-      email,
-      password,
-      gender,
-      is_in_bus,
-      left_for_bus,
-      left_for_qusat,
-      parent_id,
-      section_id,
-      address,
-      birth_date) async {
-    // emit(Loading());
-    print(parent_id);
-    print(email);
-    if (webimage == null) {
-      print('No image selected');
-
-      String assetImage = 'assets/profile.png';
-      ByteData byteData = await rootBundle.load(assetImage);
-      Uint8List bytes = byteData.buffer.asUint8List();
-
-      webimage = bytes;
-
-      String filename = 'image_${DateTime.now().millisecondsSinceEpoch}';
-      print(filename);
-      DioHelper.postDataImage(
-        url: 'registerStudent',
-        data: FormData.fromMap({
-          'phone_number': phone,
-          'name': name,
-          'email': email,
-          'password': password,
-          'gender': gender,
-          'is_in_bus': is_in_bus,
-          'left_for_bus': left_for_bus,
-          'left_for_qusat': left_for_qusat,
-          'parent_id': parent_id,
-          'section_id': section_id,
-          'address': address,
-          'birth_date': birth_date,
-          'img': await MultipartFile.fromBytes(
-            webimage!,
-            filename: filename,
-            // contentType: MediaType('image', 'png'),
-          ),
-        },),token: token,
-      ).then((value) {
-        // emit(Success());
-      }).catchError((error) {
-        print(error.response.data);
-        // emit(Error());
-        errorModel = ErrorModel.fromJson(error.response.data);
-        emit(ErrorRegisterStudent(errorModel!));
-        print(error.toString());
-      });
-    } else {
-      String filename = 'image_${DateTime.now().millisecondsSinceEpoch}';
-      print(filename);
-      DioHelper.postDataImage(
-        url: 'registerStudent',
-        data: FormData.fromMap({
-          'phone_number': phone,
-          'name': name,
-          'email': email,
-          'password': password,
-          'gender': gender,
-          'is_in_bus': is_in_bus,
-          'left_for_bus': left_for_bus,
-          'left_for_qusat': left_for_qusat,
-          'parent_id': parent_id,
-          'section_id': section_id,
-          'address': address,
-          'birth_date': birth_date,
-          'img': await MultipartFile.fromBytes(
-            webimage!,
-            filename: filename,
-            // contentType: MediaType('image', 'png'),
-          ),
-        },),token: token,
-      ).then((value) {
-        print(value.data);
-        //emit(Success());
-      }).catchError((error) {
-        errorModel = ErrorModel.fromJson(error.response.data);
-
-        emit(ErrorRegisterStudent(errorModel!));
-
-        print(error.response.data);
-        // emit(Error());
-        print(error.toString());
-      });
-    }
-  }
-
-  List<subject_teschermodelAPi> ListSubjectSendApi = [
-    // subject_teschermodelAPi(
-    //   class_student: 1,
-    //   subject: 1,
-    // )
-  ];
-
-  void addsubjectteatcher(class_student, subject) {
-    print('cc $class_student ss $subject');
-    ListSubjectSendApi.add(subject_teschermodelAPi(
-        class_student: class_student, subject: subject));
-  }
-
-  String? valueclassStudent;
-  String? valuesubject;
-
-  List<String> itemlistsubjects = [];
-
-  List<int> itemlistsubjectsid = [];
-
-  late List<List<String>> subjects = [[]];
-  //late List<String> valueClassTeacher = ['a', 'z'];
-
-  late List<List<int>> subjectsid = [];
-
-  void SubjectsRegister(id, index) {
-    DioHelper.postData(url: 'getSubjectsRegister', data: {'id': id},token: token,)
-        .then((value) {
-      itemlistsubjects = [];
-      itemlistsubjectsid = [];
-      // subjects = [];
-      // subjectsid = [];
+    classesIds[index] = id;
+    DioHelper.postData(
+      url: 'getSubjectsRegister',
+      data: {'id': id},
+      token: token,
+    ).then((value) {
+      List<String> subject = [];
       value.data['data'].forEach((v) {
-        //print(v['grade']);
-
-        itemlistsubjects.add(v['name'].toString());
-        itemlistsubjectsid.add(v['id']);
+        subject.add(v['name'].toString());
       });
-      subjects[index] = itemlistsubjects;
-      // subjects.add(itemlistsubjects);
-      subjectsid.add(itemlistsubjectsid);
-      emit(updatedteacherlistview());
-      print(itemlistsubjects);
-      print(subjects);
-      print(subjects[0]);
-      // if (subjects.length == 2)
-      //print(subjects[2]);
-      print(subjectsid);
 
-      // print(value.data);
-      // ListSubjectStudent.add(value.data['data'].forEach((v) {
-      //   //print(v['grade']);
-      //   subjects.add(v['name'].toString());
-      // }));
+      if (subjects.length == index) {
+        subjects.add([]);
+      }
+      subjects[index] = subject;
+      print('sub=$subject');
+
+
+      if (subjectsIds.length == index) {
+        subjectsIds.add(0);
+      }
+      subjectsIds[index] = 0;
+
+//
+//
+      dataSubject = [];
+      value.data['data'].forEach((v) {
+        dataSubject.add(v);
+      });
+
+
+      print('subjects=$subjects');
+      print('dataSubject=$dataSubject');
+
+      print('classesIds=');
+      print(classesIds);
+      print('subjectsIds=');
+      print(subjectsIds);
+      emit(UpdatedTeacherListview());
     }).catchError((error) {
       print(error.response.data);
       print('error');
@@ -441,18 +696,19 @@ class RegisterCubit extends Cubit<RegisterState> {
   }
 }
 
-class subject_teschermodelAPi {
-  final int? class_student;
-  final int? subject;
+class SubjectTeacherModelAPi {
+  final int? safId;
+  final int? subjectId;
 
-  subject_teschermodelAPi({
-    @required this.class_student,
-    @required this.subject,
+  SubjectTeacherModelAPi({
+    required this.safId,
+    required this.subjectId,
   });
+
   Map<dynamic, dynamic>? toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['saf_id'] = this.class_student;
-    data['id'] = this.subject;
+    data['saf_id'] = safId;
+    data['id'] = subjectId;
 
     return data;
   }

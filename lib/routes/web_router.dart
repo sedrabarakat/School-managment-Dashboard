@@ -4,19 +4,14 @@ import 'dart:js_interop';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:school_dashboard/cubit/basic/basic_cubit.dart';
-import 'package:school_dashboard/ui/screens/admins/add_admin.dart';
-import 'package:school_dashboard/ui/screens/admins/admin_list.dart';
-import 'package:school_dashboard/ui/screens/articals/all_articals.dart';
-import 'package:school_dashboard/ui/screens/classes/class_list.dart';
-import 'package:school_dashboard/ui/screens/classes/class_profile.dart';
-import 'package:school_dashboard/ui/screens/courses/add_courses.dart';
-import 'package:school_dashboard/ui/screens/courses/courses.dart';
-import 'package:school_dashboard/ui/screens/home/dashboard_home.dart';
 
 import 'package:school_dashboard/ui/screens/layout/basic_screen.dart';
-import 'package:school_dashboard/ui/screens/login.dart';
+
 import '../constants.dart';
+import '../cubit/basic/basic_cubit.dart';
+import '../ui/screens/login/login.dart';
+
+
 
 
 class WebRouter {

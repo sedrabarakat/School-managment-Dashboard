@@ -46,16 +46,14 @@ class Profiles_cubit extends Cubit<Profiles_states>{
   Future get_Student_profile({
   required int student_id
 })async{
-    print('here the get profile');
     emit(Loading_get_student_profile());
     await DioHelper.postData(url:'getStudent',
     token: token,
     data: {
       'student_id':student_id
     }).then((value){
-      print(value.data);
-     emit(Success_get_student_profile());
      student_profile_model=Student_profile_model.fromJson(value.data);
+     emit(Success_get_student_profile());
     }).catchError((error){
       print(error.response.data);
       emit(Error_get_student_profile(error.toString()));

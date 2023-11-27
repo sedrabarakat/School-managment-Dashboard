@@ -21,21 +21,14 @@ import 'package:school_dashboard/network/local/cash_helper.dart';
 import 'package:school_dashboard/network/remote/dio_helper.dart';
 import 'package:school_dashboard/routes/web_router.dart';
 import 'package:school_dashboard/theme/web_theme.dart';
-import 'package:school_dashboard/ui/screens/home/dashboard_home.dart';
-import 'package:school_dashboard/ui/screens/layout/basic_screen.dart';
-import 'package:window_manager/window_manager.dart';
-import 'package:window_size/window_size.dart';
-
-import 'cubit/admins/admins_list_cubit.dart';
 import 'cubit/classes/classes_list_cubit.dart';
 import 'cubit/library/library_cubit.dart';
-import 'cubit/parents/parents_list_cubit.dart';
-import 'cubit/students/students_list_cubit.dart';
-import 'cubit/teachers/teachers_list_cubit.dart';
+
 
 var heightf =1600;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
 
   Bloc.observer = MyBlocObserver();
 
@@ -45,7 +38,7 @@ Future<void> main() async {
 
   admin_type = CacheHelper.getData(key: 'admin_type');
 
-  token = "65|qr68Aj4b9AwmManUUKHH5Gr1tacX7PNfkEApSUV7";
+  token = CacheHelper.getData(key: 'token');
 
   user_id = CacheHelper.getData(key: 'user_id');
 

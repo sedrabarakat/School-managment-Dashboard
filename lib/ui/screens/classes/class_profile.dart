@@ -66,7 +66,7 @@ class Class_Profile extends StatelessWidget{
             scrollDirection: Axis.horizontal,
             child: SingleChildScrollView(
               child: Container(
-                  height: height,width: width,color: basic_background,
+                  height: height,width: width/1.1,color: basic_background,
                   child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -87,7 +87,7 @@ class Class_Profile extends StatelessWidget{
                                           child: SizedBox(width:width/3.8,)),
                                       Expanded(
                                         child: SizedBox(width: width/25,
-                                            child: Text((stuNum.isNull)?'0':'${cubit.class_profile?.data?.pupilsInClass}',style: email_TextStyle(width: width*1.7),overflow: TextOverflow.ellipsis,)),
+                                            child: Text((stuNum==null)?'0':'${cubit.class_profile?.data?.pupilsInClass}',style: email_TextStyle(width: width*1.7),overflow: TextOverflow.ellipsis,)),
                                       )
                                     ],),
                                   ),

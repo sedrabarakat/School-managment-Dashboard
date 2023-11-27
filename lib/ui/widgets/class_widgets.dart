@@ -459,6 +459,7 @@ void Add_class_schedule({
       },
 
       child:AlertDialog(
+       backgroundColor: Colors.blueGrey.shade100,
         contentPadding: EdgeInsets.only(left: 24.0, top: 16.0, right: 24.0, bottom: 16.0),
         title: Padding(
           padding:  EdgeInsets.only(bottom: height/30,top: height/40,right: width/30),
@@ -506,14 +507,14 @@ void Add_class_schedule({
 
               controller.dismiss();
             },
-            child: Text('Add'),
+            child: Text('Add',style: TextStyle(color: Colors.black),),
           ),
           TextButton(
             onPressed: (){
               controller.dismiss();
               cubit.change_load();
             },
-            child: Text('Cancel'),
+            child: Text('Cancel',style: TextStyle(color: Colors.black),),
           ),
         ],
       ),
@@ -810,6 +811,7 @@ void Add_class_Grades({
       child:BlocBuilder<MarksCubit, MarksState>(
   builder: (context, state) {
     return AlertDialog(
+      backgroundColor: Colors.blueGrey.shade100,
         title: Padding(
           padding:  EdgeInsets.only(bottom: height/30,top: height/40,right: width/30),
           child: Animated_Text(text: "Add Class Grades",width: width/1.2,speed: 400,),
@@ -1051,6 +1053,7 @@ void Add_class_Grades({
             child: Text(
               'Export',
               style: TextStyle(
+                color: Colors.black,
                   fontWeight: FontWeight.w400, fontSize: width * 0.01),
             ),
           ),
@@ -1071,6 +1074,7 @@ void Add_class_Grades({
             child: Text(
               'Import',
               style: TextStyle(
+                color: Colors.black,
                   fontWeight: FontWeight.w400, fontSize: width * 0.01),
             ),
           ),
@@ -1084,6 +1088,7 @@ void Add_class_Grades({
             child: Text(
               'Cancel',
               style: TextStyle(
+                color: Colors.black,
                   fontWeight: FontWeight.w400, fontSize: width * 0.01),
             ),
           ),
